@@ -296,9 +296,9 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .hero { position: relative; overflow: hidden; padding: calc(var(--hdr) + clamp(56px, 9vw, 130px)) 0 clamp(96px, 11vw, 160px); }
 /* em telas menores o pé do topo reserva a altura da rota + avião (que sobem, ver .route--hero), para
    ela nunca passar por cima do texto ou do selo */
-@media (max-width: 1279px) { .hero { padding-bottom: max(clamp(96px, 11vw, 160px), calc(8.5vw + 56px)); } }
-@media (max-width: 1000px) { .hero { padding-bottom: calc(8.5vw + 80px); } }
-@media (max-width: 760px) { .hero { padding-bottom: calc(8.5vw + 90px); } }
+@media (max-width: 1279px) { .hero:has(.route--hero) { padding-bottom: max(clamp(96px, 11vw, 160px), calc(8.5vw + 56px)); } }
+@media (max-width: 1000px) { .hero:has(.route--hero) { padding-bottom: calc(8.5vw + 80px); } }
+@media (max-width: 760px) { .hero:has(.route--hero) { padding-bottom: calc(8.5vw + 90px); } }
 .hero__in { position: relative; z-index: 1; display: grid; justify-items: center; gap: 26px; text-align: center; max-width: 1080px; }
 .hero .lead { max-width: 700px; }
 .hero .actions { margin-top: 16px; }
@@ -337,7 +337,7 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .ticker__track .plane { width: clamp(13px, 1.3vw, 18px); height: auto; color: var(--coral); }
 
 /* ───────── home: guia ───────── */
-.guide { position: relative; overflow: hidden; padding-block: calc(var(--section) * 1.1); }
+.guide { position: relative; overflow: hidden; padding-block: calc(var(--section) * 0.85); }
 /* título grande à esquerda; à direita o texto em dois níveis (destaque + apoio) e o botão */
 .guide__in { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(32px, 6vw, 110px); align-items: start; }
 .guide__title { max-width: 9ch; }
@@ -416,8 +416,13 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 @keyframes quotes { to { transform: translateX(calc(-50% - clamp(8px, 1vw, 14px))); } }
 .quote { flex: none; width: clamp(290px, 30vw, 420px); margin: 0; display: grid; gap: 22px; padding: clamp(26px, 3vw, 38px); background: var(--card); border-radius: var(--radius); transition: transform .5s var(--ease); }
 .quote:nth-child(even) { margin-top: 36px; }
-/* no celular, sem a escadinha: os cartões alinhados não deixam um bloco vazio no pé do painel */
-@media (max-width: 760px) { .quote:nth-child(even) { margin-top: 0; } }
+/* no celular, sem a escadinha e todos da mesma altura (o nome da cliente no pé de cada cartão): o painel
+   acompanha o cartão mais alto, então cartões curtos passando deixavam um bloco vazio embaixo */
+@media (max-width: 760px) {
+  .quotes__track, .quotes__copy { align-items: stretch; }
+  .quote { grid-template-rows: 1fr auto; }
+  .quote:nth-child(even) { margin-top: 0; }
+}
 .quote:hover { transform: translateY(-6px) rotate(-0.6deg); }
 .quote blockquote { margin: 0; font-size: 1rem; }
 .quote blockquote::before { content: "“"; display: block; height: .5em; margin-bottom: .15em; font: 400 4rem/1 var(--f-em); color: var(--coral); }
@@ -449,11 +454,12 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 @media (max-width: 760px) { .ig { grid-template-columns: repeat(3, 1fr); } .ig a:nth-child(n + 7) { display: none; } }
 
 /* ───────── faixa coral do fim (só títulos grandes: nada de texto corrido no coral) ───────── */
-.band { --bg: var(--coral); position: relative; overflow: hidden; background: var(--coral); color: var(--blush); padding-block: clamp(96px, 12vw, 170px); }
+/* --lift sobe o texto: tira do topo e devolve no pé, o cartão continua do mesmo tamanho */
+.band { --bg: var(--coral); --lift: clamp(28px, 4vw, 52px); position: relative; overflow: hidden; background: var(--coral); color: var(--blush); padding-block: calc(clamp(96px, 12vw, 170px) - var(--lift)) calc(clamp(96px, 12vw, 170px) + var(--lift)); }
 /* como no topo: em telas menores a rota sobe (.route--band) e o pé do cartão reserva a altura dela, para o
    avião não ser cortado pela borda do cartão nem passar por cima do texto */
-@media (max-width: 1000px) { .band { padding-bottom: max(clamp(96px, 12vw, 170px), calc(8.2vw + 88px)); } }
-@media (max-width: 760px) { .band { padding-bottom: calc(8.2vw + 94px); } }
+@media (max-width: 1000px) { .band { padding-bottom: calc(max(clamp(96px, 12vw, 170px), calc(8.2vw + 88px)) + var(--lift)); } }
+@media (max-width: 760px) { .band { padding-bottom: calc(8.2vw + 94px + var(--lift)); } }
 .band__in { position: relative; z-index: 1; display: grid; justify-items: center; text-align: center; gap: 18px; }
 .band .kicker { --kick: var(--blush); --accent: var(--blush); }
 .band__title { font: 500 clamp(2.8rem, 7.4vw, 6.6rem)/1 var(--f-head); color: var(--blush); letter-spacing: -0.03em; }
@@ -606,6 +612,8 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .js .pass__card[data-tilt].is-in { transform: perspective(1200px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .6s var(--ease); }
 .pass__stub .plane { width: 24px; height: 24px; color: var(--coral); }
 .pass__head { display: grid; gap: 12px; }
+/* celular estreito: o título do cartão (Brand Design, Social Media) cabe numa linha ao lado do canhoto */
+@media (max-width: 400px) { .pass__head .title { font-size: min(1.9rem, 8.2vw); } }
 .pass__label { justify-self: start; margin-top: 4px; font: 500 0.78rem/1.4 var(--f-sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--purple); }
 .pass__list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 24px; }
 .pass__list li { display: grid; grid-template-columns: 16px 1fr; gap: 10px; align-items: baseline; font-size: 0.98rem; line-height: 1.45; }
@@ -740,15 +748,28 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 
 /* ───────── home: carimbos de passaporte na seção roxa ───────── */
 .guide__left { display: grid; gap: clamp(24px, 4vw, 48px); align-content: start; }
-/* carimbos da Julia (SVG) batidos um por cima do outro, como num passaporte */
+/* carimbos da Julia (SVG) batidos um por cima do outro, como num passaporte: cada um desce grande e
+   girado, bate no papel (amassa um pouco e volta) e o grupo todo dá um tranco a cada batida */
 .guide__stamps { position: relative; width: min(100%, 460px); aspect-ratio: 460 / 300; }
 .js .guide__stamps[data-reveal] { opacity: 1; transform: none; }
-.guide__stamps img { position: absolute; height: auto; transition: scale .5s cubic-bezier(.3, 1.6, .5, 1), opacity .2s; }
-.js .guide__stamps img { opacity: 0; scale: 1.8; }
-.guide__stamps img:nth-child(1) { width: 36%; left: 0; top: 4%; rotate: -10deg; transition-delay: .2s; }
-.guide__stamps img:nth-child(2) { width: 44%; left: 24%; top: 22%; rotate: 8deg; transition-delay: .65s; }
-.guide__stamps img:nth-child(3) { width: 44%; left: 55%; top: 0; rotate: -6deg; transition-delay: 1.1s; }
-.js .guide__stamps.is-in img { opacity: 1; scale: 1; }
+.guide__stamps img { position: absolute; height: auto; rotate: var(--r); }
+.js .guide__stamps img { opacity: 0; }
+.guide__stamps img:nth-child(1) { width: 36%; left: 0; top: 4%; --r: -10deg; --t: .2s; }
+.guide__stamps img:nth-child(2) { width: 44%; left: 24%; top: 22%; --r: 8deg; --t: .65s; }
+.guide__stamps img:nth-child(3) { width: 44%; left: 55%; top: 0; --r: -6deg; --t: 1.1s; }
+.js .guide__stamps.is-in img { animation: stamp .6s var(--t) both; }
+/* as batidas caem em .2 + .33, .65 + .33 e 1.1 + .33 s (55% de .6 s) */
+.js .guide__stamps.is-in { animation: stamp-thump 1.7s both; }
+@keyframes stamp {
+  0% { opacity: 0; scale: 2.3; rotate: calc(var(--r) - 16deg); animation-timing-function: cubic-bezier(.55, 0, 1, .45); }
+  55% { opacity: 1; scale: .9; rotate: var(--r); animation-timing-function: cubic-bezier(.2, .7, .4, 1); }
+  78% { scale: 1.03; }
+  100% { opacity: 1; scale: 1; rotate: var(--r); }
+}
+@keyframes stamp-thump {
+  0%, 31%, 35%, 57.5%, 61.5%, 84%, 88%, 100% { translate: 0 0; }
+  32.5%, 59%, 85.5% { translate: 0 3px; }
+}
 /* no celular os carimbos vêm depois do texto, não entre o título e o texto; o pé do cartão desconta o
    respiro que já sobra dentro do grupo de carimbos, para o espaço embaixo ficar igual ao de cima */
-@media (max-width: 860px) { .guide__left { display: contents; } .guide__stamps { order: 1; width: min(100%, 400px); } .guide { padding-bottom: calc(var(--section) * 0.8); } }
+@media (max-width: 860px) { .guide__left { display: contents; } .guide__stamps { order: 1; width: min(100%, 400px); } .guide { padding-bottom: calc(var(--section) * 0.6); } }
