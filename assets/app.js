@@ -369,6 +369,7 @@
 
     const done = () => {
       $('#form-fields').hidden = true;
+      form.classList.add('is-sent', 'tone-purple');
       const box = $('#form-done');
       box.hidden = false;
       box.focus();

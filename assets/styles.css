@@ -47,8 +47,15 @@ body, .tone-blush { --bg: var(--blush); --fg: var(--gray); --head: var(--purple)
 [class*="tone-"] { background: var(--bg); color: var(--fg); }
 /* fundo blush contínuo; as áreas de cor são blocos com cantos arredondados, afastados das bordas
    (pedido da Julia, 01/11/2026: "muito bloco atrás de bloco") */
-:root { --inset-x: clamp(16px, 3.4vw, 56px); --inset-y: clamp(16px, 2.4vw, 36px); --panel-r: clamp(24px, 3vw, 44px); }
+:root { --inset-x: clamp(16px, 3.4vw, 56px); --inset-y: clamp(16px, 2.4vw, 36px); --panel-r: clamp(24px, 3vw, 44px);
+  --box-pad: clamp(30px, 3.6vw, 52px); /* espaço entre a borda de uma caixa e o texto (o do cartão de embarque) */ }
 .section[class*="tone-"]:not(.tone-blush), .guide, .band { margin: var(--inset-y) var(--inset-x); border-radius: var(--panel-r); overflow: hidden; }
+/* no celular tudo se alinha em duas linhas (pedido da Julia): as bordas das caixas na margem da página e o
+   texto de dentro de todas as caixas no mesmo recuo do cartão de embarque */
+@media (max-width: 860px) {
+  :root { --inset-x: var(--gutter); }
+  .section[class*="tone-"]:not(.tone-blush), .guide, .band { --gutter: var(--box-pad); }
+}
 .tone-blush { background: transparent; }
 
 /* ───────── base ───────── */
@@ -421,7 +428,7 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .quotes { overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--qpad); overscroll-behavior-x: contain; scrollbar-width: none; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
 .quotes::-webkit-scrollbar { display: none; }
 .quotes__track { display: flex; align-items: flex-start; gap: clamp(16px, 2vw, 28px); width: max-content; padding: 10px var(--qpad) 8px; }
-.quote { flex: none; width: clamp(290px, 30vw, 420px); margin: 0; display: grid; gap: 22px; padding: clamp(26px, 3vw, 38px); background: var(--card); border-radius: var(--radius); scroll-snap-align: start; transition: transform .5s var(--ease); }
+.quote { flex: none; width: clamp(290px, 30vw, 420px); margin: 0; display: grid; gap: 22px; padding: clamp(30px, 3vw, 38px); background: var(--card); border-radius: var(--radius); scroll-snap-align: start; transition: transform .5s var(--ease); }
 .quote:nth-child(even) { margin-top: 36px; }
 .quotes__track.is-loop .quote { margin-top: 0; }
 .quotes__track.is-loop .quote.is-low { margin-top: 36px; }
@@ -612,7 +619,7 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .pass__card {
   --notch: 16px;
   position: relative; display: grid; gap: 20px;
-  padding: clamp(30px, 3.6vw, 52px) calc(clamp(30px, 3.6vw, 52px) + 84px) clamp(30px, 3.6vw, 52px) clamp(30px, 3.6vw, 52px);
+  padding: var(--box-pad) calc(var(--box-pad) + 84px) var(--box-pad) var(--box-pad);
   background: var(--card); border-radius: var(--radius);
 }
 /* recortes e picote do canhoto */
@@ -665,6 +672,7 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .form-wrap { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: clamp(32px, 6vw, 104px); align-items: start; }
 .form-wrap__intro { display: grid; gap: 18px; justify-items: start; position: sticky; top: calc(var(--hdr) + 24px); }
 .form { padding: clamp(24px, 3.4vw, 48px); background: var(--lilac); border-radius: var(--radius); }
+@media (max-width: 860px) { .form { padding-inline: var(--box-pad); } } /* texto no mesmo recuo das outras caixas */
 #form-fields { display: grid; gap: 22px; }
 .field { display: grid; gap: 8px; }
 .field span { font: 500 1.15rem/1.3 var(--f-head); color: var(--purple); }
@@ -682,7 +690,18 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .form__status:empty { display: none; }
 .form__status.is-error { color: var(--purple); font-weight: 500; padding: 12px 16px; border: 1.5px solid var(--coral); border-radius: 12px; }
 .form__status a { color: inherit; }
-.form__done { padding: 24px 0; }
+/* enviado (pedido da Julia, 01/11/2026): o quadro inteiro fica roxo-escuro (cores do tom roxo) e um avião
+   cruza a rota pontilhada antes do recado */
+#form-fields[hidden] { display: none; }
+.form { transition: background-color .6s var(--ease); }
+.form.is-sent { background: var(--purple); }
+.form__done { display: grid; gap: 16px; justify-items: start; align-content: center; min-height: 340px; padding: 8px 0; }
+.form__done:focus { outline: none; }
+.form__done .lead { max-width: 34ch; }
+.form__flight { display: flex; align-items: center; width: 100%; color: var(--yellow); animation: flight 1.6s var(--ease) both; }
+.form__flight::before { content: ""; flex: 1; margin-right: 10px; border-top: 2px dashed currentColor; opacity: .7; }
+.form__flight .plane { width: 40px; height: 40px; }
+@keyframes flight { from { width: 0; opacity: 0; } 15% { opacity: 1; } to { width: 100%; } }
 @media (max-width: 860px) {
   .form-wrap { grid-template-columns: 1fr; }
   .form-wrap__intro { position: static; }
@@ -735,6 +754,8 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 /* ───────── blog (diário de bordo) ───────── */
 /* lista: o post mais novo grande, como um cartão-postal deitado; os outros dois lado a lado */
 .posts { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 5vw, 72px) clamp(20px, 3vw, 40px); }
+/* página do blog: no computador, os posts depois do destaque vão de 3 em 3 (com 4 posts, uma linha cheia) */
+@media (min-width: 1001px) { .posts:not(.posts--more) { grid-template-columns: repeat(3, 1fr); } }
 .postcard { display: grid; gap: 20px; align-content: start; text-decoration: none; color: var(--fg); }
 .postcard--feature { grid-column: 1 / -1; grid-template-columns: 1.2fr 1fr; align-items: center; gap: clamp(24px, 5vw, 72px); }
 .postcard__img { display: block; overflow: hidden; border-radius: var(--radius); aspect-ratio: 3 / 2; background: var(--card); }
@@ -772,7 +793,7 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .post__body li + li { margin-top: 0.55em; }
 .post__body li::marker { color: var(--coral); }
 /* a frase em destaque: lilás, em Florentia itálico, com a aspa da Buenas */
-.post__quote { margin-block: 2em; padding: clamp(28px, 4vw, 44px); background: var(--lilac); border-radius: var(--radius); }
+.post__quote { margin-block: 2em; padding: clamp(30px, 4vw, 44px); background: var(--lilac); border-radius: var(--radius); }
 .post__body > .post__quote { margin-top: 2em; }
 .post__quote::before { content: "“"; display: block; height: .45em; font: 400 4rem/1 var(--f-em); color: var(--coral); }
 .post__quote p { margin: 0; font: italic 400 clamp(1.4rem, 2.4vw, 1.85rem)/1.35 var(--f-head); color: var(--purple); text-wrap: balance; }
