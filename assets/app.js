@@ -329,22 +329,39 @@
       .catch(() => {}); // without the feed, the profile link above is enough
   }
 
-  /* ───────── boarding passes tilt towards the mouse (data-tilt) ───────── */
-  if (!reduceMotion && window.matchMedia('(hover: hover)').matches) {
-    $$('[data-tilt]').forEach((card) => {
-      card.addEventListener('mousemove', (e) => {
-        const r = card.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width - 0.5;
-        const y = (e.clientY - r.top) / r.height - 0.5;
-        card.style.setProperty('--ry', `${(x * 7).toFixed(2)}deg`);
-        card.style.setProperty('--rx', `${(-y * 6).toFixed(2)}deg`);
+  /* ───────── boarding passes side by side (Services, data-boarding) ─────────
+     On a computer one is open and the others show only their stub; clicking a stub opens that one
+     (its photos only show up around it once it has finished opening).
+     Below 1001px they are all open, one under the other, and the stubs are just decoration. */
+  $$('[data-boarding]').forEach((box) => {
+    const tickets = $$('.tk', box);
+    const wide = window.matchMedia('(min-width: 1001px)');
+    const show = (open) =>
+      tickets.forEach((t) => {
+        const on = t === open;
+        const stub = $('.tk__stub', t);
+        t.classList.toggle('is-open', on);
+        $('.tk__main', t).inert = wide.matches && !on;
+        stub.setAttribute('aria-expanded', String(wide.matches ? on : true));
+        // below 1001px the stub is only decoration: out of the tab order and hidden from screen readers
+        if (wide.matches) stub.removeAttribute('tabindex');
+        else stub.setAttribute('tabindex', '-1');
+        stub.toggleAttribute('aria-hidden', !wide.matches);
       });
-      card.addEventListener('mouseleave', () => {
-        card.style.setProperty('--ry', '0deg');
-        card.style.setProperty('--rx', '0deg');
-      });
-    });
-  }
+    let opening;
+    tickets.forEach((t) =>
+      $('.tk__stub', t).addEventListener('click', () => {
+        if (!wide.matches || t.classList.contains('is-open')) return;
+        show(t);
+        t.classList.add('is-opening');
+        clearTimeout(opening);
+        opening = setTimeout(() => t.classList.remove('is-opening'), reduceMotion ? 0 : 800);
+      })
+    );
+    const sync = () => show(tickets.find((t) => t.classList.contains('is-open')) || tickets[0]);
+    wide.addEventListener('change', sync);
+    sync();
+  });
 
   /* ───────── contact form ───────── */
   const form = $('#contact-form');

@@ -611,50 +611,119 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .duo-band .duo__second { position: relative; }
 .duo-band .duo__second::before { content: ""; position: absolute; z-index: -1; top: 22%; left: -150vw; width: 300vw; height: 300vh; background: var(--blush); }
 
-/* cartão de embarque */
-.pass { --bg: var(--blush); --card: var(--lilac); }
-.pass + .pass { padding-top: 0; }
-.pass__in { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(32px, 5vw, 80px); align-items: center; }
-.pass:nth-of-type(odd) .pass__card { order: 2; }
-.pass__card {
-  --notch: 16px;
-  position: relative; display: grid; gap: 20px;
-  padding: var(--box-pad) calc(var(--box-pad) + 84px) var(--box-pad) var(--box-pad);
-  background: var(--card); border-radius: var(--radius);
+/* cartões de embarque (Services), teste pedido pela Julia em 01/11/2026: no computador ficam lado a lado,
+   um aberto e os outros só com o canhoto (o nome na vertical); clicar no canhoto abre aquele (app.js).
+   Com o mouse em cima do aberto, as fotos do serviço aparecem em volta dele, cada uma num lugar, como nos
+   tickets da home. Cada cartão numa cor da paleta e com um carimbo de passaporte.
+   Sem JavaScript, no tablet e no celular: um embaixo do outro, imagens antes do texto. */
+.boarding { --stub: 84px; --notch: 16px; display: grid; gap: clamp(56px, 7vw, 96px); }
+.tk {
+  --tk-bg: var(--lilac); --fg: var(--gray); --head: var(--purple); --kick: var(--purple); --tk-line: var(--purple); --tk-dot: var(--coral); --tk-icon: var(--coral);
+  display: grid; grid-template-columns: minmax(0, 1fr) var(--stub); grid-template-areas: "media media" "text stub";
 }
-/* recortes e picote do canhoto */
-.pass__card::before, .pass__card::after { content: ""; position: absolute; right: 84px; width: calc(var(--notch) * 2); height: var(--notch); translate: 50% 0; background: var(--bg); }
-.pass__card::before { top: 0; border-radius: 0 0 var(--notch) var(--notch); }
-.pass__card::after { bottom: 0; border-radius: var(--notch) var(--notch) 0 0; }
-.pass__stub { position: absolute; top: 0; bottom: 0; right: 0; width: 84px; display: grid; justify-items: center; align-content: space-between; padding: 36px 0; color: var(--purple); }
-.pass__stub::before { content: ""; position: absolute; left: -0.75px; top: calc(var(--notch) + 8px); bottom: calc(var(--notch) + 8px); border-left: 1.5px dashed var(--purple); }
-/* o cartão inclina acompanhando o mouse (app.js, data-tilt) */
-.js .pass__card[data-tilt].is-in { transform: perspective(1200px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .6s var(--ease); }
-.pass__stub .plane { width: 24px; height: 24px; color: var(--coral); }
-.pass__head { display: grid; gap: 12px; }
+.tk--yellow { --tk-bg: var(--yellow); }
+.tk--purple { --tk-bg: var(--purple); --fg: var(--blush); --head: var(--blush); --kick: var(--yellow); --tk-line: var(--blush); --tk-dot: var(--yellow); --tk-icon: var(--yellow); }
+.tk__main { display: contents; }
+.tk__media { grid-area: media; display: grid; margin-bottom: 32px; }
+.tk__img { border-radius: var(--radius); overflow: hidden; }
+.tk__img img { width: 100%; }
+.tk__img--corner { width: 72%; justify-self: end; margin-top: -16%; position: relative; z-index: 1; outline: 8px solid var(--blush); rotate: 2.5deg; }
+/* foto do canto em pé: mais estreita, para não esconder a de baixo */
+.tk__img--tall.tk__img--corner { width: 46%; }
+.tk__stamp { display: none; }
+.tk__text { grid-area: text; display: grid; gap: 20px; align-content: start; padding: var(--box-pad); background: var(--tk-bg); color: var(--fg); border-radius: var(--radius) 0 0 var(--radius); }
+.tk__text .kicker { margin: 0; }
+.tk__label { justify-self: start; margin-top: 4px; font: 500 0.78rem/1.4 var(--f-sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--kick); }
+.tk__list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 24px; }
+.tk__list li { display: grid; grid-template-columns: 16px 1fr; gap: 10px; align-items: baseline; font-size: 0.98rem; line-height: 1.45; }
+.tk__list li::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--tk-dot); translate: 0 -2px; }
+/* o canhoto: picote pontilhado e os dois recortes meia-lua na emenda com o resto do cartão */
+.tk__stub {
+  grid-area: stub; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: space-between; gap: 18px;
+  padding: 36px 0; border: 0; background: var(--tk-bg); color: var(--head); font: inherit; text-align: center; cursor: default;
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+.tk__stub::before { content: ""; position: absolute; left: -0.75px; top: calc(var(--notch) + 8px); bottom: calc(var(--notch) + 8px); border-left: 1.5px dashed var(--tk-line); opacity: .8; transition: opacity .3s var(--ease); }
+.tk__stub::after {
+  content: ""; position: absolute; top: 0; bottom: 0; left: calc(var(--notch) * -1); width: calc(var(--notch) * 2); pointer-events: none;
+  background: radial-gradient(circle at 50% 0, var(--blush) var(--notch), transparent calc(var(--notch) + 0.5px)), radial-gradient(circle at 50% 100%, var(--blush) var(--notch), transparent calc(var(--notch) + 0.5px));
+}
+.tk__no { font: 500 0.78rem/1 var(--f-sans); letter-spacing: 0.2em; color: var(--kick); }
+.tk__name { display: none; }
+.tk__icon .plane { display: block; width: 24px; height: 24px; color: var(--tk-icon); transition: translate .5s var(--ease), rotate .5s var(--ease); }
+.tk__stub .barcode { color: var(--head); }
+.tk__stub:focus-visible { outline: 2px solid var(--coral); outline-offset: 4px; }
+@media (max-width: 760px) {
+  .boarding { --stub: 64px; }
+  .tk__list { grid-template-columns: 1fr; }
+  .tk__no { display: none; }
+}
 /* celular estreito: o título do cartão (Brand Design, Social Media) cabe numa linha ao lado do canhoto */
-@media (max-width: 400px) { .pass__head .title { font-size: min(1.9rem, 8.2vw); } }
-.pass__label { justify-self: start; margin-top: 4px; font: 500 0.78rem/1.4 var(--f-sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--purple); }
-.pass__list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 24px; }
-.pass__list li { display: grid; grid-template-columns: 16px 1fr; gap: 10px; align-items: baseline; font-size: 0.98rem; line-height: 1.45; }
-.pass__list li::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--coral); translate: 0 -2px; }
-.pass__media { display: grid; }
-.pass__frame { border-radius: var(--radius); overflow: hidden; }
-.pass__frame img { width: 100%; transition: scale .9s var(--ease); }
-.pass__img:hover .pass__frame img { scale: 1.05; }
-.pass__img:nth-child(2) { width: 72%; justify-self: end; margin-top: -16%; position: relative; z-index: 1; }
-/* foto de cima em pé (ex.: Noniná sobre o folheto): mais estreita, para não esconder a de baixo */
-.pass__img--tall:nth-child(2) { width: 46%; }
-.pass__img:nth-child(2) .pass__frame { outline: 8px solid var(--bg); rotate: 2.5deg; transition: rotate .6s var(--ease); }
-.pass__img:nth-child(2):hover .pass__frame { rotate: -1deg; }
-@media (max-width: 860px) {
-  .pass__in { grid-template-columns: 1fr; }
-  .pass:nth-of-type(odd) .pass__card { order: 0; }
-  .pass__media { order: -1; } /* no celular as imagens vêm antes da descrição (pedido da Julia) */
-  .pass__list { grid-template-columns: 1fr; }
-  .pass__card { padding-right: calc(24px + 64px); }
-  .pass__card::before, .pass__card::after { right: 64px; }
-  .pass__stub { width: 64px; }
+@media (max-width: 400px) { .tk__text .title { font-size: min(1.9rem, 8.2vw); } }
+
+/* computador: lado a lado, abrindo e fechando como uma sanfona */
+@media (min-width: 1001px) {
+  .js .boarding { --stub: 92px; --gap: 12px; display: flex; gap: var(--gap); align-items: stretch; container-type: inline-size; }
+  .js .tk { position: relative; display: flex; flex: 0 0 auto; min-width: 0; transition: flex-grow .8s var(--ease); }
+  .js .tk.is-open { flex-grow: 1; }
+  .js .tk__main {
+    /* o conteúdo tem a largura do cartão aberto (100cqw menos os 3 canhotos e os vãos): não se reorganiza
+       enquanto abre, só é revelado. O carimbo fica pequeno no canto de cima, à direita. */
+    --open: calc(100cqw - 3 * var(--stub) - 2 * var(--gap));
+    position: relative; display: grid; grid-template-columns: var(--open); align-items: center;
+    flex: 1 1 0; width: 0; min-width: 0; overflow: hidden; background: var(--tk-bg); border-radius: var(--radius) 0 0 var(--radius);
+  }
+  .js .tk__text { grid-area: auto; gap: 16px; align-content: center; padding: 40px 32px 40px 48px; border-radius: 0; }
+  .js .tk__text .title { font-size: clamp(2rem, 2.6vw, 2.6rem); }
+  .js .tk__text > p:not([class]) { max-width: 62ch; font-size: 1rem; line-height: 1.6; }
+  .js .tk__list { grid-template-columns: repeat(3, 1fr); gap: 8px 22px; }
+  .js .tk__list li { font-size: 0.93rem; line-height: 1.4; }
+  /* o carimbo de passaporte, pequeno e meio torto no canto, como se tivesse sido batido no cartão (pedido da Julia) */
+  .js .tk__stamp { display: block; position: absolute; top: 26px; right: 30px; width: 78px; height: auto; rotate: -10deg; opacity: .9; }
+  .js .tk--yellow .tk__stamp { rotate: 8deg; }
+  .js .tk--purple .tk__stamp { rotate: -4deg; }
+  /* o conteúdo aparece depois que o cartão abre e some logo ao fechar */
+  .js .tk__main > * { opacity: 0; transition: opacity .2s var(--ease); }
+  .js .tk.is-open .tk__main > * { opacity: 1; transition: opacity .5s var(--ease) .35s; }
+  .js .tk__stub { flex: 0 0 var(--stub); padding: 32px 0 30px; cursor: pointer; transition: border-radius .4s var(--ease), translate .4s var(--ease); }
+  .js .tk__name { display: block; writing-mode: vertical-rl; rotate: 180deg; font: 500 0.95rem/1 var(--f-sans); letter-spacing: 0.24em; text-transform: uppercase; white-space: nowrap; }
+  .js .tk:not(.is-open) .tk__stub { border-radius: var(--radius); }
+  .js .tk:not(.is-open) .tk__stub::before { opacity: 0; }
+  .js .tk:not(.is-open) .tk__stub:hover { translate: 0 -8px; }
+  .js .tk:not(.is-open) .tk__stub:hover .plane { translate: 0 -4px; rotate: -45deg; }
+  .js .tk.is-open .tk__stub { cursor: default; }
+
+  /* as fotos: escondidas, aparecem com o mouse em cima do cartão aberto, cada uma num lugar, sem cobrir o
+     texto: espiam por cima ou por baixo das bordas (entram só na margem do cartão) */
+  .js .tk__media { position: absolute; inset: 0; z-index: 3; display: block; margin: 0; pointer-events: none; }
+  .js .tk:not(.is-open) .tk__media { visibility: hidden; }
+  .js .tk__img, .js .tk__img--corner, .js .tk__img--tall.tk__img--corner {
+    position: absolute; width: 220px; margin: 0; outline: 0; border-radius: 14px; rotate: 0deg; opacity: 0;
+    transition: opacity .35s var(--ease), transform .75s var(--ease), rotate .75s var(--ease);
+  }
+  .js .tk__img--corner { width: 250px; }
+  .js .tk__img--tall.tk__img--corner { width: 160px; }
+  .js .tk__img img { scale: 1.12; transition: scale 1s var(--ease); }
+  .js .tk.is-open:not(.is-opening):hover .tk__img { opacity: 1; transform: none; }
+  .js .tk.is-open:not(.is-opening):hover .tk__img img { scale: 1; }
+  /* 1º cartão: a 1ª foto sai por cima, a 2ª por baixo, perto do canhoto */
+  .js .tk:nth-child(1) .tk__img:first-child { bottom: calc(100% - 26px); left: 30%; transform: translateY(40px) scale(.8); }
+  .js .tk:nth-child(1).is-open:hover .tk__img:first-child { rotate: -5deg; }
+  .js .tk:nth-child(1) .tk__img--corner { top: calc(100% - 26px); right: calc(var(--stub) + 40px); transform: translateY(-40px) scale(.8); }
+  .js .tk:nth-child(1).is-open:hover .tk__img--corner { rotate: 6deg; }
+  /* 2º: a 1ª sai por baixo, a 2ª por cima, no meio */
+  .js .tk:nth-child(2) .tk__img:first-child { top: calc(100% - 26px); left: 18%; transform: translateY(-40px) scale(.8); }
+  .js .tk:nth-child(2).is-open:hover .tk__img:first-child { rotate: 4deg; }
+  .js .tk:nth-child(2) .tk__img--corner { bottom: calc(100% - 26px); left: 50%; transform: translateY(40px) scale(.8); }
+  .js .tk:nth-child(2).is-open:hover .tk__img--corner { rotate: -6deg; }
+  /* 3º: a 1ª sai por cima, a 2ª por baixo, no meio */
+  .js .tk:nth-child(3) .tk__img:first-child { bottom: calc(100% - 26px); left: 14%; transform: translateY(40px) scale(.8); }
+  .js .tk:nth-child(3).is-open:hover .tk__img:first-child { rotate: 5deg; }
+  .js .tk:nth-child(3) .tk__img--corner { top: calc(100% - 26px); left: 44%; transform: translateY(-40px) scale(.8); }
+  .js .tk:nth-child(3).is-open:hover .tk__img--corner { rotate: -4deg; }
+}
+@media (min-width: 1001px) and (prefers-reduced-motion: reduce) {
+  .js .tk, .js .tk__main > *, .js .tk__stub, .js .tk__img { transition: none; }
 }
 
 /* roteiro (processo): uma linha pontilhada liga as paradas e vai se preenchendo ao rolar */
