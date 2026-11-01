@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!--
+  Partes comuns a todas as páginas. Os TEXTOS ficam em content/site.yml — edite lá.
+-->
+<title>Serviços – Buenas Design Studio</title>
+<meta name="description" content="Seremos seu guia na jornada de construção ou redesign da sua marca, criando designs valiosos, com significado e essência. Faça as malas e vamos!">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Buenas Design Studio">
+<meta property="og:title" content="Buenas Design Studio – Design para mulheres empreendedoras">
+<meta property="og:description" content="Seremos seu guia na jornada de construção ou redesign da sua marca, criando designs valiosos, com significado e essência. Faça as malas e vamos!">
+<meta property="og:image" content="https://buenas.design/assets/img/home-gallery-1.webp">
+<meta property="og:url" content="https://buenas.design/br/servicos/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://buenas.design/br/servicos/">
+<link rel="alternate" hreflang="en" href="https://buenas.design/services/">
+<link rel="alternate" hreflang="pt-BR" href="https://buenas.design/br/servicos/">
+<link rel="alternate" hreflang="x-default" href="https://buenas.design/services/">
+<link rel="icon" href="../../assets/brand/favicon-32.png" sizes="32x32">
+<link rel="icon" href="../../assets/brand/favicon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="../../assets/brand/apple-touch-icon.png">
+<!-- Tipos (pedido da Julia, 01/11/2026): Florentia nos títulos, Neue Haas Grotesk no texto, Qonqueror na ênfase.
+     Florentia e Qonqueror vêm de assets/fonts/ (versões trial/demo: trocar pelas licenças webfont antes de ir ao ar).
+     Neue Haas Grotesk: crie um "Web Project" no Adobe Fonts com a família "Neue Haas Grotesk Text" e cole o <link> do kit aqui:
+     <link rel="stylesheet" href="https://use.typekit.net/SEU-KIT.css">
+     Enquanto isso, entra a Helvetica Neue (que nasceu da Neue Haas Grotesk) ou a Arial. -->
+<link rel="preload" href="../../assets/fonts/florentia-medium.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="../../assets/fonts/qonqueror.woff" as="font" type="font/woff" crossorigin>
+<link rel="stylesheet" href="../../assets/styles.css?v=375f7f35">
+<!-- avisa o CSS que há JavaScript, para esconder o que vai aparecer ao rolar (sem JS, tudo fica visível) -->
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body class="page-services">
+<a class="skip" href="#main">Pular para o conteúdo</a>
+<header class="hdr" id="hdr">
+  <div class="wrap hdr__in">
+    <a class="logo" href="../../br/"><img src="../../assets/brand/logo-coral.webp" alt="Buenas" width="770" height="232"></a>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="../../br/sobre/">Sobre</a>
+      <a href="../../br/servicos/" aria-current="page">Serviços</a>
+      <a href="../../br/portfolio/">Portfolio</a>
+      <a href="../../br/contato/">Orçamento</a>
+      <span class="lang" aria-label="Language / Idioma">
+        <a href="../../services/" lang="en" hreflang="en">EN</a><a class="lang__on" aria-current="true" href="../../br/servicos/" lang="pt-BR" hreflang="pt-BR">BR</a>
+      </span>
+    </nav>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span><span></span></button>
+  </div>
+</header>
+<main id="main">
+
+  <section class="hero hero--page tone-lilac">
+    <!-- rota pontilhada que se desenha ao rolar, com o avião percorrendo o caminho (app.js, data-route) -->
+    <svg class="route route--hero" viewBox="0 0 1440 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false" data-route>
+      <defs><mask id="route-hero-mask" maskUnits="userSpaceOnUse"><path class="route__mask" pathLength="1" d="M-40 330C200 420 380 330 560 372S900 430 1100 360 1360 300 1480 250"/></mask></defs>
+      <path class="route__path" mask="url(#route-hero-mask)" d="M-40 330C200 420 380 330 560 372S900 430 1100 360 1360 300 1480 250"/>
+      <circle class="route__stop" cx="560" cy="372" r="5"/><circle class="route__stop" cx="1100" cy="360" r="5"/>
+      <g class="route__plane"><path d="M22 12c0-.8-.7-1.4-1.5-1.4H15L10 3H8l2.5 7.6H5.2L3.4 8H2l1 4-1 4h1.4l1.8-2.6h5.3L8 21h2l5-7.6h5.5c.8 0 1.5-.6 1.5-1.4z" transform="translate(-12 -12)"/></g>
+    </svg>
+    <div class="wrap hero__in">
+      <p class="kicker" data-reveal>Nossa especialidade</p>
+      <h1 class="display display--md" data-reveal="title">Ajudamos marcas a <em>decolar</em> seus negócios por meio do design</h1>
+    </div>
+  </section>
+
+  <section class="section section--flush tone-lilac">
+    <div class="wrap duo">
+      <div class="duo__media">
+        <div class="duo__photo" data-reveal="img"><img src="../../assets/img/services-1.webp" alt="" loading="lazy"></div>
+        <div class="duo__badge"><!-- carimbo de passaporte (roxo, borda serrilhada, estrela): badges.story -->
+                                <svg class="badge badge--stamp" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+                                  <defs><path id="badge-ring-d" d="M100 100m-74 0a74 74 0 1 1 148 0a74 74 0 1 1-148 0"/></defs>
+                                  <circle cx="100" cy="100" r="96" class="badge__disc"/>
+                                  <circle cx="100" cy="100" r="90" class="badge__line badge__line--dots"/>
+                                  <circle cx="100" cy="100" r="54" class="badge__line"/>
+                                  <g class="badge__ring"><text><textPath href="#badge-ring-d" textLength="465" lengthAdjust="spacing">ESTRATÉGIA · SIGNIFICADO · ESSÊNCIA · </textPath></text></g>
+                                  <path class="badge__icon" d="M100 66l8 24 25 0-20 15 8 24-21-15-21 15 8-24-20-15 25 0z"/>
+                                </svg>
+</div>
+      </div>
+      <div class="duo__text">
+        <p class="lead" data-reveal>Seus objetivos nos guiarão. Nós te ouvimos para entender o que te motiva e com quem você deseja se conectar.</p><p class="lead" data-reveal>A partir disso, criamos estratégias e o que for necessário para que você atinja corações e mentes. Através de um design genuíno e um conteúdo inspirador, sua marca irá transmitir uma mensagem atraente para o seu público ideal.</p>
+        <p class="title title--sm" data-reveal>Você já é <em>incrível</em>, só estamos aqui para ajudar.</p>
+        <div class="duo__second">
+          <div class="duo__photo" data-reveal="img"><img src="../../assets/img/services-2.webp" alt="" loading="lazy"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tone-yellow">
+    <div class="wrap split split--center">
+      <div class="split__media split__media--badge"><!-- selo com globo (meridianos): badges.destinations -->
+                                                    <svg class="badge badge--globe" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+                                                      <defs><path id="badge-ring-c" d="M100 100m-80 0a80 80 0 1 1 160 0a80 80 0 1 1-160 0"/></defs>
+                                                      <circle cx="100" cy="100" r="97" class="badge__line badge__line--dots"/>
+                                                      <g class="badge__ring"><text><textPath href="#badge-ring-c" textLength="500" lengthAdjust="spacing">DESIGN DE MARCAS · NAMING · SOCIAL MEDIA · </textPath></text></g>
+                                                      <g class="badge__icon badge__globe">
+                                                        <circle cx="100" cy="100" r="44"/>
+                                                        <ellipse cx="100" cy="100" rx="20" ry="44"/>
+                                                        <path d="M56 100h88M62 78h76M62 122h76M100 56v88"/>
+                                                      </g>
+                                                    </svg>
+</div>
+      <div class="split__text">
+        <h2 class="title" data-reveal="title">Já que cada marca é diferente e única, o <em>destino</em> também é.</h2>
+        <p class="lead" data-reveal>Valorizamos a jornada individual da sua empresa, por isso oferecemos pacotes sob medida para ajudar a transformar e decolar a sua marca. Começamos o processo com um questionário/chamada de descoberta para que possamos conhecer as suas necessidades exclusivas, cronograma, objetivos de negócio e muito mais. A partir daí, criamos uma proposta personalizada especialmente para você!</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section pass">
+    <div class="wrap pass__in">
+      <div class="pass__card" data-reveal data-tilt>
+        <div class="pass__stamp"><!-- carimbo de passaporte (roxo, borda serrilhada, estrela): badges.story -->
+                                 <svg class="badge badge--stamp" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+                                   <defs><path id="badge-ring-d" d="M100 100m-74 0a74 74 0 1 1 148 0a74 74 0 1 1-148 0"/></defs>
+                                   <circle cx="100" cy="100" r="96" class="badge__disc"/>
+                                   <circle cx="100" cy="100" r="90" class="badge__line badge__line--dots"/>
+                                   <circle cx="100" cy="100" r="54" class="badge__line"/>
+                                   <g class="badge__ring"><text><textPath href="#badge-ring-d" textLength="465" lengthAdjust="spacing">ESTRATÉGIA · SIGNIFICADO · ESSÊNCIA · </textPath></text></g>
+                                   <path class="badge__icon" d="M100 66l8 24 25 0-20 15 8 24-21-15-21 15 8-24-20-15 25 0z"/>
+                                 </svg>
+</div>
+        <div class="pass__head">
+          <p class="kicker">Boarding Pass</p>
+          <h2 class="title">Brand Design</h2>
+        </div>
+        <p>Cor, forma, linha e palavras provocam inúmeras respostas em um consumidor. Assim, o design da sua marca deve ser guiado por uma compreensão clara e consciente de quem e o que é sua marca, criando uma imagem consistente que conecta com seu cliente ideal.</p>
+        <p class="pass__label">Esse cartão de embarque inclui:</p>
+        <ul class="pass__list">
+          <li>Logo primário e secundário</li><li>Tipografia</li><li>Manual da Marca</li><li>Materiais de apoio</li><li>Moodboard</li><li>Paleta de Cores</li><li>E muito mais!</li>
+        </ul>
+        <div class="pass__stub" aria-hidden="true"><svg class="plane" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="translate(12 12)"><path d="M22 12c0-.8-.7-1.4-1.5-1.4H15L10 3H8l2.5 7.6H5.2L3.4 8H2l1 4-1 4h1.4l1.8-2.6h5.3L8 21h2l5-7.6h5.5c.8 0 1.5-.6 1.5-1.4z" transform="translate(-12 -12)"/></g></svg>
+<span class="barcode"></span></div>
+      </div>
+      <div class="pass__media">
+        <div class="pass__img" data-speed="0.04"><div class="pass__frame" data-reveal="img"><img src="../../assets/img/br-svc-brand-1.webp" alt="" loading="lazy"></div></div><div class="pass__img" data-speed="-0.07"><div class="pass__frame" data-reveal="img"><img src="../../assets/img/svc-brand-2.webp" alt="" loading="lazy"></div></div>
+      </div>
+    </div>
+  </section>
+  <section class="section pass">
+    <div class="wrap pass__in">
+      <div class="pass__card" data-reveal data-tilt>
+        <div class="pass__stamp"><!-- carimbo de passaporte (roxo, borda serrilhada, estrela): badges.story -->
+                                 <svg class="badge badge--stamp" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+                                   <defs><path id="badge-ring-d" d="M100 100m-74 0a74 74 0 1 1 148 0a74 74 0 1 1-148 0"/></defs>
+                                   <circle cx="100" cy="100" r="96" class="badge__disc"/>
+                                   <circle cx="100" cy="100" r="90" class="badge__line badge__line--dots"/>
+                                   <circle cx="100" cy="100" r="54" class="badge__line"/>
+                                   <g class="badge__ring"><text><textPath href="#badge-ring-d" textLength="465" lengthAdjust="spacing">ESTRATÉGIA · SIGNIFICADO · ESSÊNCIA · </textPath></text></g>
+                                   <path class="badge__icon" d="M100 66l8 24 25 0-20 15 8 24-21-15-21 15 8-24-20-15 25 0z"/>
+                                 </svg>
+</div>
+        <div class="pass__head">
+          <p class="kicker">Boarding Pass</p>
+          <h2 class="title">Presença digital</h2>
+        </div>
+        <p>É claro que você quer que sua presença digital seja o reflexo de todo o trabalho incrível que você faz em sua marca todos os dias, né? Mas como uma empreendedora ocupada, talvez não tenha tanto tempo para criar um conteúdo marcante e estratégico, e é aqui que nós entramos.</p>
+        <p class="pass__label">Esse cartão de embarque inclui:</p>
+        <ul class="pass__list">
+          <li>Design estratégico</li><li>Criação de conteúdo</li><li>Calendário estratégico</li><li>Pesquisa de mercado</li><li>Análise de tendências</li><li>Estudo de concorrentes</li><li>Relatório de desempenho</li>
+        </ul>
+        <div class="pass__stub" aria-hidden="true"><svg class="plane" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="translate(12 12)"><path d="M22 12c0-.8-.7-1.4-1.5-1.4H15L10 3H8l2.5 7.6H5.2L3.4 8H2l1 4-1 4h1.4l1.8-2.6h5.3L8 21h2l5-7.6h5.5c.8 0 1.5-.6 1.5-1.4z" transform="translate(-12 -12)"/></g></svg>
+<span class="barcode"></span></div>
+      </div>
+      <div class="pass__media">
+        <div class="pass__img" data-speed="0.04"><div class="pass__frame" data-reveal="img"><img src="../../assets/img/svc-social-1.webp" alt="" loading="lazy"></div></div><div class="pass__img" data-speed="-0.07"><div class="pass__frame" data-reveal="img"><img src="../../assets/img/svc-social-2.webp" alt="" loading="lazy"></div></div>
+      </div>
+    </div>
+  </section>
+  <section class="section pass">
+    <div class="wrap pass__in">
+      <div class="pass__card" data-reveal data-tilt>
+        <div class="pass__stamp"><!-- carimbo de passaporte (roxo, borda serrilhada, estrela): badges.story -->
+                                 <svg class="badge badge--stamp" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+                                   <defs><path id="badge-ring-d" d="M100 100m-74 0a74 74 0 1 1 148 0a74 74 0 1 1-148 0"/></defs>
+                                   <circle cx="100" cy="100" r="96" class="badge__disc"/>
+                                   <circle cx="100" cy="100" r="90" class="badge__line badge__line--dots"/>
+                                   <circle cx="100" cy="100" r="54" class="badge__line"/>
+                                   <g class="badge__ring"><text><textPath href="#badge-ring-d" textLength="465" lengthAdjust="spacing">ESTRATÉGIA · SIGNIFICADO · ESSÊNCIA · </textPath></text></g>
+                                   <path class="badge__icon" d="M100 66l8 24 25 0-20 15 8 24-21-15-21 15 8-24-20-15 25 0z"/>
+                                 </svg>
+</div>
+        <div class="pass__head">
+          <p class="kicker">Boarding Pass</p>
+          <h2 class="title">Naming</h2>
+        </div>
+        <p>O naming é a primeira mensagem que você transmite através da sua marca e por isso deve ser criado de forma estratégica. Te guiaremos na jornada de criação do nome sua marca de forma significativa e criteriosa, a fim de gerar identificação com o seu público.</p>
+        <p class="pass__label">Esse cartão de embarque inclui:</p>
+        <ul class="pass__list">
+          <li>Criação de 3 nomes sujeitos a registros no INPI</li><li>Reuniões de alinhamento</li>
+        </ul>
+        <div class="pass__stub" aria-hidden="true"><svg class="plane" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="translate(12 12)"><path d="M22 12c0-.8-.7-1.4-1.5-1.4H15L10 3H8l2.5 7.6H5.2L3.4 8H2l1 4-1 4h1.4l1.8-2.6h5.3L8 21h2l5-7.6h5.5c.8 0 1.5-.6 1.5-1.4z" transform="translate(-12 -12)"/></g></svg>
+<span class="barcode"></span></div>
+      </div>
+      <div class="pass__media">
+        <div class="pass__img" data-speed="0.04"><div class="pass__frame" data-reveal="img"><img src="../../assets/img/svc-graphic-1.webp" alt="" loading="lazy"></div></div><div class="pass__img" data-speed="-0.07"><div class="pass__frame" data-reveal="img"><img src="../../assets/img/svc-graphic-2.webp" alt="" loading="lazy"></div></div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section tone-lilac">
+    <div class="wrap">
+      <header class="head head--center" data-reveal>
+        <p class="kicker">Nosso processo</p>
+        <h2 class="title">Nosso <em>itinerário</em></h2>
+      </header>
+      <ol class="steps" data-progress>
+        <li class="step" data-reveal>
+          <span class="step__n">01</span>
+          <h3>Check-in</h3>
+          <p>Apresente-se! Vamos fazer uma chamada para entender a fundo sobre sua marca, seus concorrentes, suas referências de design, etc.</p>
+        </li>
+        <li class="step" data-reveal>
+          <span class="step__n">02</span>
+          <h3>Carimbo</h3>
+          <p>Viagem autorizada: enviaremos um contrato via Adobe Sign. Assim que for assinado, enviaremos um lembrete de pagamento da entrada do projeto.</p>
+        </li>
+        <li class="step" data-reveal>
+          <span class="step__n">03</span>
+          <h3>Definição de Rota</h3>
+          <p>Para onde iremos? Apresentaremos diferentes conceitos e discutiremos juntas a direção visual da sua marca.</p>
+        </li>
+        <li class="step" data-reveal>
+          <span class="step__n">04</span>
+          <h3>Arrume as malas</h3>
+          <p>Destino escolhido: agora está na hora de dar andamento na direção visual que discutimos na reunião passada e dar vida a uma marca inspiradora!</p>
+        </li>
+        <li class="step" data-reveal>
+          <span class="step__n">05</span>
+          <h3>Preparar pra decolagem</h3>
+          <p>Tudo pronto! Vamos apresentar a identidade visual para você começar o voar.</p>
+        </li>
+        <li class="step" data-reveal>
+          <span class="step__n">06</span>
+          <h3>Guia do passageiro e Plano de vôo</h3>
+          <p>A viagem terminou: após a aprovação, enviaremos todos os arquivos do seu universo visual em uma pasta do Google Drive para que sua marca comece a alcançar novos horizontes.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+</main>
+<section class="band">
+  <svg class="route route--band" viewBox="0 0 1440 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false" data-route>
+    <defs><mask id="route-band-mask" maskUnits="userSpaceOnUse"><path class="route__mask" pathLength="1" d="M-40 250C200 260 300 120 540 150S900 290 1100 190 1340 40 1480 30"/></mask></defs>
+    <path class="route__path" mask="url(#route-band-mask)" d="M-40 250C200 260 300 120 540 150S900 290 1100 190 1340 40 1480 30"/>
+    <g class="route__plane"><path d="M22 12c0-.8-.7-1.4-1.5-1.4H15L10 3H8l2.5 7.6H5.2L3.4 8H2l1 4-1 4h1.4l1.8-2.6h5.3L8 21h2l5-7.6h5.5c.8 0 1.5-.6 1.5-1.4z" transform="translate(-12 -12)"/></g>
+  </svg>
+  <div class="wrap band__in">
+    <p class="kicker" data-reveal>Faça as malas e</p>
+    <h2 class="band__title" data-reveal="title">vamos <em>juntas!</em></h2>
+  </div>
+</section>
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr__top">
+      <a class="btn btn--line" href="../../br/contato/">TÔ PRONTA!</a>
+      <a class="ftr__logo" href="../../br/"><img src="../../assets/brand/logo-blush.webp" alt="Buenas" width="770" height="232" loading="lazy"></a>
+      <a class="btn btn--light" href="https://calendly.com/buenasdesign" target="_blank" rel="noopener">BOOK A VIRTUAL COFFEE</a>
+    </div>
+    <p class="ftr__agency">Você é uma agência e busca white label design? <a href="https://juliasonda.com" target="_blank" rel="noopener">Acesse juliasonda.com <span aria-hidden="true">→</span></a></p>
+    <div class="ftr__cols">
+      <div>
+        <h3>Bora conversar?</h3>
+        <p><a href="mailto:oi@juliasonda.com">oi@juliasonda.com</a></p>
+        <p><a href="https://wa.me/+5554999786058" target="_blank" rel="noopener">+55 (54) 99978-6058</a></p>
+      </div>
+      <div>
+        <h3>Sobre nós</h3>
+        <p>A Buenas é uma empresa feita de mulheres que amam viajar! Criamos marcas valiosas, com o intuito de mudar a vida das pessoas. Mergulhamos muito além da superfície para chegar ao coração da sua marca e oferecer uma experiência verdadeiramente significativa.</p>
+      </div>
+      <div>
+        <h3>Acompanhe a Buenas</h3>
+        <ul class="ftr__social">
+          <li><a href="https://www.instagram.com/buenas.designstudio/" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="http://www.behance.net/Juliasonda" target="_blank" rel="noopener">Behance</a></li>
+          <li><a href="https://pin.it/r79CGXH" target="_blank" rel="noopener">Pinterest</a></li>
+          <li><a href="https://www.linkedin.com/in/juliasondaluza/" target="_blank" rel="noopener">Linkedin</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ftr__base">
+      <p>© <span id="year">2026</span> Buenas Design Studio</p>
+      <p class="ftr__nav"><a href="../../br/sobre/">Sobre</a><a href="../../br/servicos/">Serviços</a><a href="../../br/portfolio/">Portfolio</a><a href="../../br/contato/">Orçamento</a></p>
+    </div>
+  </div>
+</footer>
+<script src="../../assets/app.js?v=fe337289" defer></script>
+</body>
+</html>
