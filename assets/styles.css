@@ -342,8 +342,8 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .guide__in { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(32px, 6vw, 110px); align-items: start; }
 .guide__title { max-width: 9ch; }
 .guide__text { display: grid; gap: 22px; justify-items: start; padding-top: clamp(4px, 1vw, 14px); }
-/* o destaque em itálico (Florentia), para se diferenciar do texto menor logo abaixo */
-.guide__text .lead { font: italic 400 clamp(1.3rem, 1.9vw, 1.65rem)/1.45 var(--f-head); }
+/* o destaque em itálico (fonte do texto, não a Florentia), para se diferenciar do texto menor logo abaixo */
+.guide__text .lead { font-size: clamp(1.2rem, 1.75vw, 1.5rem); line-height: 1.5; font-style: italic; }
 .guide__more { font-size: 1rem; line-height: 1.7; max-width: 520px; opacity: .82; }
 .guide__text p:last-child { margin-top: 8px; }
 @media (max-width: 860px) { .guide__in { grid-template-columns: 1fr; } .guide__title { max-width: none; } }
@@ -454,9 +454,6 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .logos__track img { height: clamp(40px, 4.6vw, 60px); width: auto; filter: grayscale(1); opacity: .75; transition: filter .3s, opacity .3s; }
 .logos__track img:hover { filter: none; opacity: 1; }
 .logos:hover .logos__track, .logos:focus-within .logos__track { animation-play-state: paused; }
-.logos--cards { margin-top: clamp(36px, 4vw, 56px); }
-.logos--cards .logos__track { gap: 20px; animation-duration: 55s; }
-.logos--cards .logos__track img { height: clamp(90px, 10vw, 130px); border-radius: 16px; filter: none; opacity: 1; }
 @keyframes logos { to { transform: translateX(calc(-50% - 10px)); } }
 
 /* ───────── home: Instagram ───────── */
@@ -553,7 +550,7 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
   .float { width: 92px; } .float--wide { width: 128px; } .float--f-16x9 { width: 140px; } .float--2, .float--3 { display: none; }
   .float--1 { top: 34px; left: 16px; right: auto; } .float--4 { bottom: 34px; right: 16px; left: auto; }
 }
-.statement__kicker { font: 400 clamp(1.5rem, 2.6vw, 2.2rem)/1.2 var(--f-em); color: var(--yellow); }
+.statement__kicker { font: 400 clamp(1.5rem, 2.6vw, 2.2rem)/1.2 var(--f-em); color: var(--yellow); margin-bottom: -14px; } /* colado no título (pedido da Julia) */
 .statement .lead { max-width: 760px; }
 
 .values { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; max-width: 1000px; margin-inline: auto; }
@@ -600,12 +597,12 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
   .duo__badge { right: -6px; bottom: -30px; width: 100px; }
 }
 
-/* Services: o lilás do topo continua por trás de todo o texto e termina logo antes da 2ª foto
-   (nunca no meio de um parágrafo, seja qual for a largura); a 1ª foto atravessa a divisa */
+/* Services: o lilás do topo continua por trás de todo o texto e termina um pouco depois do início da
+   2ª foto (pedido da Julia: a foto atravessa a divisa, como a 1ª); nunca no meio de um parágrafo */
 .duo-band { padding-top: 0; background: var(--lilac); position: relative; isolation: isolate; overflow: hidden; }
 .duo-band .duo__media { padding-top: 0; }
 .duo-band .duo__second { position: relative; }
-.duo-band .duo__second::before { content: ""; position: absolute; z-index: -1; top: -17px; left: -150vw; width: 300vw; height: 300vh; background: var(--blush); }
+.duo-band .duo__second::before { content: ""; position: absolute; z-index: -1; top: 22%; left: -150vw; width: 300vw; height: 300vh; background: var(--blush); }
 
 /* cartão de embarque */
 .pass { --bg: var(--blush); --card: var(--lilac); }
@@ -646,6 +643,7 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 @media (max-width: 860px) {
   .pass__in { grid-template-columns: 1fr; }
   .pass:nth-of-type(odd) .pass__card { order: 0; }
+  .pass__media { order: -1; } /* no celular as imagens vêm antes da descrição (pedido da Julia) */
   .pass__list { grid-template-columns: 1fr; }
   .pass__card { padding-right: calc(24px + 64px); }
   .pass__card::before, .pass__card::after { right: 64px; }
@@ -784,6 +782,9 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .post__img { display: block; overflow: hidden; border-radius: var(--radius); background: var(--card); }
 .post__img img { width: 100%; }
 .post__fig figcaption { margin-top: 12px; font-size: 0.9rem; line-height: 1.5; text-align: center; }
+/* links dentro do texto do post (para outras páginas do site) */
+.post__body :is(p, li) a { color: var(--purple); font-weight: 500; text-decoration: underline 1.5px var(--coral); text-underline-offset: 4px; transition: color .25s var(--ease); }
+.post__body :is(p, li) a:hover { color: var(--coral); }
 .post__fig figcaption a { color: var(--coral); font-weight: 500; text-decoration: none; white-space: nowrap; }
 .post__fig figcaption a:hover { text-decoration: underline; }
 /* o convite do fim */
