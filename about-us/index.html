@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!--
+  Partes comuns a todas as páginas. Os TEXTOS ficam em content/site.yml — edite lá.
+-->
+<title>About us - Buenas Design Studio</title>
+<meta name="description" content="We are your guide through the journey of building or revamping your brand. Pack your bags and let&#39;s go!">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Buenas Design Studio">
+<meta property="og:title" content="Buenas Design Studio – We elevate your business through brand design">
+<meta property="og:description" content="We are your guide through the journey of building or revamping your brand. Pack your bags and let&#39;s go!">
+<meta property="og:image" content="https://buenas.design/assets/img/home-gallery-1.webp">
+<meta property="og:url" content="https://buenas.design/about-us/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://buenas.design/about-us/">
+<link rel="alternate" hreflang="en" href="https://buenas.design/about-us/">
+<link rel="alternate" hreflang="pt-BR" href="https://br.buenas.design/sobre/">
+<link rel="alternate" hreflang="x-default" href="https://buenas.design/about-us/">
+<link rel="icon" href="../assets/brand/favicon-32.png" sizes="32x32">
+<link rel="icon" href="../assets/brand/favicon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+<!-- Tipos (pedido da Julia, 01/11/2026): Florentia nos títulos, Neue Haas Grotesk no texto, Qonqueror na ênfase.
+     Florentia e Qonqueror vêm de assets/fonts/ (versões trial/demo: trocar pelas licenças webfont antes de ir ao ar).
+     Neue Haas Grotesk: crie um "Web Project" no Adobe Fonts com a família "Neue Haas Grotesk Text" e cole o <link> do kit aqui:
+     <link rel="stylesheet" href="https://use.typekit.net/SEU-KIT.css">
+     Enquanto isso, entra a Helvetica Neue (que nasceu da Neue Haas Grotesk) ou a Arial. -->
+<link rel="preload" href="../assets/fonts/florentia-medium.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="../assets/fonts/qonqueror.woff" as="font" type="font/woff" crossorigin>
+<link rel="stylesheet" href="../assets/styles.css?v=375f7f35">
+<!-- avisa o CSS que há JavaScript, para esconder o que vai aparecer ao rolar (sem JS, tudo fica visível) -->
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body class="page-about">
+<a class="skip" href="#main">Skip to content</a>
+<header class="hdr" id="hdr">
+  <div class="wrap hdr__in">
+    <a class="logo" href="../"><img src="../assets/brand/logo-coral.webp" alt="Buenas" width="770" height="232"></a>
+    <nav class="nav" id="nav" aria-label="Main">
+      <a href="../about-us/" aria-current="page">About us</a>
+      <a href="../services/">Services</a>
+      <a href="../portfolio/">Portfolio</a>
+      <a href="../contact-us/">Contact us</a>
+      <span class="lang" aria-label="Language">
+        <a class="lang__on" href="../" aria-current="true" lang="en">EN</a>
+        <a href="https://br.buenas.design/" lang="pt-BR">BR</a>
+      </span>
+    </nav>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span><span></span></button>
+  </div>
+</header>
+<main id="main">
+
+  <section class="hero hero--page tone-blush">
+    <!-- rota pontilhada que se desenha ao rolar, com o avião percorrendo o caminho (app.js, data-route) -->
+    <svg class="route route--hero" viewBox="0 0 1440 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false" data-route>
+      <defs><mask id="route-hero-mask" maskUnits="userSpaceOnUse"><path class="route__mask" pathLength="1" d="M-40 330C200 420 380 330 560 372S900 430 1100 360 1360 300 1480 250"/></mask></defs>
+      <path class="route__path" mask="url(#route-hero-mask)" d="M-40 330C200 420 380 330 560 372S900 430 1100 360 1360 300 1480 250"/>
+      <circle class="route__stop" cx="560" cy="372" r="5"/><circle class="route__stop" cx="1100" cy="360" r="5"/>
+      <g class="route__plane"><path d="M22 12c0-.8-.7-1.4-1.5-1.4H15L10 3H8l2.5 7.6H5.2L3.4 8H2l1 4-1 4h1.4l1.8-2.6h5.3L8 21h2l5-7.6h5.5c.8 0 1.5-.6 1.5-1.4z" transform="translate(-12 -12)"/></g>
+    </svg>
+    <div class="hero__badge"><!-- selo com globo (meridianos): badges.destinations -->
+                             <svg class="badge badge--globe" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+                               <defs><path id="badge-ring-c" d="M100 100m-80 0a80 80 0 1 1 160 0a80 80 0 1 1-160 0"/></defs>
+                               <circle cx="100" cy="100" r="97" class="badge__line badge__line--dots"/>
+                               <g class="badge__ring"><text><textPath href="#badge-ring-c" textLength="500" lengthAdjust="spacing">BRAND DESIGN · GRAPHIC DESIGN · SOCIAL MEDIA · </textPath></text></g>
+                               <g class="badge__icon badge__globe">
+                                 <circle cx="100" cy="100" r="44"/>
+                                 <ellipse cx="100" cy="100" rx="20" ry="44"/>
+                                 <path d="M56 100h88M62 78h76M62 122h76M100 56v88"/>
+                               </g>
+                             </svg>
+</div>
+    <div class="wrap hero__in">
+      <h1 class="display display--sm" data-reveal="title">We create meaningful, memorable, and beautifully <em>unique brands</em> that feel true to who you are.</h1>
+      <p class="lead" data-reveal>At Buenas Design Studio, we create visuals that feel like you. From brand design to social media content and graphic design, we craft every detail, colors, shapes, images, and typography, with intention. Our goal is to bring your story to life through designs that are not only beautiful, but also authentic and cohesive. Every project is a collaboration, and we love turning ideas into visuals that truly connect.</p>
+    </div>
+  </section>
+
+  <section class="section tone-purple statement">
+      <div class="floats" aria-hidden="true"><div class="float float--1" data-speed="0.12"><div class="float__img" data-reveal="img"><img src="../assets/projects/poppy/cover.webp" alt="" loading="lazy"></div></div><div class="float float--2" data-speed="-0.1"><div class="float__img" data-reveal="img"><img src="../assets/projects/mapella/03.webp" alt="" loading="lazy"></div></div><div class="float float--3" data-speed="-0.14"><div class="float__img" data-reveal="img"><img src="../assets/projects/hola-bakery/05.webp" alt="" loading="lazy"></div></div><div class="float float--4" data-speed="0.09"><div class="float__img" data-reveal="img"><img src="../assets/projects/carino/cover.webp" alt="" loading="lazy"></div></div></div>
+    <div class="wrap statement__in">
+      <p class="statement__kicker" data-reveal>We don&#39;t create logos.</p>
+      <h2 class="display display--md" data-reveal="title">We create <em>visual universes.</em></h2>
+      <p class="lead" data-reveal>At Buenas, we offer an experience that feels like traveling: exploring, discovering, and immersing yourself in every step of building your brand.</p><p class="lead" data-reveal>Just like planning the perfect itinerary, we map out every color, shape, and story with care. But this time, the destination is your dream brand, and we’re your guides on the journey.</p>
+    </div>
+  </section>
+
+  <section class="section tone-lilac">
+    <div class="wrap">
+      <header class="head head--center" data-reveal>
+        <p class="kicker">Our core values</p>
+        <h2 class="title">What <em>guides</em> us</h2>
+      </header>
+      <ul class="values">
+        <li data-reveal>Collaboration</li><li data-reveal>Involvement</li><li data-reveal>Transformation</li><li data-reveal>Care</li><li data-reveal>Transparency</li><li data-reveal>Excellence</li><li data-reveal>Empathy</li><li data-reveal>Support</li><li data-reveal>Constant grow</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section tone-blush">
+    <div class="wrap split">
+      <div class="split__text">
+        <p class="kicker" data-reveal>Hola! I&#39;m Julia 🙂</p>
+        <h2 class="title" data-reveal="title">Your guide on the<br>journey to a brand<br><em>worth remembering</em></h2>
+        <p data-reveal>I am the founder and creative director of Buenas Design Studio. I’m a brand designer, content creator and advertiser.</p><p data-reveal>I’ve been working as a brand designer and social media strategist for over 8 years, having extensive experience with several companies and clients from 9 countries and various segments, including clients seen on Medium, People Magazine and Glamour Magazine.</p><p data-reveal>I’ve always been a traveler at heart, that’s why Buenas was born with an international spirit and a love for the world.</p><p data-reveal>I’m passionate about learning new languages, diving into different cultures, and meeting people wherever I go. After more than four exchanges and five years living as a digital nomad, I’m now based in Europe.</p><p data-reveal>I believe design should be distinctive, purposeful, and built to resonate with its audience. I work immersively and with craft, helping brands rise, growing awareness, recognition, and real connection.</p><p data-reveal>I am very happy to be your guide on this journey. Pack your bags and let’s go 🙂</p>
+      </div>
+      <div class="split__media">
+        <div class="portrait" data-reveal="img"><img src="../assets/img/about-julia.webp" alt="Julia Sonda" width="1081" height="1081" loading="lazy"></div>
+        <div class="split__badge"><!-- selo preenchido (amarelo) com avião: badges.travel -->
+                                  <svg class="badge badge--plane" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+                                    <defs><path id="badge-ring-b" d="M100 100m-78 0a78 78 0 1 1 156 0a78 78 0 1 1-156 0"/></defs>
+                                    <circle cx="100" cy="100" r="99" class="badge__disc"/>
+                                    <circle cx="100" cy="100" r="58" class="badge__line"/>
+                                    <g class="badge__ring"><text><textPath href="#badge-ring-b" textLength="490" lengthAdjust="spacing">PACK YOUR BAGS · LET&#39;S TRAVEL TOGETHER · </textPath></text></g>
+                                    <g class="badge__icon" transform="translate(100 100) rotate(-35) scale(2.6)"><path d="M22 12c0-.8-.7-1.4-1.5-1.4H15L10 3H8l2.5 7.6H5.2L3.4 8H2l1 4-1 4h1.4l1.8-2.6h5.3L8 21h2l5-7.6h5.5c.8 0 1.5-.6 1.5-1.4z" transform="translate(-12 -12)"/></g>
+                                  </svg>
+</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tone-yellow facts">
+    <div class="wrap">
+      <header class="head" data-reveal>
+        <h2 class="title">All you need to <em>know</em></h2>
+        <p class="kicker">(And some things you probably don&#39;t)</p>
+      </header>
+      <div class="facts__grid">
+        <div class="facts__media">
+          <div class="portrait" data-reveal="img"><img src="../assets/img/about-fun.webp" alt="" width="504" height="504" loading="lazy"></div>
+        </div>
+        <div class="facts__list">
+          <details class="fact" data-reveal open><summary><svg class="plane" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="translate(12 12)"><path d="M22 12c0-.8-.7-1.4-1.5-1.4H15L10 3H8l2.5 7.6H5.2L3.4 8H2l1 4-1 4h1.4l1.8-2.6h5.3L8 21h2l5-7.6h5.5c.8 0 1.5-.6 1.5-1.4z" transform="translate(-12 -12)"/></g></svg>
+<span>Favorite place ever</span></summary><p>New York is my place! I love that city so much. The diversity, the vibrancy, always having something new do to… you hear so many languages. It is so rich in so many ways. My first exchange program was to NYC, the city has a really special place in my heart.</p></details>
+          <details class="fact" data-reveal><summary><svg class="plane" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="translate(12 12)"><path d="M22 12c0-.8-.7-1.4-1.5-1.4H15L10 3H8l2.5 7.6H5.2L3.4 8H2l1 4-1 4h1.4l1.8-2.6h5.3L8 21h2l5-7.6h5.5c.8 0 1.5-.6 1.5-1.4z" transform="translate(-12 -12)"/></g></svg>
+<span>Most beautiful place I&#39;ve visited</span></summary><p>I’d say Lauterbrunnen, in Switzerland. It’s absolutely breathtaking, I don’t even have words to describe it! There are so many amazing places, but that one really stands out.</p></details>
+          <details class="fact" data-reveal><summary><svg class="plane" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="translate(12 12)"><path d="M22 12c0-.8-.7-1.4-1.5-1.4H15L10 3H8l2.5 7.6H5.2L3.4 8H2l1 4-1 4h1.4l1.8-2.6h5.3L8 21h2l5-7.6h5.5c.8 0 1.5-.6 1.5-1.4z" transform="translate(-12 -12)"/></g></svg>
+<span>Strange fact about me</span></summary><p>When I was a child I thought that if I dig a hole deep enough, I would get to Japan. LOL</p></details>
+          <details class="fact" data-reveal><summary><svg class="plane" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="translate(12 12)"><path d="M22 12c0-.8-.7-1.4-1.5-1.4H15L10 3H8l2.5 7.6H5.2L3.4 8H2l1 4-1 4h1.4l1.8-2.6h5.3L8 21h2l5-7.6h5.5c.8 0 1.5-.6 1.5-1.4z" transform="translate(-12 -12)"/></g></svg>
+<span>Favorite Food</span></summary><p>I love eating but I don’t love cooking. Yeah… go figure. I love strogonoff, parmigiana, sushi and cheeseburgers. Not the American versions, but the Brazilian one, which is much better… sorry.</p></details>
+          <details class="fact" data-reveal><summary><svg class="plane" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g transform="translate(12 12)"><path d="M22 12c0-.8-.7-1.4-1.5-1.4H15L10 3H8l2.5 7.6H5.2L3.4 8H2l1 4-1 4h1.4l1.8-2.6h5.3L8 21h2l5-7.6h5.5c.8 0 1.5-.6 1.5-1.4z" transform="translate(-12 -12)"/></g></svg>
+<span>Fun fact!</span></summary><p>Buenas is a greeting in Spanish, it also means something good. The inspiration for the name came while living in Buenos Aires – even though my mother language is Portuguese, and everyone thinks that in Brazil we speak Spanish, lol.</p></details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <header class="head head--row" data-reveal>
+        <p class="title title--sm">Strategy, art direction and a whole lot of curiosity. We treat each project like an itinerary, with you in the passenger seat and a destination you&#39;ll love arriving at.</p>
+        <a class="btn" href="https://calendly.com/buenasdesign" target="_blank" rel="noopener">BOOK A FREE DISCOVERY CALL</a>
+      </header>
+      <div class="cards">
+<a class="card" href="../portfolio/poppy/" data-reveal>
+  <span class="card__img" data-reveal="img"><img src="../assets/projects/poppy/cover.webp" alt="" loading="lazy" decoding="async"></span>
+  <span class="card__name">Poppy Snowdrop</span>
+</a>
+<a class="card" href="../portfolio/create-joy/" data-reveal>
+  <span class="card__img" data-reveal="img"><img src="../assets/projects/create-joy/cover.webp" alt="" loading="lazy" decoding="async"></span>
+  <span class="card__name">Create Joy Travel</span>
+</a>
+<a class="card" href="../portfolio/novo-projeto/" data-reveal>
+  <span class="card__img" data-reveal="img"><img src="../assets/projects/novo-projeto/cover.webp" alt="" loading="lazy" decoding="async"></span>
+  <span class="card__name">ZOOMcatalog</span>
+</a>
+<a class="card" href="../portfolio/bonoclin/" data-reveal>
+  <span class="card__img" data-reveal="img"><img src="../assets/projects/bonoclin/cover.webp" alt="" loading="lazy" decoding="async"></span>
+  <span class="card__name">Bonoclin Odontology</span>
+</a>
+<a class="card" href="../portfolio/styling/" data-reveal>
+  <span class="card__img" data-reveal="img"><img src="../assets/projects/styling/cover.webp" alt="" loading="lazy" decoding="async"></span>
+  <span class="card__name">Styling Kindness</span>
+</a>
+<a class="card" href="../portfolio/spry-creative/" data-reveal>
+  <span class="card__img" data-reveal="img"><img src="../assets/projects/spry-creative/cover.webp" alt="" loading="lazy" decoding="async"></span>
+  <span class="card__name">Spry Creative</span>
+</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tone-purple">
+    <div class="wrap">
+      <h2 class="title title--center" data-reveal>Some of the brands that already <em>traveled with us</em></h2>
+    </div>
+    <div class="logos logos--cards" aria-label="Clients">
+      <div class="logos__track">
+        <img src="../assets/clients/about-01.webp" alt="" loading="lazy"><img src="../assets/clients/about-02.webp" alt="" loading="lazy"><img src="../assets/clients/about-03.webp" alt="" loading="lazy"><img src="../assets/clients/about-04.webp" alt="" loading="lazy"><img src="../assets/clients/about-05.webp" alt="" loading="lazy"><img src="../assets/clients/about-06.webp" alt="" loading="lazy"><img src="../assets/clients/about-07.webp" alt="" loading="lazy"><img src="../assets/clients/about-08.webp" alt="" loading="lazy"><img src="../assets/clients/about-09.webp" alt="" loading="lazy"><img src="../assets/clients/about-10.webp" alt="" loading="lazy">
+        <img src="../assets/clients/about-01.webp" alt="" aria-hidden="true" loading="lazy"><img src="../assets/clients/about-02.webp" alt="" aria-hidden="true" loading="lazy"><img src="../assets/clients/about-03.webp" alt="" aria-hidden="true" loading="lazy"><img src="../assets/clients/about-04.webp" alt="" aria-hidden="true" loading="lazy"><img src="../assets/clients/about-05.webp" alt="" aria-hidden="true" loading="lazy"><img src="../assets/clients/about-06.webp" alt="" aria-hidden="true" loading="lazy"><img src="../assets/clients/about-07.webp" alt="" aria-hidden="true" loading="lazy"><img src="../assets/clients/about-08.webp" alt="" aria-hidden="true" loading="lazy"><img src="../assets/clients/about-09.webp" alt="" aria-hidden="true" loading="lazy"><img src="../assets/clients/about-10.webp" alt="" aria-hidden="true" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+</main>
+<section class="band">
+  <svg class="route route--band" viewBox="0 0 1440 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false" data-route>
+    <defs><mask id="route-band-mask" maskUnits="userSpaceOnUse"><path class="route__mask" pathLength="1" d="M-40 250C200 260 300 120 540 150S900 290 1100 190 1340 40 1480 30"/></mask></defs>
+    <path class="route__path" mask="url(#route-band-mask)" d="M-40 250C200 260 300 120 540 150S900 290 1100 190 1340 40 1480 30"/>
+    <g class="route__plane"><path d="M22 12c0-.8-.7-1.4-1.5-1.4H15L10 3H8l2.5 7.6H5.2L3.4 8H2l1 4-1 4h1.4l1.8-2.6h5.3L8 21h2l5-7.6h5.5c.8 0 1.5-.6 1.5-1.4z" transform="translate(-12 -12)"/></g>
+  </svg>
+  <div class="wrap band__in">
+    <p class="kicker" data-reveal>Pack your bags and</p>
+    <h2 class="band__title" data-reveal="title">let&#39;s travel <em>together!</em></h2>
+  </div>
+</section>
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr__top">
+      <a class="btn btn--line" href="../contact-us/">CONTACT US</a>
+      <a class="ftr__logo" href="../"><img src="../assets/brand/logo-blush.webp" alt="Buenas" width="770" height="232" loading="lazy"></a>
+      <a class="btn btn--light" href="https://calendly.com/buenasdesign" target="_blank" rel="noopener">BOOK A VIRTUAL COFFEE</a>
+    </div>
+    <p class="ftr__agency">Are you an agency looking for white-label design? <a href="https://juliasonda.com" target="_blank" rel="noopener">Next stop: juliasonda.com <span aria-hidden="true">→</span></a></p>
+    <div class="ftr__cols">
+      <div>
+        <h3>Contact Us</h3>
+        <p><a href="mailto:oi@juliasonda.com">oi@juliasonda.com</a></p>
+        <p><a href="https://wa.me/+5554999786058" target="_blank" rel="noopener">+55 (54) 99978-6058</a></p>
+      </div>
+      <div>
+        <h3>About Us</h3>
+        <p>We dive far beyond the surface to get to the heart of your brand to deliver an experience that’s truly tailored to your needs</p>
+      </div>
+      <div>
+        <h3>Keep connected</h3>
+        <ul class="ftr__social">
+          <li><a href="https://instagram.com/buenas.designstudio" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="http://www.behance.net/Juliasonda" target="_blank" rel="noopener">Behance</a></li>
+          <li><a href="https://pin.it/r79CGXH" target="_blank" rel="noopener">Pinterest</a></li>
+          <li><a href="https://www.linkedin.com/in/juliasondaluza/" target="_blank" rel="noopener">Linkedin</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ftr__base">
+      <p>© <span id="year">2026</span> Buenas Design Studio</p>
+      <p class="ftr__nav"><a href="../about-us/">About us</a><a href="../services/">Services</a><a href="../portfolio/">Portfolio</a><a href="../contact-us/">Contact us</a></p>
+    </div>
+  </div>
+</footer>
+<script src="../assets/app.js?v=fe337289" defer></script>
+</body>
+</html>
