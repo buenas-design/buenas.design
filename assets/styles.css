@@ -108,7 +108,7 @@ mark { background: linear-gradient(transparent 60%, var(--yellow) 60%); color: i
 .title--sm { font-size: clamp(1.4rem, 2.4vw, 2rem); line-height: 1.25; letter-spacing: -0.01em; }
 .title--center { text-align: center; }
 /* ênfase: a palavra marcada com *asteriscos* no site.yml troca para a Qonqueror */
-.display em, .title em, .band__title em, .ticker em {
+.display em, .title em, .band__title em, .ticker em, .postcard__title em, .post__quote em {
   font-family: var(--f-em);
   font-style: normal;
   font-weight: 400;
@@ -337,12 +337,13 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .ticker__track .plane { width: clamp(13px, 1.3vw, 18px); height: auto; color: var(--coral); }
 
 /* ───────── home: guia ───────── */
-.guide { position: relative; overflow: hidden; padding-block: calc(var(--section) * 0.85); }
+.guide { position: relative; overflow: hidden; padding-block: max(56px, calc(var(--section) * 0.55)); }
 /* título grande à esquerda; à direita o texto em dois níveis (destaque + apoio) e o botão */
 .guide__in { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(32px, 6vw, 110px); align-items: start; }
 .guide__title { max-width: 9ch; }
 .guide__text { display: grid; gap: 22px; justify-items: start; padding-top: clamp(4px, 1vw, 14px); }
-.guide__text .lead { font-size: clamp(1.2rem, 1.75vw, 1.5rem); line-height: 1.5; }
+/* o destaque em itálico (Florentia), para se diferenciar do texto menor logo abaixo */
+.guide__text .lead { font: italic 400 clamp(1.3rem, 1.9vw, 1.65rem)/1.45 var(--f-head); }
 .guide__more { font-size: 1rem; line-height: 1.7; max-width: 520px; opacity: .82; }
 .guide__text p:last-child { margin-top: 8px; }
 @media (max-width: 860px) { .guide__in { grid-template-columns: 1fr; } .guide__title { max-width: none; } }
@@ -401,6 +402,10 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .card:nth-child(3n + 2) { margin-top: clamp(0px, 4vw, 64px); }
 .card__img { display: block; overflow: hidden; border-radius: var(--radius); aspect-ratio: 4 / 5; background: var(--card); }
 .card__img img { width: 100%; height: 100%; object-fit: cover; }
+/* no mouse em cima, outras imagens do projeto se revezam por cima da capa, como um gif (app.js) */
+.card__img:has(.card__flip) { position: relative; }
+.card__flip { position: absolute; inset: 0; opacity: 0; }
+.card__flip.is-on { opacity: 1; }
 .js .card:hover .card__img img, .card:hover .card__img img { scale: 1.06; transition: scale .9s var(--ease); }
 .card__name { font: 500 1.45rem/1.15 var(--f-head); letter-spacing: -0.01em; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .card__name::after { content: "→"; font-family: var(--f-sans); color: var(--coral); transition: translate .4s var(--ease); }
@@ -409,19 +414,30 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 @media (max-width: 560px) { .cards { grid-template-columns: 1fr; } .card:nth-child(2n) { margin-top: 0; } }
 
 /* ───────── depoimentos ───────── */
-.quotes { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
-.quotes__track, .quotes__copy { display: flex; align-items: flex-start; gap: clamp(16px, 2vw, 28px); }
-.quotes__track { width: max-content; padding-block: 8px; animation: quotes 60s linear infinite; }
-.quotes:hover .quotes__track, .quotes:focus-within .quotes__track { animation-play-state: paused; }
-@keyframes quotes { to { transform: translateX(calc(-50% - clamp(8px, 1vw, 14px))); } }
-.quote { flex: none; width: clamp(290px, 30vw, 420px); margin: 0; display: grid; gap: 22px; padding: clamp(26px, 3vw, 38px); background: var(--card); border-radius: var(--radius); transition: transform .5s var(--ease); }
+/* parados, um ao lado do outro: passam com as setas dos lados (ou arrastando no celular), em volta sem fim
+   (app.js copia os cartões antes e depois). Cada cartão para na margem do conteúdo e os vizinhos somem no
+   degradê das bordas */
+.quotes-box { position: relative; --qpad: max(var(--gutter), calc(50% - var(--maxw) / 2 + var(--gutter))); }
+.quotes { overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--qpad); overscroll-behavior-x: contain; scrollbar-width: none; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.quotes::-webkit-scrollbar { display: none; }
+.quotes__track { display: flex; align-items: flex-start; gap: clamp(16px, 2vw, 28px); width: max-content; padding: 10px var(--qpad) 8px; }
+.quote { flex: none; width: clamp(290px, 30vw, 420px); margin: 0; display: grid; gap: 22px; padding: clamp(26px, 3vw, 38px); background: var(--card); border-radius: var(--radius); scroll-snap-align: start; transition: transform .5s var(--ease); }
 .quote:nth-child(even) { margin-top: 36px; }
-/* no celular, sem a escadinha e todos da mesma altura (o nome da cliente no pé de cada cartão): o painel
-   acompanha o cartão mais alto, então cartões curtos passando deixavam um bloco vazio embaixo */
+.quotes__track.is-loop .quote { margin-top: 0; }
+.quotes__track.is-loop .quote.is-low { margin-top: 36px; }
+.quotes__nav { position: absolute; inset: 0; display: flex; justify-content: space-between; align-items: center; padding-inline: clamp(10px, 2vw, 32px); pointer-events: none; }
+.quotes__arrow { pointer-events: auto; display: grid; place-items: center; width: clamp(48px, 4.2vw, 60px); aspect-ratio: 1; border: 0; border-radius: 50%; background: var(--blush); color: var(--purple); cursor: pointer; box-shadow: 0 8px 24px rgb(93 72 175 / .18); transition: background .3s, color .3s, opacity .3s, scale .3s var(--ease); }
+.quotes__arrow svg { width: 42%; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.quotes__arrow--prev svg { rotate: 180deg; }
+.quotes__arrow:hover { background: var(--coral); color: var(--blush); scale: 1.06; }
+.quotes__arrow:focus-visible { outline: 2px solid var(--purple); outline-offset: 3px; }
+/* no celular, sem a escadinha e todos da mesma altura (o nome da cliente no pé de cada cartão), e as
+   setas embaixo dos cartões, para não taparem o texto */
 @media (max-width: 760px) {
-  .quotes__track, .quotes__copy { align-items: stretch; }
+  .quotes__nav { position: static; justify-content: center; gap: 14px; margin-top: 22px; }
+  .quotes__track { align-items: stretch; }
   .quote { grid-template-rows: 1fr auto; }
-  .quote:nth-child(even) { margin-top: 0; }
+  .quote:nth-child(even), .quotes__track.is-loop .quote.is-low { margin-top: 0; }
 }
 .quote:hover { transform: translateY(-6px) rotate(-0.6deg); }
 .quote blockquote { margin: 0; font-size: 1rem; }
@@ -717,6 +733,64 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .pnav__item:hover .pnav__img img { scale: 1.06; transition: scale .9s var(--ease); }
 .pnav__label { font: 500 0.75rem/1.5 var(--f-sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--coral); }
 .pnav__name { font: 500 clamp(1.5rem, 2.8vw, 2.3rem)/1.1 var(--f-head); letter-spacing: -0.02em; }
+
+/* ───────── blog (diário de bordo) ───────── */
+/* lista: o post mais novo grande, como um cartão-postal deitado; os outros dois lado a lado */
+.posts { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 5vw, 72px) clamp(20px, 3vw, 40px); }
+.postcard { display: grid; gap: 20px; align-content: start; text-decoration: none; color: var(--fg); }
+.postcard--feature { grid-column: 1 / -1; grid-template-columns: 1.2fr 1fr; align-items: center; gap: clamp(24px, 5vw, 72px); }
+.postcard__img { display: block; overflow: hidden; border-radius: var(--radius); aspect-ratio: 3 / 2; background: var(--card); }
+.postcard--feature .postcard__img { aspect-ratio: 5 / 4; }
+.postcard__img img { width: 100%; height: 100%; object-fit: cover; transition: scale .9s var(--ease); }
+.postcard:hover .postcard__img img { scale: 1.05; }
+.postcard__body { display: grid; gap: 14px; justify-items: start; }
+.postcard__meta { font: 500 0.75rem/1.4 var(--f-sans); letter-spacing: 0.18em; text-transform: uppercase; color: var(--coral); }
+.postcard__title { font: 500 clamp(1.5rem, 2.3vw, 2rem)/1.15 var(--f-head); letter-spacing: -0.01em; color: var(--head); text-wrap: balance; }
+.postcard--feature .postcard__title { font-size: clamp(2rem, 3.8vw, 3.2rem); line-height: 1.05; letter-spacing: -0.02em; }
+.postcard__excerpt { max-width: 52ch; }
+.postcard__more { margin-top: 4px; padding-bottom: 6px; border-bottom: 1.5px solid var(--coral); font: 500 0.78rem/1 var(--f-sans); letter-spacing: 0.16em; text-transform: uppercase; color: var(--purple); }
+.postcard__more span { display: inline-block; transition: translate .4s var(--ease); }
+.postcard:hover .postcard__more span { translate: 6px 0; }
+@media (max-width: 760px) { .posts, .postcard--feature { grid-template-columns: 1fr; } }
+
+/* post: cabeçalho, capa larga e o texto numa coluna confortável de ler */
+.post { padding-top: calc(var(--hdr) + clamp(40px, 6vw, 88px)); }
+.post__head { display: grid; gap: 18px; justify-items: start; margin-bottom: clamp(32px, 4vw, 56px); }
+.post__head .display { max-width: 16ch; }
+.post__head .kicker a { color: inherit; text-decoration: none; }
+.post__head .kicker a:hover { color: var(--coral); }
+.post__lead { max-width: 40ch; font: italic 400 clamp(1.3rem, 2.1vw, 1.75rem)/1.4 var(--f-head); color: var(--purple); }
+.post__meta { font: 500 0.75rem/1.5 var(--f-sans); letter-spacing: 0.16em; text-transform: uppercase; }
+.post__cover { margin: 0; overflow: hidden; border-radius: var(--radius); aspect-ratio: 16 / 8; background: var(--card); }
+.post__cover img { width: 100%; height: 100%; object-fit: cover; }
+@media (max-width: 760px) { .post__cover { aspect-ratio: 4 / 3; } }
+.post__body { max-width: 680px; margin: clamp(48px, 7vw, 88px) auto 0; font-size: 1.125rem; line-height: 1.75; }
+.post__body > * { margin: 0; }
+.post__body > * + * { margin-top: 1.15em; }
+.post__body h2 { margin-top: 2.1em; font: 500 clamp(1.55rem, 2.5vw, 2rem)/1.2 var(--f-head); letter-spacing: -0.01em; color: var(--purple); text-wrap: balance; }
+.post__body h2 + * { margin-top: 0.7em; }
+.post__body strong { font-weight: 600; color: var(--purple); }
+.post__body ul { padding-left: 1.3em; }
+.post__body li + li { margin-top: 0.55em; }
+.post__body li::marker { color: var(--coral); }
+/* a frase em destaque: lilás, em Florentia itálico, com a aspa da Buenas */
+.post__quote { margin-block: 2em; padding: clamp(28px, 4vw, 44px); background: var(--lilac); border-radius: var(--radius); }
+.post__body > .post__quote { margin-top: 2em; }
+.post__quote::before { content: "“"; display: block; height: .45em; font: 400 4rem/1 var(--f-em); color: var(--coral); }
+.post__quote p { margin: 0; font: italic 400 clamp(1.4rem, 2.4vw, 1.85rem)/1.35 var(--f-head); color: var(--purple); text-wrap: balance; }
+/* imagens um pouco mais largas que o texto no desktop */
+.post__fig { margin-inline: clamp(-140px, calc((680px - 100vw) / 2 + var(--gutter)), 0px); }
+.post__body > .post__fig { margin-top: 2em; margin-bottom: 0.6em; }
+.post__img { display: block; overflow: hidden; border-radius: var(--radius); background: var(--card); }
+.post__img img { width: 100%; }
+.post__fig figcaption { margin-top: 12px; font-size: 0.9rem; line-height: 1.5; text-align: center; }
+.post__fig figcaption a { color: var(--coral); font-weight: 500; text-decoration: none; white-space: nowrap; }
+.post__fig figcaption a:hover { text-decoration: underline; }
+/* o convite do fim */
+.post__cta { display: grid; gap: 16px; justify-items: center; text-align: center; max-width: 820px; margin: clamp(64px, 8vw, 104px) auto 0; padding: clamp(36px, 5vw, 64px) clamp(24px, 5vw, 64px); border-radius: var(--panel-r); }
+.post__cta p:not(.kicker) { max-width: 46ch; }
+.post__cta .btn { margin-top: 8px; }
+.post-more__head { display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap; margin-bottom: clamp(32px, 4vw, 56px); }
 /* no celular, um embaixo do outro, com folga e um traço entre os dois para não grudar um no outro */
 @media (max-width: 560px) { .pnav { grid-template-columns: 1fr; gap: 0; } .pnav__item--next { text-align: left; margin-top: 28px; padding-top: 28px; border-top: 1.5px dashed var(--lilac); } }
 
@@ -740,17 +814,15 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
   .js [data-reveal], .js [data-reveal="img"], .js .portrait[data-reveal="img"] { opacity: 1; transform: none; clip-path: none; }
   .js [data-reveal="img"] img { scale: none; }
   .logos__track { animation: none; flex-wrap: wrap; justify-content: center; width: auto; }
-  .quotes { overflow-x: auto; }
-  .quotes__track { animation: none; }
-  .quotes__copy { display: none; }
+  .quotes { scroll-behavior: auto; }
   .badge, .badge__ring { rotate: none; animation: none; }
 }
 
 /* ───────── home: carimbos de passaporte na seção roxa ───────── */
-.guide__left { display: grid; gap: clamp(24px, 4vw, 48px); align-content: start; }
+.guide__left { display: grid; gap: clamp(16px, 2.2vw, 28px); align-content: start; }
 /* carimbos da Julia (SVG) batidos um por cima do outro, como num passaporte: cada um desce grande e
    girado, bate no papel (amassa um pouco e volta) e o grupo todo dá um tranco a cada batida */
-.guide__stamps { position: relative; width: min(100%, 460px); aspect-ratio: 460 / 300; }
+.guide__stamps { position: relative; width: min(100%, 400px); aspect-ratio: 460 / 275; }
 .js .guide__stamps[data-reveal] { opacity: 1; transform: none; }
 .guide__stamps img { position: absolute; height: auto; rotate: var(--r); }
 .js .guide__stamps img { opacity: 0; }
@@ -772,4 +844,4 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 }
 /* no celular os carimbos vêm depois do texto, não entre o título e o texto; o pé do cartão desconta o
    respiro que já sobra dentro do grupo de carimbos, para o espaço embaixo ficar igual ao de cima */
-@media (max-width: 860px) { .guide__left { display: contents; } .guide__stamps { order: 1; width: min(100%, 400px); } .guide { padding-bottom: calc(var(--section) * 0.6); } }
+@media (max-width: 860px) { .guide__left { display: contents; } .guide__stamps { order: 1; width: min(100%, 360px); } .guide { padding-bottom: max(40px, calc(var(--section) * 0.45)); } }

@@ -107,6 +107,86 @@
     }, 600);
   }
 
+  /* ───────── portfolio cards: on hover, the project's images take turns like a gif ───────── */
+  if (!reduceMotion && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    $$('.card[data-flip]').forEach((card) => {
+      const frame = $('.card__img', card);
+      let imgs = null;
+      let timer = 0;
+      let k = -1;
+      const show = (i) => imgs.forEach((im, j) => im.classList.toggle('is-on', j === i));
+      card.addEventListener('pointerenter', () => {
+        // the images are only fetched the first time the mouse comes by
+        imgs ??= card.dataset.flip.split('|').map((s) => {
+          const im = new Image();
+          im.className = 'card__flip';
+          im.alt = '';
+          im.decoding = 'async';
+          im.src = s;
+          frame.append(im);
+          return im;
+        });
+        clearInterval(timer);
+        timer = setInterval(() => {
+          // a frame that hasn't arrived yet is skipped, so the cover never flashes empty
+          for (let t = 0; t < imgs.length; t++) {
+            k = (k + 1) % (imgs.length + 1);
+            if (k === imgs.length || imgs[k].complete) break;
+          }
+          show(k);
+        }, 650);
+      });
+      card.addEventListener('pointerleave', () => {
+        clearInterval(timer);
+        k = -1;
+        if (imgs) show(-1);
+      });
+    });
+  }
+
+  /* ───────── testimonials: the arrows move one card at a time, in an endless loop ───────── */
+  // The cards are copied once before and once after; whenever the strip comes to rest inside a copy it
+  // jumps (invisibly) to the same spot in the real set, so it keeps going round in both directions.
+  $$('.quotes-box').forEach((box) => {
+    const strip = $('.quotes', box);
+    const track = $('.quotes__track', box);
+    const real = $$('.quote', track);
+    if (real.length < 2) return;
+    // every other card sits a little lower; set here (not with :nth-child) so the copies match
+    real.forEach((q, i) => q.classList.toggle('is-low', i % 2 === 1));
+    const copy = () =>
+      real.map((q) => {
+        const c = q.cloneNode(true);
+        c.setAttribute('aria-hidden', 'true');
+        return c;
+      });
+    track.prepend(...copy());
+    track.append(...copy());
+    track.classList.add('is-loop');
+    const setW = () => real[0].offsetLeft - track.children[0].offsetLeft;
+    const step = () => real[1].offsetLeft - real[0].offsetLeft;
+    const settle = () => {
+      const w = setW();
+      if (strip.scrollLeft < w * 0.5) strip.scrollLeft += w;
+      else if (strip.scrollLeft > w * 1.5) strip.scrollLeft -= w;
+    };
+    strip.scrollLeft = setW();
+    let t = 0;
+    const onRest = () => {
+      clearTimeout(t);
+      t = setTimeout(settle, 140);
+    };
+    if ('onscrollend' in window) strip.addEventListener('scrollend', settle);
+    else strip.addEventListener('scroll', onRest, { passive: true });
+    window.addEventListener('resize', onRest);
+    $$('.quotes__arrow', box).forEach((btn) =>
+      btn.addEventListener('click', () => {
+        settle();
+        strip.scrollBy({ left: Number(btn.dataset.step) * step(), behavior: reduceMotion ? 'auto' : 'smooth' });
+      }),
+    );
+  });
+
   /* ───────── airport board: labels flip through letters before settling ───────── */
   const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const flip = (el) => {
