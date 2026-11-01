@@ -86,6 +86,8 @@ mark { background: linear-gradient(transparent 60%, var(--yellow) 60%); color: i
 .section { position: relative; padding-block: var(--section); }
 .section--tight { padding-block: calc(var(--section) * 0.6); }
 .section--flush { padding-top: 0; }
+/* seção com o mesmo fundo da anterior: as duas folgas somadas viravam um buraco (About: valores → Julia) */
+.section--near { padding-top: calc(var(--section) * 0.35); }
 .section--top { padding-top: calc(var(--hdr) + 56px); }
 
 /* ───────── tipos ───────── */
@@ -260,9 +262,9 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .route--band { color: var(--blush); }
 /* em telas menores o avião fica maior que o desenho da rota (app.js): ela sobe um pouco para ele não
    encostar na foto de baixo (no notebook pequeno o texto está perto, então sobe menos) */
-@media (max-width: 1279px) { .route--hero { bottom: 20px; } }
-@media (max-width: 1000px) { .route--hero { bottom: 36px; } }
-@media (max-width: 760px) { .route--hero { bottom: 46px; } }
+@media (max-width: 1279px) { .route--hero { bottom: 20px; } .route--band { bottom: 14px; } }
+@media (max-width: 1000px) { .route--hero { bottom: 42px; } .route--band { bottom: 34px; } }
+@media (max-width: 760px) { .route--hero { bottom: 54px; } .route--band { bottom: 44px; } }
 
 /* selo circular: o texto gira devagar; no centro, uma ilustração da Buenas redesenhada em linha
    fina (bússola, mala, globo, lâmpada; inspiradas em "Buenas Studio/outros/Icons Buenas…ai"), em pé */
@@ -295,8 +297,8 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 /* em telas menores o pé do topo reserva a altura da rota + avião (que sobem, ver .route--hero), para
    ela nunca passar por cima do texto ou do selo */
 @media (max-width: 1279px) { .hero { padding-bottom: max(clamp(96px, 11vw, 160px), calc(8.5vw + 56px)); } }
-@media (max-width: 1000px) { .hero { padding-bottom: calc(8.5vw + 74px); } }
-@media (max-width: 760px) { .hero { padding-bottom: calc(8.5vw + 82px); } }
+@media (max-width: 1000px) { .hero { padding-bottom: calc(8.5vw + 80px); } }
+@media (max-width: 760px) { .hero { padding-bottom: calc(8.5vw + 90px); } }
 .hero__in { position: relative; z-index: 1; display: grid; justify-items: center; gap: 26px; text-align: center; max-width: 1080px; }
 .hero .lead { max-width: 700px; }
 .hero .actions { margin-top: 16px; }
@@ -414,6 +416,8 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 @keyframes quotes { to { transform: translateX(calc(-50% - clamp(8px, 1vw, 14px))); } }
 .quote { flex: none; width: clamp(290px, 30vw, 420px); margin: 0; display: grid; gap: 22px; padding: clamp(26px, 3vw, 38px); background: var(--card); border-radius: var(--radius); transition: transform .5s var(--ease); }
 .quote:nth-child(even) { margin-top: 36px; }
+/* no celular, sem a escadinha: os cartões alinhados não deixam um bloco vazio no pé do painel */
+@media (max-width: 760px) { .quote:nth-child(even) { margin-top: 0; } }
 .quote:hover { transform: translateY(-6px) rotate(-0.6deg); }
 .quote blockquote { margin: 0; font-size: 1rem; }
 .quote blockquote::before { content: "“"; display: block; height: .5em; margin-bottom: .15em; font: 400 4rem/1 var(--f-em); color: var(--coral); }
@@ -446,6 +450,10 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 
 /* ───────── faixa coral do fim (só títulos grandes: nada de texto corrido no coral) ───────── */
 .band { --bg: var(--coral); position: relative; overflow: hidden; background: var(--coral); color: var(--blush); padding-block: clamp(96px, 12vw, 170px); }
+/* como no topo: em telas menores a rota sobe (.route--band) e o pé do cartão reserva a altura dela, para o
+   avião não ser cortado pela borda do cartão nem passar por cima do texto */
+@media (max-width: 1000px) { .band { padding-bottom: max(clamp(96px, 12vw, 170px), calc(8.2vw + 88px)); } }
+@media (max-width: 760px) { .band { padding-bottom: calc(8.2vw + 94px); } }
 .band__in { position: relative; z-index: 1; display: grid; justify-items: center; text-align: center; gap: 18px; }
 .band .kicker { --kick: var(--blush); --accent: var(--blush); }
 .band__title { font: 500 clamp(2.8rem, 7.4vw, 6.6rem)/1 var(--f-head); color: var(--blush); letter-spacing: -0.03em; }
@@ -506,16 +514,21 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .js .float__img[data-reveal="img"] { clip-path: inset(100% 0 0 0); }
 .js .float__img[data-reveal="img"].is-in { clip-path: inset(0); }
 .float__img img { width: 100%; height: 100%; object-fit: cover; }
-/* foto horizontal: o mesmo selo, deitado (render.mjs marca float--wide), para a foto não ser cortada */
-.float--wide .float__img { aspect-ratio: 1034 / 837; -webkit-mask-image: url("brand/stamp-frame-wide.svg"); mask-image: url("brand/stamp-frame-wide.svg"); }
+/* cada foto vai na moldura da proporção dela (render.mjs escolhe float--f-*; molduras geradas por
+   tools/stamp-frames.mjs com o mesmo picote), para a foto aparecer inteira */
+.float--f-wide .float__img { aspect-ratio: 1034 / 837; -webkit-mask-image: url("brand/stamp-frame-wide.svg"); mask-image: url("brand/stamp-frame-wide.svg"); }
+.float--f-3x2 .float__img { aspect-ratio: 3 / 2; -webkit-mask-image: url("brand/stamp-frame-3x2.svg"); mask-image: url("brand/stamp-frame-3x2.svg"); }
+.float--f-16x9 .float__img { aspect-ratio: 16 / 9; -webkit-mask-image: url("brand/stamp-frame-16x9.svg"); mask-image: url("brand/stamp-frame-16x9.svg"); }
+.float--f-9x16 .float__img { aspect-ratio: 9 / 16; -webkit-mask-image: url("brand/stamp-frame-9x16.svg"); mask-image: url("brand/stamp-frame-9x16.svg"); }
 .float--1 { --r0: -7deg; top: 8%; right: calc(50% + 350px); }
 .float--2 { --r0: 5deg; bottom: 7%; right: calc(50% + 370px); width: clamp(130px, 13vw, 210px); }
 .float--3 { --r0: 6deg; top: 6%; left: calc(50% + 360px); width: clamp(130px, 13vw, 210px); }
 .float--4 { --r0: -4deg; bottom: 8%; left: calc(50% + 350px); }
+.float--f-9x16 { width: clamp(110px, 10vw, 160px); }
 @media (max-width: 1100px) { .float { width: 120px; } .float--2, .float--3 { width: 96px; } }
 @media (max-width: 760px) {
   .statement { padding-block: 186px; }
-  .float { width: 92px; } .float--wide { width: 128px; } .float--2, .float--3 { display: none; }
+  .float { width: 92px; } .float--wide { width: 128px; } .float--f-16x9 { width: 140px; } .float--2, .float--3 { display: none; }
   .float--1 { top: 34px; left: 16px; right: auto; } .float--4 { bottom: 34px; right: 16px; left: auto; }
 }
 .statement__kicker { font: 400 clamp(1.5rem, 2.6vw, 2.2rem)/1.2 var(--f-em); color: var(--yellow); }
@@ -602,6 +615,8 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .pass__frame img { width: 100%; transition: scale .9s var(--ease); }
 .pass__img:hover .pass__frame img { scale: 1.05; }
 .pass__img:nth-child(2) { width: 72%; justify-self: end; margin-top: -16%; position: relative; z-index: 1; }
+/* foto de cima em pé (ex.: Noniná sobre o folheto): mais estreita, para não esconder a de baixo */
+.pass__img--tall:nth-child(2) { width: 46%; }
 .pass__img:nth-child(2) .pass__frame { outline: 8px solid var(--bg); rotate: 2.5deg; transition: rotate .6s var(--ease); }
 .pass__img:nth-child(2):hover .pass__frame { rotate: -1deg; }
 @media (max-width: 860px) {
@@ -637,7 +652,7 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
   transition: border-color .25s, padding .25s;
 }
 .field select { appearance: none; background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%235D48AF' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 4px center; padding-right: 32px; }
-.field textarea { resize: vertical; min-height: 110px; }
+.field textarea { resize: none; min-height: 110px; field-sizing: content; }
 .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-bottom-color: var(--coral); border-bottom-width: 2.5px; }
 .field [aria-invalid="true"] { border-bottom-color: var(--coral); border-bottom-width: 2.5px; }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
@@ -667,6 +682,11 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .project__about h3, .project__about h4, .pm--text h3, .pm--text h4 { font: 500 1.35rem/1.3 var(--f-head); color: var(--purple); }
 .project__about strong, .pm--text strong { color: var(--purple); font-weight: 600; }
 .project__about a, .pm--text a { color: var(--purple); }
+/* rótulos e listas de palavras dos textos antigos (render.mjs, structureRich): subtítulo + etiquetas */
+.pm--text h3:not(:first-child) { margin-top: 14px; }
+.pm-tags { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; }
+.pm-tags li { display: inline-flex; align-items: center; gap: 10px; padding: 10px 18px; border: 1.5px solid var(--purple); border-radius: 999px; font: 500 1.05rem/1 var(--f-head); color: var(--purple); }
+.pm-tags li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--coral); }
 .project__body { display: grid; gap: clamp(14px, 1.6vw, 24px); padding-bottom: var(--section); }
 .pm { margin: 0; }
 .pm--image { border-radius: var(--radius); overflow: hidden; }
@@ -689,7 +709,8 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .pnav__item:hover .pnav__img img { scale: 1.06; transition: scale .9s var(--ease); }
 .pnav__label { font: 500 0.75rem/1.5 var(--f-sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--coral); }
 .pnav__name { font: 500 clamp(1.5rem, 2.8vw, 2.3rem)/1.1 var(--f-head); letter-spacing: -0.02em; }
-@media (max-width: 560px) { .pnav { grid-template-columns: 1fr; } .pnav__item--next { text-align: left; } }
+/* no celular, um embaixo do outro, com folga e um traço entre os dois para não grudar um no outro */
+@media (max-width: 560px) { .pnav { grid-template-columns: 1fr; gap: 0; } .pnav__item--next { text-align: left; margin-top: 28px; padding-top: 28px; border-top: 1.5px dashed var(--lilac); } }
 
 /* ───────── telas menores: nada por cima do texto ───────── */
 @media (max-width: 1000px) {
@@ -728,5 +749,6 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .guide__stamps img:nth-child(2) { width: 44%; left: 24%; top: 22%; rotate: 8deg; transition-delay: .65s; }
 .guide__stamps img:nth-child(3) { width: 44%; left: 55%; top: 0; rotate: -6deg; transition-delay: 1.1s; }
 .js .guide__stamps.is-in img { opacity: 1; scale: 1; }
-/* no celular os carimbos vêm depois do texto, não entre o título e o texto */
-@media (max-width: 860px) { .guide__left { display: contents; } .guide__stamps { order: 1; width: min(100%, 400px); } }
+/* no celular os carimbos vêm depois do texto, não entre o título e o texto; o pé do cartão desconta o
+   respiro que já sobra dentro do grupo de carimbos, para o espaço embaixo ficar igual ao de cima */
+@media (max-width: 860px) { .guide__left { display: contents; } .guide__stamps { order: 1; width: min(100%, 400px); } .guide { padding-bottom: calc(var(--section) * 0.8); } }
