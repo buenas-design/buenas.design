@@ -43,9 +43,10 @@
       let i = 0;
       texts.forEach((node) => {
         const frag = document.createDocumentFragment();
-        node.textContent.split(/(\s+)/).forEach((part) => {
+        // split on ordinary spaces only: a no-break space (the last two words that fmt() keeps together) stays inside the word
+        node.textContent.split(/([ \t\n\r]+)/).forEach((part) => {
           if (!part) return;
-          if (/^\s+$/.test(part)) return frag.append(part);
+          if (/^[ \t\n\r]+$/.test(part)) return frag.append(part);
           const mask = document.createElement('span');
           mask.className = 'w';
           const word = document.createElement('span');

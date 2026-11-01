@@ -258,6 +258,11 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .route__plane { fill: currentColor; opacity: 0; transition: opacity .3s; }
 .tone-purple .route { color: var(--yellow); }
 .route--band { color: var(--blush); }
+/* em telas menores o avião fica maior que o desenho da rota (app.js): ela sobe um pouco para ele não
+   encostar na foto de baixo (no notebook pequeno o texto está perto, então sobe menos) */
+@media (max-width: 1279px) { .route--hero { bottom: 20px; } }
+@media (max-width: 1000px) { .route--hero { bottom: 36px; } }
+@media (max-width: 760px) { .route--hero { bottom: 46px; } }
 
 /* selo circular: o texto gira devagar; no centro, uma ilustração da Buenas redesenhada em linha
    fina (bússola, mala, globo, lâmpada; inspiradas em "Buenas Studio/outros/Icons Buenas…ai"), em pé */
@@ -287,6 +292,11 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 
 /* ───────── topo (home e páginas) ───────── */
 .hero { position: relative; overflow: hidden; padding: calc(var(--hdr) + clamp(56px, 9vw, 130px)) 0 clamp(96px, 11vw, 160px); }
+/* em telas menores o pé do topo reserva a altura da rota + avião (que sobem, ver .route--hero), para
+   ela nunca passar por cima do texto ou do selo */
+@media (max-width: 1279px) { .hero { padding-bottom: max(clamp(96px, 11vw, 160px), calc(8.5vw + 56px)); } }
+@media (max-width: 1000px) { .hero { padding-bottom: calc(8.5vw + 74px); } }
+@media (max-width: 760px) { .hero { padding-bottom: calc(8.5vw + 82px); } }
 .hero__in { position: relative; z-index: 1; display: grid; justify-items: center; gap: 26px; text-align: center; max-width: 1080px; }
 .hero .lead { max-width: 700px; }
 .hero .actions { margin-top: 16px; }
@@ -294,6 +304,8 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .hero--page .hero__in { justify-items: start; text-align: left; margin-left: max(var(--gutter), calc(50% - var(--maxw) / 2 + var(--gutter))); margin-right: auto; padding-inline: 0 var(--gutter); }
 .hero--page .split { padding-inline: var(--gutter); }
 .hero--page .hero__badge { top: calc(50% + var(--hdr) / 2 - 40px); bottom: auto; translate: 0 -50%; right: max(var(--gutter), calc(50% - 620px)); width: clamp(150px, 15vw, 210px); }
+/* logo acima de 1000px o selo ainda fica ao lado do texto: o texto deixa a largura dele livre */
+@media (min-width: 1001px) and (max-width: 1099px) { .hero--page .hero__in { padding-right: calc(var(--gutter) + clamp(150px, 15vw, 210px) + 40px); } }
 @media (max-width: 700px) {
   .hero__badge { width: 92px; top: calc(var(--hdr) + 4px); right: 12px; }
   .hero:not(.hero--page) .hero__badge { display: none; }
@@ -487,23 +499,24 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .statement__in { display: grid; gap: 24px; justify-items: center; text-align: center; max-width: 660px; position: relative; z-index: 1; }
 .floats { position: absolute; inset: 0; pointer-events: none; }
 .float { position: absolute; width: clamp(150px, 17vw, 270px); translate: var(--fx, 0px) var(--fy, 0px); rotate: calc(var(--r0, 0deg) + var(--fr, 0deg)); will-change: translate, rotate; }
-/* cada imagem vira um selo postal: a moldura serrilhada é o "Vector.svg" da Julia (Buenas Studio/outros),
-   na proporção dela (837×1034), então nunca distorce; a foto preenche o miolo */
-.float__img { aspect-ratio: 837 / 1034; padding: 9%; background: url("brand/stamp-frame.svg") center / 100% 100% no-repeat; }
+/* cada imagem vira um selo postal: a foto é recortada no formato serrilhado do "Vector.svg" da Julia
+   (Buenas Studio/outros), na proporção dele (837×1034), então nunca distorce. Sem borda clara em volta
+   (ela pediu para tirar): o picote fica na própria foto */
+.float__img { aspect-ratio: 837 / 1034; -webkit-mask: url("brand/stamp-frame.svg") center / 100% 100% no-repeat; mask: url("brand/stamp-frame.svg") center / 100% 100% no-repeat; }
 .js .float__img[data-reveal="img"] { clip-path: inset(100% 0 0 0); }
 .js .float__img[data-reveal="img"].is-in { clip-path: inset(0); }
-.float__img img { width: 100%; height: 100%; object-fit: cover; border-radius: 3px; }
+.float__img img { width: 100%; height: 100%; object-fit: cover; }
 /* foto horizontal: o mesmo selo, deitado (render.mjs marca float--wide), para a foto não ser cortada */
-.float--wide .float__img { aspect-ratio: 1034 / 837; padding: 7.3%; background-image: url("brand/stamp-frame-wide.svg"); }
+.float--wide .float__img { aspect-ratio: 1034 / 837; -webkit-mask-image: url("brand/stamp-frame-wide.svg"); mask-image: url("brand/stamp-frame-wide.svg"); }
 .float--1 { --r0: -7deg; top: 8%; right: calc(50% + 350px); }
 .float--2 { --r0: 5deg; bottom: 7%; right: calc(50% + 370px); width: clamp(130px, 13vw, 210px); }
 .float--3 { --r0: 6deg; top: 6%; left: calc(50% + 360px); width: clamp(130px, 13vw, 210px); }
 .float--4 { --r0: -4deg; bottom: 8%; left: calc(50% + 350px); }
 @media (max-width: 1100px) { .float { width: 120px; } .float--2, .float--3 { width: 96px; } }
 @media (max-width: 760px) {
-  .statement { padding-block: 150px; }
+  .statement { padding-block: 186px; }
   .float { width: 92px; } .float--wide { width: 128px; } .float--2, .float--3 { display: none; }
-  .float--1 { top: 36px; left: 16px; right: auto; } .float--4 { bottom: 36px; right: 16px; left: auto; }
+  .float--1 { top: 34px; left: 16px; right: auto; } .float--4 { bottom: 34px; right: 16px; left: auto; }
 }
 .statement__kicker { font: 400 clamp(1.5rem, 2.6vw, 2.2rem)/1.2 var(--f-em); color: var(--yellow); }
 .statement .lead { max-width: 760px; }
@@ -683,7 +696,7 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
   /* o selo do topo das páginas desce para depois do texto, à direita, em vez de flutuar sobre ele */
   .hero:has(.hero__badge) { display: flex; flex-direction: column; }
   .hero .hero__in { order: 1; }
-  .hero .hero__badge, .hero--page .hero__badge { position: relative; order: 2; top: auto; bottom: auto; right: auto; align-self: flex-end; width: clamp(96px, 16vw, 130px); margin: 28px var(--gutter) 0 0; }
+  .hero .hero__badge, .hero--page .hero__badge { position: relative; order: 2; top: auto; bottom: auto; right: auto; translate: none; align-self: flex-end; width: clamp(96px, 16vw, 130px); margin: 28px var(--gutter) 0 0; }
 }
 @media (max-width: 760px) {
   /* frase + botão (About, antes do portfólio): um embaixo do outro */
