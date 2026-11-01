@@ -142,16 +142,15 @@
      data-drift     the destinations ticker slides sideways (--px)
      data-route     a dotted route draws itself and the plane flies along it
      data-progress  the itinerary line fills in as you go down
-     --sy           page scroll, used by the round badges to turn */
+     data-float     project pictures in the purple bands drift up/down, sideways and tilt */
   const drifting = $$('[data-speed]');
   const sliding = $$('[data-drift]');
+  const floating = $$('[data-float]');
   const progress = $$('[data-progress]');
   const routes = $$('[data-route]').map((svg) => {
     const path = $('.route__path', svg);
     return { svg, path, mask: $('.route__mask', svg), plane: $('.route__plane', svg), len: path.getTotalLength() };
   });
-  // 0 when the element's top reaches the bottom of the screen, 1 when its bottom reaches the middle
-  const passed = (r, vh) => Math.min(Math.max((vh - r.top) / (r.height + vh * 0.5), 0), 1);
   const visible = (r) => r.bottom > -200 && r.top < window.innerHeight + 200;
 
   if (reduceMotion) {
@@ -160,13 +159,12 @@
       plane.style.display = 'none';
     });
     progress.forEach((el) => el.style.setProperty('--p', '1'));
-  } else if (drifting.length || sliding.length || routes.length || progress.length || $('.badge')) {
+  } else if (drifting.length || sliding.length || routes.length || progress.length || floating.length) {
     let queued = false;
     const update = () => {
       queued = false;
       const vh = window.innerHeight;
       const mid = vh / 2;
-      document.documentElement.style.setProperty('--sy', String(Math.round(window.scrollY)));
       for (const el of drifting) {
         // measure the section, not the picture, so its own movement doesn't feed back
         const host = el.closest('section') || el.parentElement;
@@ -183,7 +181,8 @@
       for (const rt of routes) {
         const r = rt.svg.getBoundingClientRect();
         if (!visible(r)) continue;
-        const p = Math.min(passed(r, vh) * 1.15, 1);
+        // 0 when the route enters the screen, 1 when it leaves; the plane stops just before the end
+        const p = Math.min(Math.max((vh - r.top) / (vh + r.height), 0), 0.97);
         rt.mask.style.strokeDashoffset = String(1 - p);
         const at = rt.path.getPointAtLength(p * rt.len);
         const ahead = rt.path.getPointAtLength(Math.min(p * rt.len + 2, rt.len));
@@ -191,6 +190,16 @@
         const angle = (Math.atan2(ahead.y - back.y, ahead.x - back.x) * 180) / Math.PI;
         rt.plane.setAttribute('transform', `translate(${at.x.toFixed(1)} ${at.y.toFixed(1)}) rotate(${angle.toFixed(1)}) scale(1.6)`);
         rt.plane.style.opacity = p > 0.02 ? '1' : '0';
+      }
+      for (const el of floating) {
+        const r = el.closest('section').getBoundingClientRect();
+        if (!visible(r)) continue;
+        const k = (r.top + r.height / 2 - mid) / vh; // about -1 … 1 while the band crosses the screen
+        const side = Number(el.dataset.side);
+        // up/down at its own speed, outwards (away from the text) as the band enters and leaves, and a tilt
+        el.style.setProperty('--fy', `${(-k * vh * Number(el.dataset.float) * 2).toFixed(1)}px`);
+        el.style.setProperty('--fx', `${(Math.abs(k) * 220 * side).toFixed(1)}px`);
+        el.style.setProperty('--fr', `${(k * 28 * side).toFixed(2)}deg`);
       }
       for (const el of progress) {
         const r = el.getBoundingClientRect();
