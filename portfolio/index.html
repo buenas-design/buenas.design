@@ -4,9 +4,6 @@
 <meta charset="utf-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<!--
-  Partes comuns a todas as páginas. Os TEXTOS ficam em content/site.yml — edite lá.
--->
 <title>Portfolio - Buenas Design Studio</title>
 <meta name="description" content="We are your guide through the journey of building or revamping your brand. Pack your bags and let&#39;s go!">
 <meta property="og:type" content="website">
@@ -24,15 +21,9 @@
 <link rel="icon" href="../assets/brand/favicon-32.png" sizes="32x32">
 <link rel="icon" href="../assets/brand/favicon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
-<!-- Tipos (pedido da Julia, 01/11/2026): Florentia nos títulos, Neue Haas Grotesk no texto, Qonqueror na ênfase.
-     Florentia e Qonqueror vêm de assets/fonts/ (versões trial/demo: trocar pelas licenças webfont antes de ir ao ar).
-     Neue Haas Grotesk: crie um "Web Project" no Adobe Fonts com a família "Neue Haas Grotesk Text" e cole o <link> do kit aqui:
-     <link rel="stylesheet" href="https://use.typekit.net/SEU-KIT.css">
-     Enquanto isso, entra a Helvetica Neue (que nasceu da Neue Haas Grotesk) ou a Arial. -->
 <link rel="preload" href="../assets/fonts/florentia-medium.woff" as="font" type="font/woff" crossorigin>
 <link rel="preload" href="../assets/fonts/qonqueror.woff" as="font" type="font/woff" crossorigin>
-<link rel="stylesheet" href="../assets/styles.css?v=375f7f35">
-<!-- avisa o CSS que há JavaScript, para esconder o que vai aparecer ao rolar (sem JS, tudo fica visível) -->
+<link rel="stylesheet" href="../assets/styles.css?v=17c097f1">
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body class="page-portfolio">
@@ -40,12 +31,12 @@
 <header class="hdr" id="hdr">
   <div class="wrap hdr__in">
     <a class="logo" href="../"><img src="../assets/brand/logo-coral.webp" alt="Buenas" width="770" height="232"></a>
-    <nav class="nav" id="nav" aria-label="Main">
+    <nav class="nav" id="nav" aria-label="Main menu">
       <a href="../about-us/">About us</a>
       <a href="../services/">Services</a>
       <a href="../portfolio/" aria-current="page">Portfolio</a>
       <a href="../contact-us/">Contact us</a>
-      <span class="lang" aria-label="Language / Idioma">
+      <span class="lang" role="group" aria-label="Language">
         <a class="lang__on" aria-current="true" href="../portfolio/" lang="en" hreflang="en">EN</a><a href="../br/portfolio/" lang="pt-BR" hreflang="pt-BR">BR</a>
       </span>
     </nav>

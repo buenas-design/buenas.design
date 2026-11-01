@@ -2,13 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<!-- 404: o GitHub serve esta página em qualquer endereço, então os links partem da raiz do site:
-     "/" no domínio próprio, "/<repositório>/" na prévia em usuario.github.io/<repositório>/ -->
 <script>(function () { var s = location.pathname.split('/')[1]; document.write('<base href="' + (/\.github\.io$/.test(location.hostname) && s ? '/' + s + '/' : '/') + '">'); })();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<!--
-  Partes comuns a todas as páginas. Os TEXTOS ficam em content/site.yml — edite lá.
--->
 <title>Page not found - Buenas Design Studio</title>
 <meta name="description" content="We are your guide through the journey of building or revamping your brand. Pack your bags and let&#39;s go!">
 <meta property="og:type" content="website">
@@ -23,15 +18,9 @@
 <link rel="icon" href="assets/brand/favicon-32.png" sizes="32x32">
 <link rel="icon" href="assets/brand/favicon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
-<!-- Tipos (pedido da Julia, 01/11/2026): Florentia nos títulos, Neue Haas Grotesk no texto, Qonqueror na ênfase.
-     Florentia e Qonqueror vêm de assets/fonts/ (versões trial/demo: trocar pelas licenças webfont antes de ir ao ar).
-     Neue Haas Grotesk: crie um "Web Project" no Adobe Fonts com a família "Neue Haas Grotesk Text" e cole o <link> do kit aqui:
-     <link rel="stylesheet" href="https://use.typekit.net/SEU-KIT.css">
-     Enquanto isso, entra a Helvetica Neue (que nasceu da Neue Haas Grotesk) ou a Arial. -->
 <link rel="preload" href="assets/fonts/florentia-medium.woff" as="font" type="font/woff" crossorigin>
 <link rel="preload" href="assets/fonts/qonqueror.woff" as="font" type="font/woff" crossorigin>
-<link rel="stylesheet" href="assets/styles.css?v=375f7f35">
-<!-- avisa o CSS que há JavaScript, para esconder o que vai aparecer ao rolar (sem JS, tudo fica visível) -->
+<link rel="stylesheet" href="assets/styles.css?v=17c097f1">
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body class="page-404">
@@ -39,12 +28,12 @@
 <header class="hdr" id="hdr">
   <div class="wrap hdr__in">
     <a class="logo" href="./"><img src="assets/brand/logo-coral.webp" alt="Buenas" width="770" height="232"></a>
-    <nav class="nav" id="nav" aria-label="Main">
+    <nav class="nav" id="nav" aria-label="Main menu">
       <a href="about-us/">About us</a>
       <a href="services/">Services</a>
       <a href="portfolio/">Portfolio</a>
       <a href="contact-us/">Contact us</a>
-      <span class="lang" aria-label="Language / Idioma">
+      <span class="lang" role="group" aria-label="Language">
         <a class="lang__on" aria-current="true" href="./" lang="en" hreflang="en">EN</a><a href="br/" lang="pt-BR" hreflang="pt-BR">BR</a>
       </span>
     </nav>
@@ -53,7 +42,6 @@
 </header>
 <main id="main">
   <section class="hero tone-lilac hero--404">
-    <!-- rota pontilhada que se desenha ao rolar, com o avião percorrendo o caminho (app.js, data-route) -->
     <svg class="route route--hero" viewBox="0 0 1440 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false" data-route>
       <defs><mask id="route-hero-mask" maskUnits="userSpaceOnUse"><path class="route__mask" pathLength="1" d="M-40 330C200 420 380 330 560 372S900 430 1100 360 1360 300 1480 250"/></mask></defs>
       <path class="route__path" mask="url(#route-hero-mask)" d="M-40 330C200 420 380 330 560 372S900 430 1100 360 1360 300 1480 250"/>

@@ -6,8 +6,6 @@
    avião percorrendo a rota, selo circular, cartão de embarque, painel de aeroporto.
    ───────────────────────────────────────────────────────────────────── */
 
-/* Florentia (Zetafonts) e Qonqueror: arquivos trial/demo. Antes de publicar,
-   trocar pelos arquivos da licença webfont (a trial não permite uso comercial). */
 @font-face { font-family: "Florentia"; src: url("fonts/florentia-light.woff2") format("woff2"); font-weight: 300; font-style: normal; font-display: swap; }
 @font-face { font-family: "Florentia"; src: url("fonts/florentia-regular.woff") format("woff"); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: "Florentia"; src: url("fonts/florentia-medium.woff") format("woff"); font-weight: 500; font-style: normal; font-display: swap; }
@@ -396,7 +394,7 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .quotes { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
 .quotes__track, .quotes__copy { display: flex; align-items: flex-start; gap: clamp(16px, 2vw, 28px); }
 .quotes__track { width: max-content; padding-block: 8px; animation: quotes 60s linear infinite; }
-.quotes:hover .quotes__track { animation-play-state: paused; }
+.quotes:hover .quotes__track, .quotes:focus-within .quotes__track { animation-play-state: paused; }
 @keyframes quotes { to { transform: translateX(calc(-50% - clamp(8px, 1vw, 14px))); } }
 .quote { flex: none; width: clamp(290px, 30vw, 420px); margin: 0; display: grid; gap: 22px; padding: clamp(26px, 3vw, 38px); background: var(--card); border-radius: var(--radius); transition: transform .5s var(--ease); }
 .quote:nth-child(even) { margin-top: 36px; }
@@ -414,7 +412,7 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .logos__track { display: flex; align-items: center; gap: clamp(36px, 5vw, 80px); width: max-content; animation: logos 45s linear infinite; }
 .logos__track img { height: clamp(40px, 4.6vw, 60px); width: auto; filter: grayscale(1); opacity: .75; transition: filter .3s, opacity .3s; }
 .logos__track img:hover { filter: none; opacity: 1; }
-.logos:hover .logos__track { animation-play-state: paused; }
+.logos:hover .logos__track, .logos:focus-within .logos__track { animation-play-state: paused; }
 .logos--cards { margin-top: clamp(36px, 4vw, 56px); }
 .logos--cards .logos__track { gap: 20px; animation-duration: 55s; }
 .logos--cards .logos__track img { height: clamp(90px, 10vw, 130px); border-radius: 16px; filter: none; opacity: 1; }

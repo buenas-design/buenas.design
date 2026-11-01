@@ -4,9 +4,6 @@
 <meta charset="utf-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<!--
-  Partes comuns a todas as páginas. Os TEXTOS ficam em content/site.yml — edite lá.
--->
 <title>Sobre – Buenas Design Studio</title>
 <meta name="description" content="Seremos seu guia na jornada de construção ou redesign da sua marca, criando designs valiosos, com significado e essência. Faça as malas e vamos!">
 <meta property="og:type" content="website">
@@ -24,15 +21,9 @@
 <link rel="icon" href="../../assets/brand/favicon-32.png" sizes="32x32">
 <link rel="icon" href="../../assets/brand/favicon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="../../assets/brand/apple-touch-icon.png">
-<!-- Tipos (pedido da Julia, 01/11/2026): Florentia nos títulos, Neue Haas Grotesk no texto, Qonqueror na ênfase.
-     Florentia e Qonqueror vêm de assets/fonts/ (versões trial/demo: trocar pelas licenças webfont antes de ir ao ar).
-     Neue Haas Grotesk: crie um "Web Project" no Adobe Fonts com a família "Neue Haas Grotesk Text" e cole o <link> do kit aqui:
-     <link rel="stylesheet" href="https://use.typekit.net/SEU-KIT.css">
-     Enquanto isso, entra a Helvetica Neue (que nasceu da Neue Haas Grotesk) ou a Arial. -->
 <link rel="preload" href="../../assets/fonts/florentia-medium.woff" as="font" type="font/woff" crossorigin>
 <link rel="preload" href="../../assets/fonts/qonqueror.woff" as="font" type="font/woff" crossorigin>
-<link rel="stylesheet" href="../../assets/styles.css?v=375f7f35">
-<!-- avisa o CSS que há JavaScript, para esconder o que vai aparecer ao rolar (sem JS, tudo fica visível) -->
+<link rel="stylesheet" href="../../assets/styles.css?v=17c097f1">
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body class="page-about">
@@ -40,12 +31,12 @@
 <header class="hdr" id="hdr">
   <div class="wrap hdr__in">
     <a class="logo" href="../../br/"><img src="../../assets/brand/logo-coral.webp" alt="Buenas" width="770" height="232"></a>
-    <nav class="nav" id="nav" aria-label="Main">
+    <nav class="nav" id="nav" aria-label="Menu principal">
       <a href="../../br/sobre/" aria-current="page">Sobre</a>
       <a href="../../br/servicos/">Serviços</a>
       <a href="../../br/portfolio/">Portfolio</a>
       <a href="../../br/contato/">Orçamento</a>
-      <span class="lang" aria-label="Language / Idioma">
+      <span class="lang" role="group" aria-label="Idioma">
         <a href="../../about-us/" lang="en" hreflang="en">EN</a><a class="lang__on" aria-current="true" href="../../br/sobre/" lang="pt-BR" hreflang="pt-BR">BR</a>
       </span>
     </nav>
@@ -55,18 +46,16 @@
 <main id="main">
 
   <section class="hero hero--page tone-blush">
-    <!-- rota pontilhada que se desenha ao rolar, com o avião percorrendo o caminho (app.js, data-route) -->
     <svg class="route route--hero" viewBox="0 0 1440 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false" data-route>
       <defs><mask id="route-hero-mask" maskUnits="userSpaceOnUse"><path class="route__mask" pathLength="1" d="M-40 330C200 420 380 330 560 372S900 430 1100 360 1360 300 1480 250"/></mask></defs>
       <path class="route__path" mask="url(#route-hero-mask)" d="M-40 330C200 420 380 330 560 372S900 430 1100 360 1360 300 1480 250"/>
       <circle class="route__stop" cx="560" cy="372" r="5"/><circle class="route__stop" cx="1100" cy="360" r="5"/>
       <g class="route__plane"><path d="M22 12c0-.8-.7-1.4-1.5-1.4H15L10 3H8l2.5 7.6H5.2L3.4 8H2l1 4-1 4h1.4l1.8-2.6h5.3L8 21h2l5-7.6h5.5c.8 0 1.5-.6 1.5-1.4z" transform="translate(-12 -12)"/></g>
     </svg>
-    <div class="hero__badge"><!-- selo com globo (meridianos): badges.destinations -->
-                             <svg class="badge badge--globe" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
-                               <defs><path id="badge-ring-c" d="M100 100m-80 0a80 80 0 1 1 160 0a80 80 0 1 1-160 0"/></defs>
+    <div class="hero__badge"><svg class="badge badge--globe" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+                               <defs><path id="badge-ring-c1" d="M100 100m-80 0a80 80 0 1 1 160 0a80 80 0 1 1-160 0"/></defs>
                                <circle cx="100" cy="100" r="97" class="badge__line badge__line--dots"/>
-                               <g class="badge__ring"><text><textPath href="#badge-ring-c" textLength="500" lengthAdjust="spacing">DESIGN DE MARCAS · NAMING · SOCIAL MEDIA · </textPath></text></g>
+                               <g class="badge__ring"><text><textPath href="#badge-ring-c1" textLength="500" lengthAdjust="spacing">DESIGN DE MARCAS · NAMING · SOCIAL MEDIA · </textPath></text></g>
                                <g class="badge__icon badge__globe">
                                  <circle cx="100" cy="100" r="44"/>
                                  <ellipse cx="100" cy="100" rx="20" ry="44"/>
@@ -110,12 +99,11 @@
       </div>
       <div class="split__media">
         <div class="portrait" data-reveal="img"><img src="../../assets/img/br-about-julia.webp" alt="Julia Sonda" width="1081" height="1081" loading="lazy"></div>
-        <div class="split__badge"><!-- selo preenchido (amarelo) com avião: badges.travel -->
-                                  <svg class="badge badge--plane" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
-                                    <defs><path id="badge-ring-b" d="M100 100m-78 0a78 78 0 1 1 156 0a78 78 0 1 1-156 0"/></defs>
+        <div class="split__badge"><svg class="badge badge--plane" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+                                    <defs><path id="badge-ring-b2" d="M100 100m-78 0a78 78 0 1 1 156 0a78 78 0 1 1-156 0"/></defs>
                                     <circle cx="100" cy="100" r="99" class="badge__disc"/>
                                     <circle cx="100" cy="100" r="58" class="badge__line"/>
-                                    <g class="badge__ring"><text><textPath href="#badge-ring-b" textLength="490" lengthAdjust="spacing">FAÇA AS MALAS · VAMOS JUNTAS · </textPath></text></g>
+                                    <g class="badge__ring"><text><textPath href="#badge-ring-b2" textLength="490" lengthAdjust="spacing">FAÇA AS MALAS · VAMOS JUNTAS · </textPath></text></g>
                                     <g class="badge__icon" transform="translate(100 100) rotate(-35) scale(2.6)"><path d="M22 12c0-.8-.7-1.4-1.5-1.4H15L10 3H8l2.5 7.6H5.2L3.4 8H2l1 4-1 4h1.4l1.8-2.6h5.3L8 21h2l5-7.6h5.5c.8 0 1.5-.6 1.5-1.4z" transform="translate(-12 -12)"/></g>
                                   </svg>
 </div>
@@ -188,7 +176,7 @@
     <div class="wrap">
       <h2 class="title title--center" data-reveal>Algumas das marcas que já <em>viajaram conosco</em></h2>
     </div>
-    <div class="logos logos--cards" aria-label="Clients">
+    <div class="logos logos--cards" role="region" aria-label="Clientes" tabindex="0">
       <div class="logos__track">
         <img src="../../assets/clients/br-about-01.webp" alt="" loading="lazy"><img src="../../assets/clients/br-about-02.webp" alt="" loading="lazy"><img src="../../assets/clients/br-about-03.webp" alt="" loading="lazy"><img src="../../assets/clients/br-about-04.webp" alt="" loading="lazy"><img src="../../assets/clients/br-about-05.webp" alt="" loading="lazy"><img src="../../assets/clients/br-about-06.webp" alt="" loading="lazy"><img src="../../assets/clients/br-about-07.webp" alt="" loading="lazy"><img src="../../assets/clients/br-about-08.webp" alt="" loading="lazy">
         <img src="../../assets/clients/br-about-01.webp" alt="" aria-hidden="true" loading="lazy"><img src="../../assets/clients/br-about-02.webp" alt="" aria-hidden="true" loading="lazy"><img src="../../assets/clients/br-about-03.webp" alt="" aria-hidden="true" loading="lazy"><img src="../../assets/clients/br-about-04.webp" alt="" aria-hidden="true" loading="lazy"><img src="../../assets/clients/br-about-05.webp" alt="" aria-hidden="true" loading="lazy"><img src="../../assets/clients/br-about-06.webp" alt="" aria-hidden="true" loading="lazy"><img src="../../assets/clients/br-about-07.webp" alt="" aria-hidden="true" loading="lazy"><img src="../../assets/clients/br-about-08.webp" alt="" aria-hidden="true" loading="lazy">
