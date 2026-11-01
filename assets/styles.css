@@ -60,6 +60,9 @@ body, .tone-blush { --bg: var(--blush); --fg: var(--gray); --head: var(--purple)
 
 /* ───────── base ───────── */
 *, *::before, *::after { box-sizing: border-box; }
+/* o que está marcado hidden fica escondido, mesmo com display: grid/flex no próprio estilo (o quadro de
+   "enviado" do formulário e o feed do Instagram apareciam por causa disso) */
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; scroll-padding-top: calc(var(--hdr) + 12px); -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
@@ -763,7 +766,6 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .form__status a { color: inherit; }
 /* enviado (pedido da Julia, 01/11/2026): o quadro inteiro fica roxo-escuro (cores do tom roxo) e um avião
    cruza a rota pontilhada antes do recado */
-#form-fields[hidden] { display: none; }
 .form { transition: background-color .6s var(--ease); }
 .form.is-sent { background: var(--purple); }
 .form__done { display: grid; gap: 16px; justify-items: start; align-content: center; min-height: 340px; padding: 8px 0; }
