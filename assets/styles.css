@@ -633,9 +633,11 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .tk__stamp { display: none; }
 .tk__text { grid-area: text; display: grid; gap: 20px; align-content: start; padding: var(--box-pad); background: var(--tk-bg); color: var(--fg); border-radius: var(--radius) 0 0 var(--radius); }
 .tk__text .kicker { margin: 0; }
-.tk__label { justify-self: start; margin-top: 4px; font: 500 0.78rem/1.4 var(--f-sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--kick); }
-.tk__list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 24px; }
-.tk__list li { display: grid; grid-template-columns: 16px 1fr; gap: 10px; align-items: baseline; font-size: 0.98rem; line-height: 1.45; }
+/* margem de cima: um respiro entre a descrição e o que inclui */
+.tk__label { justify-self: start; margin-top: 18px; font: 500 0.78rem/1.4 var(--f-sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--kick); }
+/* a lista corre de cima para baixo, coluna por coluna, com o mesmo espaço entre todos os itens */
+.tk__list { list-style: none; columns: 2; column-gap: 24px; }
+.tk__list li { display: grid; grid-template-columns: 16px 1fr; gap: 10px; align-items: baseline; margin-bottom: 10px; font-size: 0.98rem; line-height: 1.45; break-inside: avoid; }
 .tk__list li::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--tk-dot); translate: 0 -2px; }
 /* o canhoto: picote pontilhado e os dois recortes meia-lua na emenda com o resto do cartão */
 .tk__stub {
@@ -655,7 +657,7 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .tk__stub:focus-visible { outline: 2px solid var(--coral); outline-offset: 4px; }
 @media (max-width: 760px) {
   .boarding { --stub: 64px; }
-  .tk__list { grid-template-columns: 1fr; }
+  .tk__list { columns: 1; }
   .tk__no { display: none; }
 }
 /* celular estreito: o título do cartão (Brand Design, Social Media) cabe numa linha ao lado do canhoto */
@@ -676,8 +678,8 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
   .js .tk__text { grid-area: auto; gap: 16px; align-content: center; padding: 40px 32px 40px 48px; border-radius: 0; }
   .js .tk__text .title { font-size: clamp(2rem, 2.6vw, 2.6rem); }
   .js .tk__text > p:not([class]) { max-width: 62ch; font-size: 1rem; line-height: 1.6; }
-  .js .tk__list { grid-template-columns: repeat(3, 1fr); gap: 8px 22px; }
-  .js .tk__list li { font-size: 0.93rem; line-height: 1.4; }
+  .js .tk__list { columns: 3; column-gap: 22px; }
+  .js .tk__list li { margin-bottom: 9px; font-size: 0.93rem; line-height: 1.4; }
   /* o carimbo de passaporte, pequeno e meio torto no canto, como se tivesse sido batido no cartão (pedido da Julia) */
   .js .tk__stamp { display: block; position: absolute; top: 26px; right: 30px; width: 78px; height: auto; rotate: -10deg; opacity: .9; }
   .js .tk--yellow .tk__stamp { rotate: 8deg; }
