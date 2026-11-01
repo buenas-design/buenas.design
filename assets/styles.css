@@ -561,10 +561,10 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .pass__stub::before { content: ""; position: absolute; left: -0.75px; top: calc(var(--notch) + 8px); bottom: calc(var(--notch) + 8px); border-left: 1.5px dashed var(--purple); }
 /* o cartão inclina acompanhando o mouse (app.js, data-tilt) */
 .js .pass__card[data-tilt].is-in { transform: perspective(1200px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .6s var(--ease); }
-/* carimbo que "bate" no cartão quando ele aparece */
-.pass__stamp { position: absolute; z-index: 2; top: -38px; right: 104px; width: clamp(92px, 8vw, 120px); rotate: -14deg; opacity: 0; scale: 1.9; pointer-events: none; transition: scale .45s cubic-bezier(.3, 1.5, .5, 1), opacity .25s; transition-delay: .9s; }
+/* carimbo que "bate" no cartão quando ele aparece (sobre o canhoto, nunca sobre texto) */
+.pass__stamp { position: absolute; z-index: 2; top: -36px; right: -22px; width: clamp(88px, 7.5vw, 112px); rotate: -14deg; opacity: 0; scale: 1.9; pointer-events: none; transition: scale .45s cubic-bezier(.3, 1.5, .5, 1), opacity .25s; transition-delay: .9s; }
 .pass__card.is-in .pass__stamp { opacity: 1; scale: 1; }
-.pass:nth-of-type(odd) .pass__stamp { rotate: 9deg; right: 130px; }
+.pass:nth-of-type(odd) .pass__stamp { rotate: 9deg; }
 .pass__stub .plane { width: 24px; height: 24px; color: var(--coral); }
 .pass__head { display: grid; gap: 12px; }
 .pass__label { justify-self: start; margin-top: 4px; font: 500 0.78rem/1.4 var(--f-sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--purple); }
@@ -585,6 +585,7 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
   .pass__card { padding-right: calc(24px + 64px); }
   .pass__card::before, .pass__card::after { right: 64px; }
   .pass__stub { width: 64px; }
+  .pass__stamp { width: 64px; right: 0; top: -28px; }
 }
 
 /* roteiro (processo): uma linha pontilhada liga as paradas e vai se preenchendo ao rolar */
@@ -662,6 +663,19 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .pnav__label { font: 500 0.75rem/1.5 var(--f-sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--coral); }
 .pnav__name { font: 500 clamp(1.5rem, 2.8vw, 2.3rem)/1.1 var(--f-head); letter-spacing: -0.02em; }
 @media (max-width: 560px) { .pnav { grid-template-columns: 1fr; } .pnav__item--next { text-align: left; } }
+
+/* ───────── telas menores: nada por cima do texto ───────── */
+@media (max-width: 1000px) {
+  /* o selo do topo das páginas desce para depois do texto, à direita, em vez de flutuar sobre ele */
+  .hero:has(.hero__badge) { display: flex; flex-direction: column; }
+  .hero .hero__in { order: 1; }
+  .hero .hero__badge, .hero--page .hero__badge { position: relative; order: 2; top: auto; bottom: auto; right: auto; align-self: flex-end; width: clamp(96px, 16vw, 130px); margin: 28px var(--gutter) 0 0; }
+}
+@media (max-width: 760px) {
+  /* frase + botão (About, antes do portfólio): um embaixo do outro */
+  .head--row { grid-template-columns: 1fr; justify-items: start; }
+  .btn { max-width: 100%; text-align: center; }
+}
 
 /* ───────── menos movimento ───────── */
 @media (prefers-reduced-motion: reduce) {
