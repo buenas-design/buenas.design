@@ -818,10 +818,12 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 
 /* ───────── telas menores: nada por cima do texto ───────── */
 @media (max-width: 1000px) {
-  /* o selo do topo das páginas desce para depois do texto, à direita, em vez de flutuar sobre ele */
+  /* o selo do topo das páginas internas desce para depois do texto, à direita, em vez de flutuar sobre ele.
+     O da home fica no canto de cima, como no computador (pedido da Julia: "deixe em cima, como tava antes");
+     o título da home é centralizado e não chega até ele. No celular (até 700px) ele some. */
   .hero:has(.hero__badge) { display: flex; flex-direction: column; }
   .hero .hero__in { order: 1; }
-  .hero .hero__badge, .hero--page .hero__badge { position: relative; order: 2; top: auto; bottom: auto; right: auto; translate: none; align-self: flex-end; width: clamp(96px, 16vw, 130px); margin: 28px var(--gutter) 0 0; }
+  .hero--page .hero__badge { position: relative; order: 2; top: auto; bottom: auto; right: auto; translate: none; align-self: flex-end; width: clamp(96px, 16vw, 130px); margin: 28px var(--gutter) 0 0; }
 }
 @media (max-width: 760px) {
   /* frase + botão (About, antes do portfólio): um embaixo do outro */
