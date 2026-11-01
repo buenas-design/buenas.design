@@ -149,8 +149,10 @@
   const progress = $$('[data-progress]');
   const routes = $$('[data-route]').map((svg) => {
     const path = $('.route__path', svg);
-    return { svg, path, mask: $('.route__mask', svg), plane: $('.route__plane', svg), len: path.getTotalLength() };
+    return { svg, path, mask: $('.route__mask', svg), plane: $('.route__plane', svg), len: path.getTotalLength(), vbw: svg.viewBox.baseVal.width };
   });
+  // the route shrinks with the screen; the plane keeps at least this size (px) so it still reads on phones
+  const PLANE_MIN_PX = 34;
   const visible = (r) => r.bottom > -200 && r.top < window.innerHeight + 200;
 
   if (reduceMotion) {
@@ -188,7 +190,8 @@
         const ahead = rt.path.getPointAtLength(Math.min(p * rt.len + 2, rt.len));
         const back = rt.path.getPointAtLength(Math.max(p * rt.len - 2, 0));
         const angle = (Math.atan2(ahead.y - back.y, ahead.x - back.x) * 180) / Math.PI;
-        rt.plane.setAttribute('transform', `translate(${at.x.toFixed(1)} ${at.y.toFixed(1)}) rotate(${angle.toFixed(1)}) scale(1.6)`);
+        const scale = Math.max(1.6, PLANE_MIN_PX / (24 * (r.width / rt.vbw)));
+        rt.plane.setAttribute('transform', `translate(${at.x.toFixed(1)} ${at.y.toFixed(1)}) rotate(${angle.toFixed(1)}) scale(${scale.toFixed(2)})`);
         rt.plane.style.opacity = p > 0.02 ? '1' : '0';
       }
       for (const el of floating) {
@@ -196,10 +199,12 @@
         if (!visible(r)) continue;
         const k = (r.top + r.height / 2 - mid) / vh; // about -1 … 1 while the band crosses the screen
         const side = Number(el.dataset.side);
-        // up/down at its own speed, outwards (away from the text) as the band enters and leaves, and a tilt
-        el.style.setProperty('--fy', `${(-k * vh * Number(el.dataset.float) * 2).toFixed(1)}px`);
-        el.style.setProperty('--fx', `${(Math.abs(k) * 220 * side).toFixed(1)}px`);
-        el.style.setProperty('--fr', `${(k * 28 * side).toFixed(2)}deg`);
+        // up/down at its own speed, outwards (away from the text) as the band enters and leaves, and a tilt.
+        // On phones the stamps already sit at the panel's edges: they only bob a little, so they never get cut
+        const wide = window.innerWidth > 760;
+        el.style.setProperty('--fy', `${(-k * vh * Number(el.dataset.float) * (wide ? 2 : 0.1)).toFixed(1)}px`);
+        el.style.setProperty('--fx', `${(wide ? Math.abs(k) * 220 * side : 0).toFixed(1)}px`);
+        el.style.setProperty('--fr', `${(k * (wide ? 28 : 6) * side).toFixed(2)}deg`);
       }
       for (const el of progress) {
         const r = el.getBoundingClientRect();

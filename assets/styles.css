@@ -27,7 +27,7 @@
   --f-sans: "neue-haas-grotesk-text", "Neue Haas Grotesk Text Pro", "Neue Haas Grotesk Display Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --f-em: "Qonqueror", "Florentia", serif;
 
-  --gutter: clamp(16px, 4vw, 56px);
+  --gutter: clamp(24px, 5vw, 56px);
   --maxw: 1240px;
   --section: clamp(80px, 10vw, 144px);
   --hdr: 84px;
@@ -112,6 +112,10 @@ mark { background: linear-gradient(transparent 60%, var(--yellow) 60%); color: i
   font-weight: 400;
   letter-spacing: 0;
   font-size: 1.08em;
+  /* a primeira letra da Qonqueror avança para a esquerda: um respiro em cada linha, para não passar da margem */
+  padding-left: 0.1em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 .lead { font-size: clamp(1.1rem, 1.5vw, 1.32rem); line-height: 1.6; }
 p, li, dd, blockquote, figcaption { text-wrap: pretty; }
@@ -489,6 +493,8 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .js .float__img[data-reveal="img"] { clip-path: inset(100% 0 0 0); }
 .js .float__img[data-reveal="img"].is-in { clip-path: inset(0); }
 .float__img img { width: 100%; height: 100%; object-fit: cover; border-radius: 3px; }
+/* foto horizontal: o mesmo selo, deitado (render.mjs marca float--wide), para a foto não ser cortada */
+.float--wide .float__img { aspect-ratio: 1034 / 837; padding: 7.3%; background-image: url("brand/stamp-frame-wide.svg"); }
 .float--1 { --r0: -7deg; top: 8%; right: calc(50% + 350px); }
 .float--2 { --r0: 5deg; bottom: 7%; right: calc(50% + 370px); width: clamp(130px, 13vw, 210px); }
 .float--3 { --r0: 6deg; top: 6%; left: calc(50% + 360px); width: clamp(130px, 13vw, 210px); }
@@ -496,8 +502,8 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 @media (max-width: 1100px) { .float { width: 120px; } .float--2, .float--3 { width: 96px; } }
 @media (max-width: 760px) {
   .statement { padding-block: 150px; }
-  .float { width: 92px; } .float--2, .float--3 { display: none; }
-  .float--1 { top: 22px; left: 12px; right: auto; } .float--4 { bottom: 22px; right: 12px; left: auto; }
+  .float { width: 92px; } .float--wide { width: 128px; } .float--2, .float--3 { display: none; }
+  .float--1 { top: 36px; left: 16px; right: auto; } .float--4 { bottom: 36px; right: 16px; left: auto; }
 }
 .statement__kicker { font: 400 clamp(1.5rem, 2.6vw, 2.2rem)/1.2 var(--f-em); color: var(--yellow); }
 .statement .lead { max-width: 760px; }
@@ -572,10 +578,6 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .pass__stub::before { content: ""; position: absolute; left: -0.75px; top: calc(var(--notch) + 8px); bottom: calc(var(--notch) + 8px); border-left: 1.5px dashed var(--purple); }
 /* o cartão inclina acompanhando o mouse (app.js, data-tilt) */
 .js .pass__card[data-tilt].is-in { transform: perspective(1200px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .6s var(--ease); }
-/* carimbo que "bate" no cartão quando ele aparece (sobre o canhoto, nunca sobre texto) */
-.pass__stamp { position: absolute; z-index: 2; top: -40px; right: -46px; width: clamp(80px, 6.5vw, 96px); rotate: -14deg; opacity: 0; scale: 1.9; pointer-events: none; transition: scale .45s cubic-bezier(.3, 1.5, .5, 1), opacity .25s; transition-delay: .9s; }
-.pass__card.is-in .pass__stamp { opacity: 1; scale: 1; }
-.pass:nth-of-type(odd) .pass__stamp { rotate: 9deg; }
 .pass__stub .plane { width: 24px; height: 24px; color: var(--coral); }
 .pass__head { display: grid; gap: 12px; }
 .pass__label { justify-self: start; margin-top: 4px; font: 500 0.78rem/1.4 var(--f-sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--purple); }
@@ -596,7 +598,6 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
   .pass__card { padding-right: calc(24px + 64px); }
   .pass__card::before, .pass__card::after { right: 64px; }
   .pass__stub { width: 64px; }
-  .pass__stamp { width: 52px; right: -8px; top: -24px; }
 }
 
 /* roteiro (processo): uma linha pontilhada liga as paradas e vai se preenchendo ao rolar */
@@ -714,4 +715,5 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .guide__stamps img:nth-child(2) { width: 44%; left: 24%; top: 22%; rotate: 8deg; transition-delay: .65s; }
 .guide__stamps img:nth-child(3) { width: 44%; left: 55%; top: 0; rotate: -6deg; transition-delay: 1.1s; }
 .js .guide__stamps.is-in img { opacity: 1; scale: 1; }
-@media (max-width: 860px) { .guide__stamps { width: min(100%, 400px); } }
+/* no celular os carimbos vêm depois do texto, não entre o título e o texto */
+@media (max-width: 860px) { .guide__left { display: contents; } .guide__stamps { order: 1; width: min(100%, 400px); } }
