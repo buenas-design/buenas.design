@@ -417,6 +417,10 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .card__flip { position: absolute; inset: 0; opacity: 0; }
 .card__flip.is-on { opacity: 1; }
 .js .card:hover .card__img img, .card:hover .card__img img { scale: 1.06; transition: scale .9s var(--ease); }
+/* sem pulo (02/11/2026): crescem junto com a capa; a nova entra num fade curto por cima e a anterior só sai
+   depois, então a capa não pisca entre uma e outra */
+.js .card__img .card__flip, .card:hover .card__img .card__flip { transition: scale .9s var(--ease), opacity 0s linear .3s; }
+.js .card__img .card__flip.is-on, .card:hover .card__img .card__flip.is-on { transition: scale .9s var(--ease), opacity .3s ease; }
 .card__name { font: 500 1.45rem/1.15 var(--f-head); letter-spacing: -0.01em; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .card__name::after { content: "→"; font-family: var(--f-sans); color: var(--coral); transition: translate .4s var(--ease); }
 .card:hover .card__name::after { translate: 8px 0; }
@@ -445,6 +449,9 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 
 /* cada painel fica preso no topo enquanto o próximo sobe por cima (da largura do mosaico) */
 .panels { padding: clamp(40px, 5vw, 72px) var(--inset-x) 0; }
+/* na home (02/11/2026): os mesmos painéis logo abaixo do título, com "ver todos" ao lado */
+.home-work .head > div { display: grid; gap: 16px; }
+.home-work .panels { padding-top: 0; }
 .panel {
   --pad: clamp(20px, 3vw, 44px);
   position: sticky; top: var(--inset-y); display: block;
@@ -456,7 +463,7 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 }
 .panel:last-child { margin-bottom: 0; }
 .panel__img, .panel__img img { position: absolute; inset: 0; width: 100%; height: 100%; }
-.panel__img img { object-fit: cover; transition: scale 1.2s var(--ease); }
+.panel__img img { object-fit: cover; object-position: var(--focus, 50%) 50%; transition: scale 1.2s var(--ease); }
 .panel:hover .panel__img img { scale: 1.03; }
 /* um véu roxo embaixo, para o nome ficar legível em qualquer foto */
 .panel::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(0deg, rgba(48, 34, 110, 0.74) 0%, rgba(48, 34, 110, 0.3) 32%, rgba(48, 34, 110, 0) 56%); }
@@ -464,6 +471,8 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 /* sem a etiqueta "Brand Design · 2022" em cima (tirada a pedido dela, 02/11/2026): só o botão coral no canto */
 .panel__arrow { position: absolute; z-index: 1; top: var(--pad); right: var(--pad); display: grid; place-items: center; width: 54px; height: 54px; border-radius: 50%; background: var(--coral); color: var(--blush); font: 400 1.35rem/1 var(--f-sans); rotate: -45deg; transition: rotate .5s var(--ease); }
 .panel:hover .panel__arrow { rotate: 0deg; }
+/* seta desenhada (não a letra "→", que girada ficava fora do centro do círculo) */
+.panel__arrow svg { display: block; width: 46%; height: auto; }
 .panel__text { display: grid; gap: 14px; }
 .panel__name { max-width: 14ch; font: 500 clamp(2.4rem, 5.2vw, 4.8rem)/1 var(--f-head); letter-spacing: -0.03em; text-wrap: balance; }
 .panel__note { max-width: 42ch; font-size: clamp(0.95rem, 1.1vw, 1.08rem); line-height: 1.5; text-wrap: pretty; }
@@ -471,11 +480,18 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 
 /* os outros projetos: dois cartões grandes por linha, o da direita um pouco mais baixo */
 .pf-more__title { margin-bottom: clamp(36px, 4vw, 56px); }
-.cards--wide { grid-template-columns: 1fr 1fr; gap: clamp(40px, 5vw, 72px) clamp(20px, 2.6vw, 36px); }
-.cards--wide .card:nth-child(3n + 2) { margin-top: 0; }
-.cards--wide .card:nth-child(2n) { margin-top: clamp(48px, 7vw, 110px); }
+/* lado a lado e alinhados, com o mesmo espaço na horizontal e na vertical (02/11/2026: o da direita mais
+   baixo deixava o espaçamento entre os projetos estranho, ainda mais com o nome dentro da foto) */
+.cards--wide { grid-template-columns: 1fr 1fr; gap: clamp(16px, 2.6vw, 36px); }
+.cards--wide .card:nth-child(n) { margin-top: 0; }
 .cards--wide .card__img { aspect-ratio: 4 / 3; }
-.cards--wide .card__name { font-size: clamp(1.5rem, 2.2vw, 2rem); }
+/* o nome dentro da foto, sobre um degradê escuro leve, sem a seta (pedido dela, 02/11/2026: embaixo da foto
+   uns ficavam grudados e outros longe, por causa do cartão da direita mais baixo) */
+.cards--wide .card { position: relative; align-self: start; gap: 0; }
+.cards--wide .card__img { position: relative; }
+.cards--wide .card__img::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(0deg, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0.16) 26%, rgba(0, 0, 0, 0) 48%); }
+.cards--wide .card__name { position: absolute; z-index: 1; left: clamp(18px, 2.2vw, 30px); right: clamp(18px, 2.2vw, 30px); bottom: clamp(16px, 2vw, 26px); color: var(--blush); font-size: clamp(1.5rem, 2.2vw, 2rem); text-shadow: 0 1px 14px rgba(0, 0, 0, 0.2); }
+.cards--wide .card__name::after { content: none; }
 
 @media (max-width: 760px) {
   /* no celular: 3 × 3, para as fotos não virarem tirinhas */
@@ -492,7 +508,7 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
   .panel__note { font-size: 0.94rem; }
   .panel__arrow { width: 44px; height: 44px; font-size: 1.15rem; }
 }
-@media (max-width: 560px) { .cards--wide { grid-template-columns: 1fr; } .cards--wide .card:nth-child(2n) { margin-top: 0; } }
+@media (max-width: 560px) { .cards--wide { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { .mosaic { height: auto; } .mosaic__stick { position: relative; height: 72svh; } }
 
 /* ───────── depoimentos ───────── */
@@ -858,15 +874,17 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .project__hero { margin: 0; border-radius: var(--radius); overflow: hidden; }
 .project__hero img, .pm img { width: 100%; }
 .project__intro { display: grid; grid-template-columns: 0.32fr 0.68fr; gap: clamp(28px, 5vw, 80px); padding-block: clamp(44px, 6vw, 88px); }
-.project__facts { display: grid; gap: 0; align-content: start; border-top: 1.5px solid var(--purple); }
-.project__facts > div { padding: 14px 0; border-bottom: 1.5px dashed var(--purple); }
+/* ficha do projeto: linhas e texto em cinza, só o rótulo em coral (pedido dela, 02/11/2026) */
+.project__facts { display: grid; gap: 0; align-content: start; border-top: 1.5px solid var(--gray); }
+.project__facts > div { padding: 14px 0; border-bottom: 1.5px dashed var(--gray); }
 .project__facts dt { font: 500 0.75rem/1.5 var(--f-sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--coral); }
-.project__facts dd { font: 500 1.25rem/1.3 var(--f-head); color: var(--purple); }
+.project__facts dd { font: 500 1.25rem/1.3 var(--f-head); color: var(--gray); }
 .project__about { display: grid; gap: 14px; max-width: 760px; }
 .project__about h2 { margin-bottom: 6px; }
 .project__about p, .pm--text p { margin: 0; }
 .project__about h3, .project__about h4, .pm--text h3, .pm--text h4 { font: 500 1.35rem/1.3 var(--f-head); color: var(--purple); }
-.project__about strong, .pm--text strong { color: var(--purple); font-weight: 600; }
+/* negrito e itálico no mesmo cinza do texto, sem roxo (pedido dela, 02/11/2026) */
+.project__about strong, .pm--text strong { color: inherit; font-weight: 600; }
 .project__about a, .pm--text a { color: var(--purple); }
 /* rótulos e listas de palavras dos textos antigos (render.mjs, structureRich): subtítulo + etiquetas */
 .pm--text h3:not(:first-child) { margin-top: 14px; }
@@ -881,6 +899,8 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .pm--video video { display: block; width: 100%; height: auto; }
 .pm--grid { display: grid; grid-template-columns: repeat(var(--n), 1fr); gap: inherit; }
 .pm--grid figure { margin: 0; border-radius: var(--radius); overflow: hidden; }
+/* fotos lado a lado sempre da mesma altura (se uma for um pouco mais alta, corta a sobra em vez de deixar um vão) */
+.pm--grid figure img { height: 100%; object-fit: cover; }
 @media (max-width: 860px) {
   .project__intro { grid-template-columns: 1fr; }
   .pm--text { margin-left: 0; }

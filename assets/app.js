@@ -117,21 +117,29 @@
       const show = (i) => imgs.forEach((im, j) => im.classList.toggle('is-on', j === i));
       card.addEventListener('pointerenter', () => {
         // the images are only fetched the first time the mouse comes by
-        imgs ??= card.dataset.flip.split('|').map((s) => {
-          const im = new Image();
-          im.className = 'card__flip';
-          im.alt = '';
-          im.decoding = 'async';
-          im.src = s;
-          frame.append(im);
-          return im;
-        });
+        if (!imgs) {
+          // they start at the cover's size and grow with it (a new image would jump straight to the hover size)
+          const from = getComputedStyle($('img', frame)).scale;
+          imgs = card.dataset.flip.split('|').map((s) => {
+            const im = new Image();
+            im.className = 'card__flip';
+            im.alt = '';
+            im.decoding = 'async';
+            im.src = s;
+            im.style.scale = from;
+            // only shown once it is decoded, so it never flashes blank on the way in
+            im.decode().then(() => { im.dataset.ready = '1'; }, () => {});
+            frame.append(im);
+            return im;
+          });
+          requestAnimationFrame(() => requestAnimationFrame(() => imgs.forEach((im) => im.style.removeProperty('scale'))));
+        }
         clearInterval(timer);
         timer = setInterval(() => {
-          // a frame that hasn't arrived yet is skipped, so the cover never flashes empty
+          // a frame that isn't ready yet is skipped, so the cover never flashes empty
           for (let t = 0; t < imgs.length; t++) {
             k = (k + 1) % (imgs.length + 1);
-            if (k === imgs.length || imgs[k].complete) break;
+            if (k === imgs.length || imgs[k].dataset.ready) break;
           }
           show(k);
         }, 650);
