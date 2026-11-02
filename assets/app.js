@@ -144,6 +144,49 @@
     });
   }
 
+  /* ───────── portfolio: the purple mosaic opens up as you scroll (data-mosaic) ───────── */
+  // It starts zoomed in on the middle picture (filling the purple frame) and shrinks back to the whole
+  // mosaic while its section passes; the section is taller than the screen and the frame stays put (sticky).
+  // The mosaic is laid out at the big size and scaled DOWN (not a small one scaled up), so the
+  // pictures are drawn at full size and stay sharp while zoomed in.
+  const mosaic = $('[data-mosaic]');
+  if (mosaic && !reduceMotion) {
+    const frame = $('.mosaic__frame', mosaic);
+    const grid = $('.mosaic__grid', mosaic);
+    const center = $('.mosaic__tile--center', mosaic);
+    // the tiles around start hidden behind the zoom: fetch them now, so none pops in while it opens
+    $$('img[loading="lazy"]', grid).forEach((im) => { im.loading = 'eager'; });
+    let zoom = 1;
+    const measure = () => {
+      Object.assign(grid.style, { transform: 'none', width: '', height: '', left: '', top: '' });
+      grid.style.removeProperty('--g');
+      const g = grid.getBoundingClientRect();
+      const c = center.getBoundingClientRect();
+      zoom = Math.max(g.width / c.width, g.height / c.height) * 1.04; // the middle picture covers the frame
+      const gap = parseFloat(getComputedStyle(grid).getPropertyValue('--g')) || 12;
+      const cx = (c.left - g.left + c.width / 2) * zoom;
+      const cy = (c.top - g.top + c.height / 2) * zoom;
+      const f = frame.getBoundingClientRect();
+      Object.assign(grid.style, { width: `${g.width * zoom}px`, height: `${g.height * zoom}px`, left: `${f.width / 2 - cx}px`, top: `${f.height / 2 - cy}px`, transformOrigin: `${cx}px ${cy}px` });
+      grid.style.setProperty('--g', `${gap * zoom}px`);
+    };
+    let queued = false;
+    const paint = () => {
+      queued = false;
+      const r = mosaic.getBoundingClientRect();
+      const p = Math.min(Math.max(-r.top / (r.height - window.innerHeight), 0), 1);
+      const eased = 1 - (1 - p) ** 2;
+      grid.style.transform = `scale(${(1 + (1 / zoom - 1) * eased).toFixed(4)})`;
+    };
+    const queue = () => {
+      if (!queued) { queued = true; requestAnimationFrame(paint); }
+    };
+    window.addEventListener('scroll', queue, { passive: true });
+    window.addEventListener('resize', () => { measure(); queue(); });
+    measure();
+    paint();
+  }
+
   /* ───────── testimonials: the arrows move one card at a time, in an endless loop ───────── */
   // The cards are copied once before and once after; whenever the strip comes to rest inside a copy it
   // jumps (invisibly) to the same spot in the real set, so it keeps going round in both directions.
