@@ -161,9 +161,9 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
   cursor: pointer;
   transition: color .35s var(--ease), border-color .35s var(--ease), transform .35s var(--ease);
 }
-/* o amarelo sobe por trás do texto ao passar o mouse */
-.btn::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--yellow); transform: translateY(101%); transition: transform .45s var(--ease); }
-.btn:hover { color: var(--purple); border-color: var(--yellow); }
+/* o coral sobe por trás do texto ao passar o mouse (era amarelo; coral a pedido dela, 02/11/2026) */
+.btn::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--coral); transform: translateY(101%); transition: transform .45s var(--ease); }
+.btn:hover { color: var(--blush); border-color: var(--coral); }
 .btn:hover::before { transform: none; }
 .btn .plane { width: 18px; height: 18px; fill: currentColor; transition: transform .45s var(--ease); }
 .btn:hover .plane { transform: translateX(4px) rotate(-12deg); }
@@ -416,11 +416,11 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .card__img:has(.card__flip) { position: relative; }
 .card__flip { position: absolute; inset: 0; opacity: 0; }
 .card__flip.is-on { opacity: 1; }
-.js .card:hover .card__img img, .card:hover .card__img img { scale: 1.06; transition: scale .9s var(--ease); }
-/* sem pulo (02/11/2026): crescem junto com a capa; a nova entra num fade curto por cima e a anterior só sai
-   depois, então a capa não pisca entre uma e outra */
-.js .card__img .card__flip, .card:hover .card__img .card__flip { transition: scale .9s var(--ease), opacity 0s linear .3s; }
-.js .card__img .card__flip.is-on, .card:hover .card__img .card__flip.is-on { transition: scale .9s var(--ease), opacity .3s ease; }
+/* zoom só nos cartões sem a troca de fotos: os dois juntos (crescer e trocar a cada 0,4 s) ficavam estranhos */
+.js .card:not([data-flip]):hover .card__img img, .card:not([data-flip]):hover .card__img img { scale: 1.06; transition: scale .9s var(--ease); }
+/* a nova entra num fade curto por cima e a anterior só sai depois, então a capa não pisca entre uma e outra */
+.js .card__img .card__flip, .card:hover .card__img .card__flip { transition: opacity 0s linear .15s; }
+.js .card__img .card__flip.is-on, .card:hover .card__img .card__flip.is-on { transition: opacity .15s ease; }
 .card__name { font: 500 1.45rem/1.15 var(--f-head); letter-spacing: -0.01em; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .card__name::after { content: "→"; font-family: var(--f-sans); color: var(--coral); transition: translate .4s var(--ease); }
 .card:hover .card__name::after { translate: 8px 0; }
@@ -874,11 +874,11 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .project__hero { margin: 0; border-radius: var(--radius); overflow: hidden; }
 .project__hero img, .pm img { width: 100%; }
 .project__intro { display: grid; grid-template-columns: 0.32fr 0.68fr; gap: clamp(28px, 5vw, 80px); padding-block: clamp(44px, 6vw, 88px); }
-/* ficha do projeto: linhas e texto em cinza, só o rótulo em coral (pedido dela, 02/11/2026) */
-.project__facts { display: grid; gap: 0; align-content: start; border-top: 1.5px solid var(--gray); }
-.project__facts > div { padding: 14px 0; border-bottom: 1.5px dashed var(--gray); }
+/* ficha do projeto: cinza clarinho, letra light e pequena, só o rótulo em coral (pedidos dela, 02/11/2026) */
+.project__facts { display: grid; gap: 0; align-content: start; border-top: 1px solid rgba(86, 86, 86, 0.32); }
+.project__facts > div { padding: 12px 0; border-bottom: 1px dashed rgba(86, 86, 86, 0.32); }
 .project__facts dt { font: 500 0.75rem/1.5 var(--f-sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--coral); }
-.project__facts dd { font: 500 1.25rem/1.3 var(--f-head); color: var(--gray); }
+.project__facts dd { margin-top: 2px; font: 300 0.95rem/1.45 var(--f-head); color: rgba(86, 86, 86, 0.78); }
 .project__about { display: grid; gap: 14px; max-width: 760px; }
 .project__about h2 { margin-bottom: 6px; }
 .project__about p, .pm--text p { margin: 0; }

@@ -118,21 +118,17 @@
       card.addEventListener('pointerenter', () => {
         // the images are only fetched the first time the mouse comes by
         if (!imgs) {
-          // they start at the cover's size and grow with it (a new image would jump straight to the hover size)
-          const from = getComputedStyle($('img', frame)).scale;
           imgs = card.dataset.flip.split('|').map((s) => {
             const im = new Image();
             im.className = 'card__flip';
             im.alt = '';
             im.decoding = 'async';
             im.src = s;
-            im.style.scale = from;
             // only shown once it is decoded, so it never flashes blank on the way in
             im.decode().then(() => { im.dataset.ready = '1'; }, () => {});
             frame.append(im);
             return im;
           });
-          requestAnimationFrame(() => requestAnimationFrame(() => imgs.forEach((im) => im.style.removeProperty('scale'))));
         }
         clearInterval(timer);
         timer = setInterval(() => {
@@ -142,7 +138,7 @@
             if (k === imgs.length || imgs[k].dataset.ready) break;
           }
           show(k);
-        }, 650);
+        }, 400);   // 0,4 s cada foto (pedido dela, 02/11/2026)
       });
       card.addEventListener('pointerleave', () => {
         clearInterval(timer);
