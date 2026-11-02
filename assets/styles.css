@@ -158,6 +158,7 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
   letter-spacing: 0.16em;
   text-transform: uppercase;
   text-decoration: none;
+  white-space: nowrap; /* numa linha só (pedido dela, 02/11/2026: "Agende um café virtual" quebrava no rodapé) */
   cursor: pointer;
   transition: color .35s var(--ease), border-color .35s var(--ease), transform .35s var(--ease);
 }
@@ -595,6 +596,13 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .ftr__nav { display: flex; flex-wrap: wrap; gap: 6px 20px; }
 .ftr__nav a { text-decoration: none; }
 .ftr__nav a:hover { color: var(--yellow); }
+/* tela média: os botões (numa linha só) não cabem dos lados do logo; logo em cima, os dois lado a lado embaixo */
+@media (min-width: 761px) and (max-width: 900px) {
+  .ftr__top { grid-template-columns: 1fr 1fr; }
+  .ftr__logo { order: -1; grid-column: 1 / -1; justify-self: center; }
+  .ftr__top .btn:first-child { justify-self: end; }
+  .ftr__top .btn:last-child { justify-self: start; }
+}
 @media (max-width: 760px) {
   .ftr__top { grid-template-columns: 1fr; justify-items: center; }
   .ftr__top .btn:first-child, .ftr__top .btn:last-child { justify-self: center; }
@@ -990,11 +998,23 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
   .hero .hero__in { order: 1; }
   .hero--page .hero__badge { position: relative; order: 2; top: auto; bottom: auto; right: auto; translate: none; align-self: flex-end; width: clamp(96px, 16vw, 130px); margin: 28px var(--gutter) 0 0; }
 }
+/* selo do About em cima, não depois do texto (pedido dela, 02/11/2026: "pra diminuir todo esse espaço em
+   branco"): entre 701 e 1000px no canto, na altura do título, e o texto deixa a largura dele livre */
+@media (min-width: 701px) and (max-width: 1000px) {
+  .hero--page .hero__badge { position: absolute; top: calc(var(--hdr) + clamp(56px, 9vw, 130px)); right: var(--gutter); width: clamp(110px, 14vw, 130px); margin: 0; }
+  .hero--page:has(.hero__badge) .hero__in { padding-right: calc(var(--gutter) + clamp(110px, 14vw, 130px) + 28px); }
+}
+/* no celular, menor e acima do título, à direita, ocupando a folga que já havia embaixo do menu */
+@media (max-width: 700px) { .hero--page .hero__badge { order: 0; width: 84px; margin: -36px var(--gutter) 10px 0; } }
 @media (max-width: 760px) {
   /* frase + botão (About, antes do portfólio): um embaixo do outro */
   .head--row { grid-template-columns: 1fr; justify-items: start; }
   .btn { max-width: 100%; text-align: center; }
 }
+/* celular estreito: letras um pouco mais juntas, para o botão continuar numa linha só */
+@media (max-width: 420px) { .btn { padding-inline: 22px; letter-spacing: 0.1em; } }
+/* abaixo de 360px (celulares bem antigos) os textos longos não cabem: aí quebram, como antes */
+@media (max-width: 359px) { .btn { white-space: normal; } }
 
 /* ───────── menos movimento ───────── */
 @media (prefers-reduced-motion: reduce) {
