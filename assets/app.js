@@ -410,8 +410,60 @@
     sync();
   });
 
-  /* ───────── contact form ───────── */
-  const form = $('#contact-form');
+  /* ───────── contact form and questionnaires ───────── */
+  const form = $('#contact-form') || $('#q-form');
+  // a questionnaire keeps its answers in this browser until they are sent, so a client can stop and come
+  // back later (or try again if sending fails). Private windows may not allow it: then it just doesn't save.
+  const draftKey = form?.dataset.draft;
+  const store = {
+    get: () => { try { return JSON.parse(localStorage.getItem(draftKey) || 'null'); } catch { return null; } },
+    set: (v) => { try { localStorage.setItem(draftKey, JSON.stringify(v)); } catch {} },
+    clear: () => { try { localStorage.removeItem(draftKey); } catch {} },
+  };
+  let saving;
+  const named = (name) => $$(`[name="${CSS.escape(name)}"]`, form);
+  // every answer, in the order of the page; the ticked options of a question become one line ("A, B")
+  // (the draft keeps them as a list, so an option with a comma comes back ticked too)
+  const answers = (asList) => {
+    const all = {};
+    for (const el of form.elements) {
+      if (!el.name || el.name in all) continue;
+      const ticked = named(el.name).filter((x) => x.checked).map((x) => x.value);
+      all[el.name] = /^(radio|checkbox)$/.test(el.type) ? (asList ? ticked : ticked.join(', ')) : el.value;
+    }
+    return all;
+  };
+  if (draftKey) {
+    const saved = store.get();
+    if (saved) {
+      for (const [name, value] of Object.entries(saved)) {
+        if (name.startsWith('_')) continue;
+        named(name).forEach((el) => {
+          if (/^(radio|checkbox)$/.test(el.type)) el.checked = [].concat(value).includes(el.value);
+          else el.value = value;
+        });
+      }
+    }
+    // how many questions already have an answer
+    const questions = $$('[data-q]', form);
+    const fill = $('#q-fill');
+    const count = $('#q-count');
+    const progress = () => {
+      const n = questions.filter((q) => $$('input, textarea, select', q).some((el) => (/^(radio|checkbox)$/.test(el.type) ? el.checked : el.value.trim()))).length;
+      fill.style.width = `${questions.length ? (n / questions.length) * 100 : 0}%`;
+      count.textContent = form.dataset.progress.replace('{n}', n).replace('{total}', questions.length);
+    };
+    form.addEventListener('input', (e) => {
+      // once answered, the question loses its coral warning (sending checks everything again)
+      const box = e.target.closest('[data-q], .field');
+      if (box) [box, ...$$('[aria-invalid]', box)].forEach((el) => el.setAttribute('aria-invalid', 'false'));
+      progress();
+      clearTimeout(saving);
+      saving = setTimeout(() => store.set(answers(true)), 300);
+    });
+    progress();
+  }
+
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
     const status = $('#form-status');
@@ -419,10 +471,19 @@
     status.textContent = '';
 
     let firstBad = null;
-    ['#f-name', '#f-email'].map((s) => $(s, form)).forEach((input) => {
-      const bad = !input.value.trim() || (input.type === 'email' && !input.checkValidity());
+    $$('[required]', form).forEach((input) => {
+      const bad = /^(radio|checkbox)$/.test(input.type)
+        ? !named(input.name).some((x) => x.checked)
+        : !input.value.trim() || !input.checkValidity();
       input.setAttribute('aria-invalid', String(bad));
       if (bad && !firstBad) firstBad = input;
+    });
+    // a questionnaire question where at least one box must be ticked
+    $$('[data-required]', form).forEach((group) => {
+      const boxes = $$('input', group);
+      const bad = !boxes.some((x) => x.checked);
+      group.setAttribute('aria-invalid', String(bad));
+      if (bad && (!firstBad || group.compareDocumentPosition(firstBad) & Node.DOCUMENT_POSITION_FOLLOWING)) firstBad = boxes[0];
     });
     if (firstBad) {
       status.textContent = form.dataset.error;
@@ -437,6 +498,7 @@
       const box = $('#form-done');
       box.hidden = false;
       box.focus();
+      if (draftKey) box.scrollIntoView({ block: 'center', behavior: reduceMotion ? 'auto' : 'smooth' });
     };
     // If sending fails (or there is no service set up yet), say so and show the address.
     // The visitor's email app never opens by itself.
@@ -452,13 +514,21 @@
     // The message goes to the inbox through a form service (contact.form_endpoint in site.yml).
     const endpoint = (form.dataset.endpoint || '').trim();
     if (!endpoint) return failed();
+    const all = answers();
+    // a questionnaire's e-mail says who answered it in the subject
+    if (draftKey) all._subject = `${all._subject} - ${all.business?.trim() || all.name.trim()}`;
+    const body = new FormData();
+    for (const [name, value] of Object.entries(all)) body.append(name, value);
     const btn = form.querySelector('[type="submit"]');
     btn.disabled = true;
     try {
-      const res = await fetch(endpoint, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+      const res = await fetch(endpoint, { method: 'POST', body, headers: { Accept: 'application/json' } });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || String(data.success) === 'false') throw new Error(data.message || String(res.status));
       form.reset();
+      // (a save still waiting would bring the emptied form back as a draft)
+      clearTimeout(saving);
+      if (draftKey) store.clear();
       done();
     } catch {
       failed();
