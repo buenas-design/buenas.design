@@ -255,8 +255,8 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .is-in .w__i { transform: none; }
 .js [data-reveal="img"] { opacity: 1; transform: none; clip-path: inset(100% 0 0 0 round var(--radius)); transition: clip-path 1.4s var(--ease); transition-delay: var(--d, 0s); }
 .js [data-reveal="img"].is-in { clip-path: inset(0 0 0 0 round var(--radius)); }
-.js [data-reveal="img"] img { scale: 1.16; transition: scale 1.9s var(--ease); transition-delay: var(--d, 0s); }
-.js [data-reveal="img"].is-in img { scale: 1; }
+.js [data-reveal="img"] img, .js [data-reveal="img"] video { scale: 1.16; transition: scale 1.9s var(--ease); transition-delay: var(--d, 0s); }
+.js [data-reveal="img"].is-in img, .js [data-reveal="img"].is-in video { scale: 1; }
 [data-speed] { translate: 0 var(--py, 0px); will-change: translate; }
 
 /* ───────── elementos de viagem ───────── */
@@ -412,13 +412,14 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .card { display: grid; gap: 16px; text-decoration: none; color: var(--head); }
 .card:nth-child(3n + 2) { margin-top: clamp(0px, 4vw, 64px); }
 .card__img { display: block; overflow: hidden; border-radius: var(--radius); aspect-ratio: 4 / 5; background: var(--card); }
-.card__img img { width: 100%; height: 100%; object-fit: cover; }
+.card__img img, .card__img video { display: block; width: 100%; height: 100%; object-fit: cover; }
 /* no mouse em cima, outras imagens do projeto se revezam por cima da capa, como um gif (app.js) */
 .card__img:has(.card__flip) { position: relative; }
 .card__flip { position: absolute; inset: 0; opacity: 0; }
 .card__flip.is-on { opacity: 1; }
 /* zoom só nos cartões sem a troca de fotos: os dois juntos (crescer e trocar a cada 0,4 s) ficavam estranhos */
-.js .card:not([data-flip]):hover .card__img img, .card:not([data-flip]):hover .card__img img { scale: 1.06; transition: scale .9s var(--ease); }
+.js .card:not([data-flip]):hover .card__img img, .card:not([data-flip]):hover .card__img img,
+.js .card:hover .card__img video, .card:hover .card__img video { scale: 1.06; transition: scale .9s var(--ease); }
 /* a nova entra num fade curto por cima e a anterior só sai depois, então a capa não pisca entre uma e outra */
 .js .card__img .card__flip, .card:hover .card__img .card__flip { transition: opacity 0s linear .15s; }
 .js .card__img .card__flip.is-on, .card:hover .card__img .card__flip.is-on { transition: opacity .15s ease; }
@@ -981,8 +982,8 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .g-case { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(24px, 4vw, 64px); align-items: center; }
 .g-case:nth-child(even) .g-case__img { order: 2; }
 .g-case__img { display: block; border-radius: var(--radius); overflow: hidden; aspect-ratio: 4 / 3; box-shadow: 0 18px 40px rgba(93, 72, 175, .14); }
-.g-case__img img { width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease); }
-.g-case__img:hover img { transform: scale(1.03); }
+.g-case__img img, .g-case__img video { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease); }
+.g-case__img:hover img, .g-case__img:hover video { transform: scale(1.03); }
 .g-case__text { display: grid; gap: 10px; justify-items: start; }
 .g-case__label { margin-top: 6px; font: 400 1.35rem/1 var(--f-em); color: var(--coral); }
 .g-case__text .link { margin-top: 8px; }
@@ -1019,6 +1020,25 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .g-table tbody th { font: 500 1.2rem/1 var(--f-head); color: var(--purple); }
 .g-table .is-bold { font-weight: 700; color: var(--purple); }
 .g-table tr.is-best td, .g-table tr.is-best th { background: var(--lilac); }
+/* tabela do retainer em caixa estreita (celular, ~393px): em vez de rolar para o lado e esconder as colunas,
+   cada plano vira um bloco: as horas em cima e os quatro valores lado a lado, cada um com o nome da coluna */
+.g-table-wrap:has(.g-table--stack) { container-type: inline-size; }
+@container (max-width: 459px) {
+  .g-table--stack { min-width: 0; }
+  .g-table--stack thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .g-table--stack tbody { display: grid; }
+  .g-table--stack tr { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px 8px; padding: 14px 12px; border-bottom: 1.5px dashed var(--lilac); }
+  .g-table--stack tr.is-best { background: var(--lilac); border-bottom: 0; border-radius: 14px; }
+  .g-table--stack th, .g-table--stack td, .g-table--stack tr.is-best th, .g-table--stack tr.is-best td { padding: 0; border: 0; background: none; }
+  .g-table--stack tbody th { grid-column: 1 / -1; display: flex; align-items: baseline; gap: 8px; }
+  .g-table--stack tbody th::after { content: attr(data-label); font: 500 0.7rem/1.3 var(--f-sans); letter-spacing: 0.12em; text-transform: uppercase; color: var(--coral); }
+  .g-table--stack td { display: grid; gap: 4px; align-content: end; }
+  .g-table--stack td::before { content: attr(data-label); font: 500 0.62rem/1.25 var(--f-sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--coral); }
+}
+/* no celular a caixa fica com ~210px: dois valores por linha */
+@container (max-width: 339px) {
+  .g-table--stack tr { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 12px; }
+}
 .g-small { font-size: 0.92rem; }
 .g-menu { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 2vw, 24px); }
 .g-menu__card { display: grid; gap: 16px; align-content: start; padding: var(--box-pad); border-radius: var(--radius); }
@@ -1138,8 +1158,8 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .pnav__item { display: grid; gap: 8px; text-decoration: none; color: var(--purple); }
 .pnav__item--next { text-align: right; }
 .pnav__img { display: block; overflow: hidden; border-radius: var(--radius); aspect-ratio: 16 / 9; background: var(--lilac); margin-bottom: 10px; }
-.pnav__img img { width: 100%; height: 100%; object-fit: cover; }
-.pnav__item:hover .pnav__img img { scale: 1.06; transition: scale .9s var(--ease); }
+.pnav__img img, .pnav__img video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.pnav__item:hover .pnav__img img, .pnav__item:hover .pnav__img video { scale: 1.06; transition: scale .9s var(--ease); }
 .pnav__label { font: 500 0.75rem/1.5 var(--f-sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--coral); }
 .pnav__name { font: 500 clamp(1.5rem, 2.8vw, 2.3rem)/1.1 var(--f-head); letter-spacing: -0.02em; }
 

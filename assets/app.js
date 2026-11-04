@@ -12,14 +12,15 @@
   // first frame, with the controls to play it
   if (reduceMotion) $$('.project__hero video[autoplay]').forEach((v) => { v.pause(); v.currentTime = 0; v.controls = true; });
 
-  // a big project panel with a video (Create Joy): it only loads and plays while it is on screen, and pauses when
-  // it leaves; with "reduce motion" (or without IntersectionObserver) the poster stays
+  // a project cover that is a video (big panels, cards, previous/next, guide cases; Create Joy, then all the
+  // projects with a video, 04/11/2026): it only loads and plays while it is on screen, and pauses when it leaves;
+  // with "reduce motion" (or without IntersectionObserver) the poster stays
   if (!reduceMotion && 'IntersectionObserver' in window) {
     const vio = new IntersectionObserver((entries) => entries.forEach((e) => {
       if (e.isIntersecting) e.target.play().catch(() => {});
       else e.target.pause();
     }), { rootMargin: '200px 0px' });
-    $$('.panel video[data-autoplay]').forEach((v) => vio.observe(v));
+    $$('video[data-autoplay]').forEach((v) => vio.observe(v));
   }
 
   /* ───────── header ───────── */
