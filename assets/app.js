@@ -15,12 +15,62 @@
   // a project cover that is a video (big panels, cards, previous/next, guide cases; Create Joy, then all the
   // projects with a video, 04/11/2026): it only loads and plays while it is on screen, and pauses when it leaves;
   // with "reduce motion" (or without IntersectionObserver) the poster stays
+  // On a phone held upright a panel is tall: it takes its tall, lighter version (just the middle of the video,
+  // which is all that shows); a video without one (its middle would cut the logo) stays still and shows the
+  // panel's picture instead. Sideways (the panel is wide again) and on a computer: the big video. Turning the
+  // phone swaps it back and forth (the big one is kept in data-src-lg / data-poster-lg).
+  const covers = $$('video[data-autoplay]');
+  const panelVideos = covers.filter((v) => v.dataset.srcSm || v.dataset.stillSm);
+  panelVideos.forEach((v) => { v.dataset.srcLg = v.getAttribute('src') || ''; v.dataset.posterLg = v.getAttribute('poster') || ''; });
+  const tall = window.matchMedia('(max-width: 760px) and (orientation: portrait)');
+  const plays = (v) => 'autoplay' in v.dataset;
+  const fitPanels = () => panelVideos.forEach((v) => {
+    const src = tall.matches ? v.dataset.srcSm || '' : v.dataset.srcLg;
+    const poster = tall.matches ? v.dataset.posterSm || v.dataset.stillSm : v.dataset.posterLg;
+    if (poster && v.getAttribute('poster') !== poster) v.poster = poster;
+    if (src) {
+      v.dataset.autoplay = '';
+      if (v.getAttribute('src') !== src) v.src = src;
+    } else if (plays(v) || v.hasAttribute('src')) {
+      v.pause();
+      delete v.dataset.autoplay;
+      v.removeAttribute('src');
+      v.load(); // stops a download already under way and shows the picture
+    }
+  });
+  fitPanels();
+  let syncCovers = () => {};
+  const onTurn = () => { fitPanels(); syncCovers(); };
+  if (tall.addEventListener) tall.addEventListener('change', onTurn);
+  else if (tall.addListener) tall.addListener(onTurn);
   if (!reduceMotion && 'IntersectionObserver' in window) {
-    const vio = new IntersectionObserver((entries) => entries.forEach((e) => {
-      if (e.isIntersecting) e.target.play().catch(() => {});
-      else e.target.pause();
-    }), { rootMargin: '200px 0px' });
-    $$('video[data-autoplay]').forEach((v) => vio.observe(v));
+    // the panels stack (sticky): one stays "on screen" under the next one, so it only plays until the next
+    // panel has slid all the way over it; then it pauses (and stops downloading)
+    const near = new Set();
+    const covered = (v) => {
+      const p = v.closest('.panel');
+      const n = p && p.nextElementSibling;
+      return !!(n && n.classList.contains('panel') && n.getBoundingClientRect().top <= p.getBoundingClientRect().top + 1);
+    };
+    const sync = () => near.forEach((v) => {
+      if (!plays(v) || covered(v)) v.pause();
+      else if (v.paused) v.play().catch(() => {});
+    });
+    syncCovers = sync;
+    const vio = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) near.add(e.target);
+        else { near.delete(e.target); e.target.pause(); }
+      });
+      sync();
+    }, { rootMargin: '200px 0px' });
+    covers.forEach((v) => vio.observe(v));
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (ticking || !near.size) return;
+      ticking = true;
+      requestAnimationFrame(() => { ticking = false; sync(); });
+    }, { passive: true });
   }
 
   /* ───────── header ───────── */
