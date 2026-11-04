@@ -463,9 +463,9 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
   box-shadow: 0 -24px 50px -34px rgba(48, 34, 110, 0.55);
 }
 .panel:last-child { margin-bottom: 0; }
-.panel__img, .panel__img img { position: absolute; inset: 0; width: 100%; height: 100%; }
-.panel__img img { object-fit: cover; object-position: var(--focus, 50%) 50%; transition: scale 1.2s var(--ease); }
-.panel:hover .panel__img img { scale: 1.03; }
+.panel__img, .panel__img img, .panel__img video { position: absolute; inset: 0; width: 100%; height: 100%; }
+.panel__img img, .panel__img video { object-fit: cover; object-position: var(--focus, 50%) 50%; transition: scale 1.2s var(--ease); }
+.panel:hover .panel__img img, .panel:hover .panel__img video { scale: 1.03; }
 /* um véu roxo embaixo, para o nome ficar legível em qualquer foto */
 .panel::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(0deg, rgba(48, 34, 110, 0.74) 0%, rgba(48, 34, 110, 0.3) 32%, rgba(48, 34, 110, 0) 56%); }
 .panel__bottom { position: absolute; z-index: 1; left: var(--pad); right: var(--pad); bottom: var(--pad); display: flex; justify-content: space-between; align-items: flex-end; gap: 16px 32px; }
@@ -945,6 +945,7 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .project__head { display: grid; gap: 14px; justify-items: start; margin-bottom: clamp(32px, 4vw, 56px); }
 .project__hero { margin: 0; border-radius: var(--radius); overflow: hidden; }
 .project__hero img, .pm img { width: 100%; }
+.project__hero video { display: block; width: 100%; height: auto; }
 .project__intro { display: grid; grid-template-columns: 0.32fr 0.68fr; gap: clamp(28px, 5vw, 80px); padding-block: clamp(44px, 6vw, 88px); }
 /* ficha do projeto: cinza clarinho, letra light e pequena, só o rótulo em coral (pedidos dela, 02/11/2026) */
 .project__facts { display: grid; gap: 0; align-content: start; border-top: 1px solid rgba(86, 86, 86, 0.32); }
