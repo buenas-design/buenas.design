@@ -21,7 +21,8 @@
   // phone swaps it back and forth (the big one is kept in data-src-lg / data-poster-lg).
   const covers = $$('video[data-autoplay]');
   const panelVideos = covers.filter((v) => v.dataset.srcSm || v.dataset.stillSm);
-  panelVideos.forEach((v) => { v.dataset.srcLg = v.getAttribute('src') || ''; v.dataset.posterLg = v.getAttribute('poster') || ''; });
+  // the page carries the light poster (what a phone held upright shows); the big one is in data-poster-lg
+  panelVideos.forEach((v) => { v.dataset.srcLg = v.getAttribute('src') || ''; if (!v.dataset.posterLg) v.dataset.posterLg = v.getAttribute('poster') || ''; });
   const tall = window.matchMedia('(max-width: 760px) and (orientation: portrait)');
   const plays = (v) => 'autoplay' in v.dataset;
   const fitPanels = () => panelVideos.forEach((v) => {
@@ -50,7 +51,9 @@
     const covered = (v) => {
       const p = v.closest('.panel');
       const n = p && p.nextElementSibling;
-      return !!(n && n.classList.contains('panel') && n.getBoundingClientRect().top <= p.getBoundingClientRect().top + 1);
+      // + its bottom margin: the last panel can only climb to one margin below the one before it (the sticky
+      // panels can't leave the section), so without it the second to last would never count as covered
+      return !!(n && n.classList.contains('panel') && n.getBoundingClientRect().top <= p.getBoundingClientRect().top + (parseFloat(getComputedStyle(p).marginBottom) || 0) + 1);
     };
     const sync = () => near.forEach((v) => {
       if (!plays(v) || covered(v)) v.pause();
