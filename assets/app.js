@@ -424,8 +424,8 @@
     sync();
   });
 
-  /* ───────── contact form and questionnaires ───────── */
-  const form = $('#contact-form') || $('#q-form');
+  /* ───────── contact form, questionnaires and the investment guide ───────── */
+  const form = $('form[data-endpoint]');
   // a questionnaire keeps its answers in this browser until they are sent, so a client can stop and come
   // back later (or try again if sending fails). Private windows may not allow it: then it just doesn't save.
   const draftKey = form?.dataset.draft;
@@ -529,8 +529,10 @@
     const endpoint = (form.dataset.endpoint || '').trim();
     if (!endpoint) return failed();
     const all = answers();
-    // a questionnaire's e-mail says who answered it in the subject
-    if (draftKey) all._subject = `${all._subject} - ${all.business?.trim() || all.name.trim()}`;
+    // a questionnaire's e-mail says who answered it in the subject; the guide's, also the ticket chosen
+    const who = all.business?.trim() || all.name?.trim();
+    if (draftKey) all._subject = `${all._subject} - ${who}`;
+    if (form.dataset.choice) all._subject = `${all._subject}: ${all[form.dataset.choice]} - ${who}`;
     const body = new FormData();
     for (const [name, value] of Object.entries(all)) body.append(name, value);
     const btn = form.querySelector('[type="submit"]');
@@ -549,6 +551,19 @@
     } finally {
       btn.disabled = false;
     }
+  });
+
+  // "I want this ticket": ticks that ticket in the form at the end of the page (also on buttons added later,
+  // like the ones of a proposal that opens with its key)
+  document.addEventListener('click', (e) => {
+    const pick = e.target.closest('[data-pick]');
+    const choice = form && $$(`input[name="${CSS.escape(form.dataset.choice || '')}"]`, form).find((x) => x.value === pick?.dataset.pick);
+    if (!choice) return;
+    // scrolls without touching the address: a proposal keeps its key after the "#"
+    e.preventDefault();
+    choice.checked = true;
+    choice.dispatchEvent(new Event('input', { bubbles: true }));
+    form.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
   });
 
   const year = $('#year');
