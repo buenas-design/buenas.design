@@ -18,16 +18,24 @@
   // person asking for it (a swipe doesn't count). Until then the poster shows.
   // An app that opens links in a bare web view (no inline video) would open the phone's full-screen player on that
   // tap: then it leaves full screen and the videos stay on their posters for the rest of the visit.
+  // A refused video isn't asked again on every scroll (data-blocked) until the tap, and gets its first bytes
+  // ready meanwhile (preload metadata), so it starts sooner when the tap comes.
   const wake = []; // starts what should be playing now
   const touches = ['touchend', 'pointerup', 'click', 'keydown'];
   let waiting = false;
   let noInline = false;
-  const onTouch = () => wake.forEach((f) => f());
+  const onTouch = () => {
+    $$('video[data-blocked]').forEach((v) => { delete v.dataset.blocked; });
+    wake.forEach((f) => f());
+  };
   const play = (v) => {
     if (noInline) return;
     const p = v.play();
     if (p && p.catch) p.catch((e) => {
-      if (waiting || noInline || !e || e.name !== 'NotAllowedError') return;
+      if (noInline || !e || e.name !== 'NotAllowedError') return;
+      v.dataset.blocked = '';
+      if (v.preload === 'none') v.preload = 'metadata';
+      if (waiting) return;
       waiting = true;
       touches.forEach((t) => document.addEventListener(t, onTouch, { capture: true, passive: true }));
     });
@@ -68,6 +76,18 @@
     }
   });
   fitPanels();
+  // The first request for a video the site's server hasn't sent in a while waits 0.3–1 s at the server
+  // (measured 05/11/2026, worst right after publishing): asking each video that will play for its first 2 bytes
+  // as soon as the page is idle gets the server ready, so the real request later comes back right away.
+  // (The project's own video is already being fetched by then: it has no src, only <source>, and is skipped.)
+  if (!reduceMotion && !(navigator.connection && navigator.connection.saveData) && window.fetch) {
+    const warmUp = () => covers.forEach((v) => {
+      const u = plays(v) && v.getAttribute('src');
+      if (u) fetch(u, { headers: { Range: 'bytes=0-1' }, priority: 'low' }).catch(() => {});
+    });
+    if (window.requestIdleCallback) requestIdleCallback(warmUp, { timeout: 3000 });
+    else setTimeout(warmUp, 1500);
+  }
   let syncCovers = () => {};
   const onTurn = () => { fitPanels(); syncCovers(); };
   if (tall.addEventListener) tall.addEventListener('change', onTurn);
@@ -85,7 +105,7 @@
     };
     const sync = () => near.forEach((v) => {
       if (!plays(v) || covered(v)) v.pause();
-      else if (v.paused) play(v);
+      else if (v.paused && !('blocked' in v.dataset)) play(v);
     });
     syncCovers = sync;
     wake.push(sync);
@@ -95,7 +115,9 @@
         else { near.delete(e.target); e.target.pause(); }
       });
       sync();
-    }, { rootMargin: '200px 0px' });
+      // starts one screen before it shows (it was 200px: a video waited up to 3 s on its poster on a weak signal,
+      // 05/11/2026), so it already moves when it comes into view
+    }, { rootMargin: '100% 0px' });
     covers.forEach((v) => { vio.observe(v); v.addEventListener('webkitbeginfullscreen', leaveFullScreen); });
     let ticking = false;
     window.addEventListener('scroll', () => {
