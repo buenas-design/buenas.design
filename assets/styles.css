@@ -1120,10 +1120,6 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .project__hero { margin: 0; border-radius: var(--radius); overflow: hidden; }
 .project__hero img, .pm img { width: 100%; }
 .project__hero video { display: block; width: 100%; height: auto; }
-/* an iPhone in Low Power Mode doesn't start a video by itself: the poster shows, without the phone's big play button,
-   until the first touch on the page starts it (app.js). Videos with controls (the ones in a project) keep them. */
-video:not([controls])::-webkit-media-controls-start-playback-button { display: none !important; -webkit-appearance: none; }
-video:not([controls])::-webkit-media-controls { display: none !important; }
 .project__intro { display: grid; grid-template-columns: 0.32fr 0.68fr; gap: clamp(28px, 5vw, 80px); padding-block: clamp(44px, 6vw, 88px); }
 /* ficha do projeto: cinza clarinho, letra light e pequena, só o rótulo em coral (pedidos dela, 02/11/2026) */
 .project__facts { display: grid; gap: 0; align-content: start; border-top: 1px solid rgba(86, 86, 86, 0.32); }

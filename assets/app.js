@@ -8,31 +8,37 @@
   const $$ = (sel, el = document) => [...el.querySelectorAll(sel)];
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // a project that opens with a video (Mom & Pops) plays it by itself; with "reduce motion" it stays on the
-  // first frame, with the controls to play it
-  if (reduceMotion) $$('.project__hero video[autoplay]').forEach((v) => { v.pause(); v.currentTime = 0; v.controls = true; });
+  // a project that opens with a video (Mom & Pops) plays it by itself while it is on screen, like the covers
+  // below (data-autoplay); with "reduce motion" it stays on the first frame, with the controls to play it
+  if (reduceMotion) $$('.project__hero video').forEach((v) => { v.pause(); v.currentTime = 0; v.controls = true; });
 
   // An iPhone in Low Power Mode (the yellow battery) never lets a video start by itself, not even a silent one: the
   // project's video stayed on its first frame until she pressed play (her report, 05/11/2026). So when the phone
-  // refuses, every video that should be playing starts at the first touch on the page (a tap; a swipe too where the
-  // phone counts it), which the phone takes as the person asking for it. Until then the poster shows,
-  // without the phone's big play button (styles.css).
+  // refuses, the videos that should be playing start at the first tap on the page, which the phone takes as the
+  // person asking for it (a swipe doesn't count). Until then the poster shows.
+  // An app that opens links in a bare web view (no inline video) would open the phone's full-screen player on that
+  // tap: then it leaves full screen and the videos stay on their posters for the rest of the visit.
   const wake = []; // starts what should be playing now
+  const touches = ['touchend', 'pointerup', 'click', 'keydown'];
   let waiting = false;
+  let noInline = false;
+  const onTouch = () => wake.forEach((f) => f());
   const play = (v) => {
+    if (noInline) return;
     const p = v.play();
     if (p && p.catch) p.catch((e) => {
-      if (waiting || !e || e.name !== 'NotAllowedError') return;
+      if (waiting || noInline || !e || e.name !== 'NotAllowedError') return;
       waiting = true;
-      const onTouch = () => wake.forEach((f) => f());
-      ['touchstart', 'touchend', 'pointerdown', 'pointerup', 'click', 'keydown'].forEach((t) => document.addEventListener(t, onTouch, { capture: true, passive: true }));
+      touches.forEach((t) => document.addEventListener(t, onTouch, { capture: true, passive: true }));
     });
   };
-  if (!reduceMotion) {
-    const heroes = $$('.project__hero video[autoplay]');
-    heroes.forEach(play);
-    wake.push(() => heroes.forEach((v) => { if (v.paused) v.play().catch(() => {}); }));
-  }
+  const leaveFullScreen = (e) => {
+    const v = e.target;
+    noInline = true;
+    touches.forEach((t) => document.removeEventListener(t, onTouch, { capture: true }));
+    v.pause();
+    if (v.webkitExitFullscreen) try { v.webkitExitFullscreen(); } catch (err) { /* already out */ }
+  };
 
   // a project cover that is a video (big panels, cards, previous/next, guide cases; Create Joy, then all the
   // projects with a video, 04/11/2026): it only loads and plays while it is on screen, and pauses when it leaves;
@@ -90,7 +96,7 @@
       });
       sync();
     }, { rootMargin: '200px 0px' });
-    covers.forEach((v) => vio.observe(v));
+    covers.forEach((v) => { vio.observe(v); v.addEventListener('webkitbeginfullscreen', leaveFullScreen); });
     let ticking = false;
     window.addEventListener('scroll', () => {
       if (ticking || !near.size) return;
