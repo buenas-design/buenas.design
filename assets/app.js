@@ -12,6 +12,28 @@
   // first frame, with the controls to play it
   if (reduceMotion) $$('.project__hero video[autoplay]').forEach((v) => { v.pause(); v.currentTime = 0; v.controls = true; });
 
+  // An iPhone in Low Power Mode (the yellow battery) never lets a video start by itself, not even a silent one: the
+  // project's video stayed on its first frame until she pressed play (her report, 05/11/2026). So when the phone
+  // refuses, every video that should be playing starts at the first touch on the page (a tap; a swipe too where the
+  // phone counts it), which the phone takes as the person asking for it. Until then the poster shows,
+  // without the phone's big play button (styles.css).
+  const wake = []; // starts what should be playing now
+  let waiting = false;
+  const play = (v) => {
+    const p = v.play();
+    if (p && p.catch) p.catch((e) => {
+      if (waiting || !e || e.name !== 'NotAllowedError') return;
+      waiting = true;
+      const onTouch = () => wake.forEach((f) => f());
+      ['touchstart', 'touchend', 'pointerdown', 'pointerup', 'click', 'keydown'].forEach((t) => document.addEventListener(t, onTouch, { capture: true, passive: true }));
+    });
+  };
+  if (!reduceMotion) {
+    const heroes = $$('.project__hero video[autoplay]');
+    heroes.forEach(play);
+    wake.push(() => heroes.forEach((v) => { if (v.paused) v.play().catch(() => {}); }));
+  }
+
   // a project cover that is a video (big panels, cards, previous/next, guide cases; Create Joy, then all the
   // projects with a video, 04/11/2026): it only loads and plays while it is on screen, and pauses when it leaves;
   // with "reduce motion" (or without IntersectionObserver) the poster stays
@@ -57,9 +79,10 @@
     };
     const sync = () => near.forEach((v) => {
       if (!plays(v) || covered(v)) v.pause();
-      else if (v.paused) v.play().catch(() => {});
+      else if (v.paused) play(v);
     });
     syncCovers = sync;
+    wake.push(sync);
     const vio = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
         if (e.isIntersecting) near.add(e.target);
