@@ -200,6 +200,9 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
 .lang a { display: inline-grid; place-items: center; min-width: 40px; height: 28px; padding: 0 10px; border-radius: 999px; font: 500 0.72rem/1 var(--f-sans); letter-spacing: 0.12em; color: var(--purple); text-decoration: none; }
 .lang a.lang__on { background: var(--purple); color: var(--blush); }
 .hdr.is-solid { background: var(--blush); box-shadow: 0 1.5px 0 var(--lilac); }
+/* the line sits just below the header, so it doesn't go up with it: without this it stays at the very top of the screen
+   while the header is hidden (06/11/2026). Two classes + is-hidden, or the rule above would win */
+.hdr.is-solid.is-hidden { box-shadow: none; }
 
 .menu-btn { display: none; width: 44px; height: 44px; margin-right: -10px; padding: 0; border: 0; background: none; cursor: pointer; position: relative; z-index: 2; color: var(--purple); }
 .menu-btn span { position: absolute; left: 11px; right: 11px; height: 1.5px; background: currentColor; transition: transform .3s, top .3s; }
