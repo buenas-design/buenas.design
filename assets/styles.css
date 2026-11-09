@@ -409,6 +409,16 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 @media (hover: none), (max-width: 900px) { .ticket__pic { display: none; } }
 .ticket:hover .ticket__stub .plane { transform: translateX(8px) rotate(-18deg); }
 @media (max-width: 900px) { .tickets { grid-template-columns: 1fr; } .ticket { min-height: 0; } }
+/* a linha embaixo dos tickets (site e motion, 09/11/2026), com o aviãozinho coral dos canhotos. No computador ocupa só a
+   metade da esquerda: a foto do ticket do meio desce no hover pelo canto direito dele (bottom: -56px), então fica ao lado
+   do texto e nunca por cima */
+.tickets__more {
+  display: flex; align-items: flex-start; gap: 12px;
+  margin-top: clamp(28px, 3.2vw, 44px); max-width: 860px;
+  font-size: clamp(1.02rem, 1.2vw, 1.14rem); color: var(--purple);
+}
+.tickets__more .plane { width: 20px; height: 20px; margin-top: 0.2em; color: var(--coral); }
+@media (hover: hover) and (min-width: 901px) { .tickets__more { max-width: 50%; } }
 
 /* ───────── cartões de projeto ───────── */
 .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(36px, 4vw, 56px) clamp(16px, 2vw, 28px); }
