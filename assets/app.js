@@ -643,15 +643,16 @@
     for (const [name, value] of Object.entries(all)) body.append(name, value);
     const btn = form.querySelector('[type="submit"]');
     // The form service can take several seconds to answer: the button says it is sending, so the click
-    // never looks like it did nothing, and after 30 s the visitor gets the error with the e-mail address.
+    // never looks like it did nothing, and after 60 s the visitor gets the error with the e-mail address
+    // (in the test of 10/11/2026 FormSubmit took 19 s and 25 s to answer, and both messages arrived).
     const pt = document.documentElement.lang.startsWith('pt');
     const label = btn.innerHTML;
     btn.disabled = true;
     btn.setAttribute('aria-busy', 'true');
     btn.textContent = pt ? 'Enviando…' : 'Sending…';
-    status.textContent = pt ? 'Enviando sua mensagem, pode levar alguns segundos…' : 'Sending your message, this can take a few seconds…';
+    status.textContent = pt ? 'Enviando sua mensagem, pode levar até 30 segundos…' : 'Sending your message, it can take up to 30 seconds…';
     const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), 30000);
+    const timer = setTimeout(() => ctrl.abort(), 60000);
     try {
       const res = await fetch(endpoint, { method: 'POST', body, headers: { Accept: 'application/json' }, signal: ctrl.signal });
       const data = await res.json().catch(() => ({}));
