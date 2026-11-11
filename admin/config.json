@@ -1,0 +1,20 @@
+{
+  "name": "Buenas Design Studio",
+  "title": "Diário de bordo",
+  "ui": "pt",
+  "site_url": "https://buenas.design",
+  "repo": "buenas-design/buenas-design-site",
+  "branch": "main",
+  "login": { "github": true, "email": "" },
+  "languages": [
+    { "code": "en", "label": "Inglês", "name": "inglês", "short": "EN", "locale": "en", "blog": "content/blog.yml", "site": "content/site.yml", "projects": "content/projects.yml", "url": "blog/" },
+    { "code": "br", "label": "Português", "name": "português", "short": "PT", "locale": "pt-BR", "blog": "content/blog.br.yml", "site": "content/site.br.yml", "projects": "content/projects.br.yml", "url": "br/blog/" }
+  ],
+  "pages": ["about", "services", "portfolio", "contact"],
+  "images": { "dir": "assets/blog/", "max": 2000, "quality": 0.86 },
+  "share": { "dir": "assets/share/", "logo": "assets/brand/logo-coral.webp", "pill": "#FFE8E1" },
+  "writable": ["content/blog.yml", "content/blog.br.yml", "assets/blog/", "assets/share/post-*"],
+  "theme": { "bg": "#FFE8E1", "panel": "#E1D0FF", "field": "#FFE8E1", "ink": "#565656", "head": "#5D48AF", "accent": "#5D48AF", "accent_ink": "#FFE8E1", "mark": "#FFDE6F", "alert": "#FC6959" },
+  "fonts": [{ "family": "Florentia", "src": "assets/fonts/florentia-regular.woff", "weight": 400 }],
+  "font_head": "Florentia"
+}
