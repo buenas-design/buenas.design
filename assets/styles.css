@@ -363,11 +363,12 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 @media (max-width: 860px) { .guide__in { grid-template-columns: 1fr; } .guide__title { max-width: none; } }
 
 /* ───────── tickets (destinos) ───────── */
-.tickets { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(16px, 2vw, 28px); }
+/* 4 tickets (o de site entrou em 11/11/2026): dois por linha no computador, para o texto não ficar espremido */
+.tickets { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(16px, 2vw, 28px); }
 .ticket {
   --notch: 13px;
   position: relative; display: grid; grid-template-columns: 1fr 70px;
-  min-height: 290px;
+  min-height: 240px;
   text-decoration: none; color: var(--gray);
   background: var(--bg);
   border: 1.5px solid var(--purple);
@@ -389,8 +390,9 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .ticket__stub::before { content: ""; position: absolute; left: -0.75px; top: calc(var(--notch) + 8px); bottom: calc(var(--notch) + 8px); border-left: 1.5px dashed var(--purple); }
 .ticket__stub .plane { width: 22px; height: 22px; color: var(--coral); transition: transform .6s var(--ease); }
 .ticket:hover { transform: translateY(-8px) rotate(-0.8deg); background: var(--lilac); }
-/* ao passar o mouse, uma foto do serviço aparece, cada uma num lugar, sem cobrir texto:
-   1 sobe pelo canto de cima do canhoto, 2 desce pelo canto de baixo, 3 sai pelo topo (área vazia) */
+/* ao passar o mouse, uma foto do serviço aparece, cada uma num lugar, sem cobrir texto. Dois por linha (11/11/2026):
+   1 e 3 sobem pelo canto de cima do canhoto, 2 sai pelo topo (área vazia à direita do título),
+   4 desce pelo canto de baixo (a linha de baixo dos tickets fica à esquerda) */
 .ticket__pic {
   position: absolute; z-index: 2; width: clamp(120px, 11vw, 158px); aspect-ratio: 4 / 5;
   border-radius: 14px; overflow: hidden; pointer-events: none;
@@ -401,17 +403,19 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .ticket:hover .ticket__pic img { scale: 1; }
 .ticket:nth-child(1) .ticket__pic { top: -48px; right: -44px; transform: translateY(40px) rotate(0deg) scale(.8); }
 .ticket:nth-child(1):hover .ticket__pic { transform: none; rotate: 7deg; }
-.ticket:nth-child(2) .ticket__pic { bottom: -56px; right: -44px; transform: translateY(-40px) rotate(0deg) scale(.8); }
-.ticket:nth-child(2):hover .ticket__pic { transform: none; rotate: -6deg; }
-.ticket:nth-child(3) .ticket__pic { bottom: calc(100% - 22px); right: 96px; transform: translateY(50px) scale(.75); }
-.ticket:nth-child(3):hover .ticket__pic { transform: none; rotate: 4deg; }
+.ticket:nth-child(2) .ticket__pic { bottom: calc(100% - 22px); right: 96px; transform: translateY(50px) scale(.75); }
+.ticket:nth-child(2):hover .ticket__pic { transform: none; rotate: 4deg; }
+.ticket:nth-child(3) .ticket__pic { top: -48px; right: -44px; transform: translateY(40px) rotate(0deg) scale(.8); }
+.ticket:nth-child(3):hover .ticket__pic { transform: none; rotate: -5deg; }
+.ticket:nth-child(4) .ticket__pic { bottom: -56px; right: -44px; transform: translateY(-40px) rotate(0deg) scale(.8); }
+.ticket:nth-child(4):hover .ticket__pic { transform: none; rotate: -6deg; }
 .ticket .ticket__pic { rotate: 0deg; transition: opacity .35s var(--ease), transform .75s var(--ease), rotate .75s var(--ease); }
 @media (hover: none), (max-width: 900px) { .ticket__pic { display: none; } }
 .ticket:hover .ticket__stub .plane { transform: translateX(8px) rotate(-18deg); }
 @media (max-width: 900px) { .tickets { grid-template-columns: 1fr; } .ticket { min-height: 0; } }
-/* a linha embaixo dos tickets (site e motion, 09/11/2026), com o aviãozinho coral dos canhotos. No computador ocupa só a
-   metade da esquerda: a foto do ticket do meio desce no hover pelo canto direito dele (bottom: -56px), então fica ao lado
-   do texto e nunca por cima */
+/* a linha embaixo dos tickets (site e motion, 09/11/2026; só motion desde 11/11/2026), com o aviãozinho coral dos
+   canhotos. No computador fica à esquerda: a foto do 4º ticket desce no hover pelo canto direito dele (bottom: -56px),
+   então fica ao lado do texto e nunca por cima */
 .tickets__more {
   display: flex; align-items: flex-start; gap: 12px;
   margin-top: clamp(28px, 3.2vw, 44px); max-width: 860px;
@@ -735,6 +739,8 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
   display: grid; grid-template-columns: minmax(0, 1fr) var(--stub); grid-template-areas: "media media" "text stub";
 }
 .tk--yellow { --tk-bg: var(--yellow); }
+/* Brand Design em coral (ela, 11/11/2026: "brand design deixar em coral/vermelho"): texto claro, como na faixa coral do fim */
+.tk--coral { --tk-bg: var(--coral); --fg: var(--blush); --head: var(--blush); --kick: var(--blush); --tk-line: var(--blush); --tk-dot: var(--yellow); --tk-icon: var(--yellow); }
 .tk--purple { --tk-bg: var(--purple); --fg: var(--blush); --head: var(--blush); --kick: var(--yellow); --tk-line: var(--blush); --tk-dot: var(--yellow); --tk-icon: var(--yellow); }
 .tk__main { display: contents; }
 .tk__media { grid-area: media; display: grid; margin-bottom: 32px; }
@@ -782,9 +788,9 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
   .js .tk { position: relative; display: flex; flex: 0 0 auto; min-width: 0; transition: flex-grow .8s var(--ease); }
   .js .tk.is-open { flex-grow: 1; }
   .js .tk__main {
-    /* o conteúdo tem a largura do cartão aberto (100cqw menos os 3 canhotos e os vãos): não se reorganiza
+    /* o conteúdo tem a largura do cartão aberto (100cqw menos os canhotos, --tks, e os vãos): não se reorganiza
        enquanto abre, só é revelado. O carimbo fica pequeno no canto de cima, à direita. */
-    --open: calc(100cqw - 3 * var(--stub) - 2 * var(--gap));
+    --open: calc(100cqw - var(--tks, 3) * var(--stub) - (var(--tks, 3) - 1) * var(--gap));
     position: relative; display: grid; grid-template-columns: var(--open); align-items: center;
     flex: 1 1 0; width: 0; min-width: 0; overflow: hidden; background: var(--tk-bg); border-radius: var(--radius) 0 0 var(--radius);
   }
@@ -792,6 +798,12 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
   .js .tk__text .title { font-size: clamp(2rem, 2.6vw, 2.6rem); }
   .js .tk__text > p:not([class]) { max-width: 62ch; font-size: 1rem; line-height: 1.6; }
   .js .tk__list { columns: 3; column-gap: 22px; }
+  /* com 4 cartões (11/11/2026) o aberto fica mais estreito: em tela pequena de computador a lista vai em 2 colunas */
+}
+@media (min-width: 1001px) and (max-width: 1200px) {
+  .js .tk__list { columns: 2; }
+}
+@media (min-width: 1001px) {
   .js .tk__list li { margin-bottom: 9px; font-size: 0.93rem; line-height: 1.4; }
   /* o carimbo de passaporte, pequeno e meio torto no canto, como se tivesse sido batido no cartão (pedido da Julia) */
   .js .tk__stamp { display: block; position: absolute; top: 26px; right: 30px; width: 78px; height: auto; rotate: -10deg; opacity: .9; }
@@ -836,6 +848,11 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
   .js .tk:nth-child(3).is-open:hover .tk__img:first-child { rotate: 5deg; }
   .js .tk:nth-child(3) .tk__img--corner { top: calc(100% - 26px); left: 44%; transform: translateY(-40px) scale(.8); }
   .js .tk:nth-child(3).is-open:hover .tk__img--corner { rotate: -4deg; }
+  /* 4º (site, 11/11/2026): a 1ª sai por baixo, a 2ª (em pé) por cima, à esquerda do carimbo */
+  .js .tk:nth-child(4) .tk__img:first-child { top: calc(100% - 26px); left: 24%; transform: translateY(-40px) scale(.8); }
+  .js .tk:nth-child(4).is-open:hover .tk__img:first-child { rotate: -4deg; }
+  .js .tk:nth-child(4) .tk__img--corner { bottom: calc(100% - 26px); right: calc(var(--stub) + 150px); transform: translateY(40px) scale(.8); }
+  .js .tk:nth-child(4).is-open:hover .tk__img--corner { rotate: 5deg; }
 }
 @media (min-width: 1001px) and (prefers-reduced-motion: reduce) {
   .js .tk, .js .tk__main > *, .js .tk__stub, .js .tk__img { transition: none; }
