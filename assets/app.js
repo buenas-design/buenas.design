@@ -128,18 +128,10 @@
   }
 
   /* ───────── header ───────── */
+  // stays on screen the whole way down, thinner once the page scrolls (styles.css). It used to hide while going
+  // down, and she couldn't get to the other pages (13/11/2026)
   const hdr = $('#hdr');
-  let lastY = window.scrollY;
-  const onScroll = () => {
-    if (!hdr) return;
-    const y = window.scrollY;
-    hdr.classList.toggle('is-solid', y > 40);
-    // hides while going down the page, comes back as soon as you scroll up
-    if (Math.abs(y - lastY) > 6) {
-      hdr.classList.toggle('is-hidden', y > lastY && y > 400 && !document.body.classList.contains('menu-open'));
-      lastY = y;
-    }
-  };
+  const onScroll = () => hdr && hdr.classList.toggle('is-solid', window.scrollY > 40);
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 

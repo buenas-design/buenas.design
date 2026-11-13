@@ -31,6 +31,7 @@
   --maxw: 1240px;
   --section: clamp(80px, 10vw, 144px);
   --hdr: 84px;
+  --hdr-s: 64px;            /* o cabeçalho depois que a página rola: mais fino, mas sempre na tela */
   --radius: 20px;
   --ease: cubic-bezier(.2, .7, .2, 1);
 
@@ -183,11 +184,15 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
 .actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 18px 36px; }
 
 /* ───────── header ───────── */
-.hdr { position: fixed; inset: 0 0 auto; z-index: 60; transition: background-color .3s, box-shadow .3s, transform .45s var(--ease); }
-.hdr.is-hidden { transform: translateY(-100%); }
-.hdr__in { display: flex; align-items: center; gap: 32px; min-height: var(--hdr); }
+/* o cabeçalho fica na tela a página inteira (13/11/2026): antes ele sumia ao descer e só voltava ao subir, e ela
+   não conseguia ir para outra página ("precisa ter pelo menos um menu reduzido"). Ao rolar ele fica mais fino e
+   o logo menor, como o juliasonda.com, que também nunca esconde o menu */
+.hdr { position: fixed; inset: 0 0 auto; z-index: 60; transition: background-color .3s, box-shadow .3s; }
+.hdr__in { display: flex; align-items: center; gap: 32px; min-height: var(--hdr); transition: min-height .4s var(--ease); }
+.hdr.is-solid .hdr__in { min-height: var(--hdr-s); }
 .logo { margin-right: auto; display: block; }
-.logo img { width: 120px; }
+.logo img { width: 120px; transition: width .4s var(--ease); }
+.hdr.is-solid .logo img { width: 96px; }
 .nav { display: flex; align-items: center; gap: 30px; }
 .nav > a {
   font: 500 0.8rem/1 var(--f-sans); letter-spacing: 0.16em; text-transform: uppercase;
@@ -200,17 +205,15 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
 .lang a { display: inline-grid; place-items: center; min-width: 40px; height: 28px; padding: 0 10px; border-radius: 999px; font: 500 0.72rem/1 var(--f-sans); letter-spacing: 0.12em; color: var(--purple); text-decoration: none; }
 .lang a.lang__on { background: var(--purple); color: var(--blush); }
 .hdr.is-solid { background: var(--blush); box-shadow: 0 1.5px 0 var(--lilac); }
-/* the line sits just below the header, so it doesn't go up with it: without this it stays at the very top of the screen
-   while the header is hidden (06/11/2026). Two classes + is-hidden, or the rule above would win */
-.hdr.is-solid.is-hidden { box-shadow: none; }
 
 .menu-btn { display: none; width: 44px; height: 44px; margin-right: -10px; padding: 0; border: 0; background: none; cursor: pointer; position: relative; z-index: 2; color: var(--purple); }
 .menu-btn span { position: absolute; left: 11px; right: 11px; height: 1.5px; background: currentColor; transition: transform .3s, top .3s; }
 .menu-btn span:first-child { top: 17px; }
 .menu-btn span:last-child { top: 26px; }
 @media (max-width: 900px) {
-  :root { --hdr: 72px; }
+  :root { --hdr: 72px; --hdr-s: 58px; }
   .logo img { width: 104px; }
+  .hdr.is-solid .logo img { width: 88px; }
   .logo { position: relative; z-index: 2; }
   .menu-btn { display: block; }
   .nav {
@@ -231,7 +234,7 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
   .menu-open .nav > a:nth-child(2) { transition-delay: .06s; }
   .menu-open .nav > a:nth-child(3) { transition-delay: .12s; }
   .menu-open .nav > a:nth-child(4) { transition-delay: .18s; }
-  .menu-open .hdr { background: transparent; box-shadow: none; transform: none; }
+  .menu-open .hdr { background: transparent; box-shadow: none; }
   .menu-open .menu-btn span:first-child { top: 21px; transform: rotate(45deg); }
   .menu-open .menu-btn span:last-child { top: 21px; transform: rotate(-45deg); }
 }
@@ -457,7 +460,7 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .pf-top .lead { max-width: 620px; }
 
 .mosaic { position: relative; height: 230vh; }
-.mosaic__stick { position: sticky; top: 0; height: 100vh; height: 100svh; padding: var(--inset-y) var(--inset-x); }
+.mosaic__stick { position: sticky; top: 0; height: 100vh; height: 100svh; padding: calc(var(--hdr-s) + var(--inset-y)) var(--inset-x) var(--inset-y); }
 .mosaic__frame { position: relative; height: 100%; overflow: hidden; border-radius: var(--panel-r); background: var(--purple); }
 .mosaic__grid {
   --g: clamp(8px, 1.1vw, 16px);
@@ -470,15 +473,16 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .mosaic__tile img { width: 100%; height: 100%; object-fit: cover; }
 .mosaic__tile--center { grid-column: 3; grid-row: 2; }
 
-/* cada painel fica preso no topo enquanto o próximo sobe por cima (da largura do mosaico) */
+/* cada painel fica preso no topo enquanto o próximo sobe por cima (da largura do mosaico). Preso logo abaixo do
+   cabeçalho, que agora fica sempre na tela (13/11/2026) */
 .panels { padding: clamp(40px, 5vw, 72px) var(--inset-x) 0; }
 /* na home (02/11/2026): os mesmos painéis logo abaixo do título, com "ver todos" ao lado */
 .home-work .head > div { display: grid; gap: 16px; }
 .home-work .panels { padding-top: 0; }
 .panel {
   --pad: clamp(20px, 3vw, 44px);
-  position: sticky; top: var(--inset-y); display: block;
-  height: calc(100vh - 2 * var(--inset-y)); height: calc(100svh - 2 * var(--inset-y)); min-height: 420px;
+  position: sticky; top: calc(var(--hdr-s) + var(--inset-y)); display: block;
+  height: calc(100vh - var(--hdr-s) - 2 * var(--inset-y)); height: calc(100svh - var(--hdr-s) - 2 * var(--inset-y)); min-height: 420px;
   max-height: max(480px, 80vw);   /* num tablet em pé, não vira um painel comprido */
   margin-bottom: clamp(16px, 2vw, 24px); overflow: hidden; border-radius: var(--panel-r);
   background: var(--lilac); color: var(--blush); text-decoration: none;
@@ -532,7 +536,7 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
   .panel__arrow { width: 44px; height: 44px; font-size: 1.15rem; }
 }
 @media (max-width: 560px) { .cards--wide { grid-template-columns: 1fr; } }
-@media (prefers-reduced-motion: reduce) { .mosaic { height: auto; } .mosaic__stick { position: relative; height: 72svh; } }
+@media (prefers-reduced-motion: reduce) { .mosaic { height: auto; } .mosaic__stick { position: relative; height: 72svh; padding-top: var(--inset-y); } }
 
 /* ───────── depoimentos ───────── */
 /* parados, um ao lado do outro: passam com as setas dos lados (ou arrastando no celular), em volta sem fim
