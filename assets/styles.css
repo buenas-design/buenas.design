@@ -482,7 +482,10 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
 .panel {
   --pad: clamp(20px, 3vw, 44px);
   position: sticky; top: calc(var(--hdr-s) + var(--inset-y)); display: block;
-  height: calc(100vh - var(--hdr-s) - 2 * var(--inset-y)); height: calc(100svh - var(--hdr-s) - 2 * var(--inset-y)); min-height: 420px;
+  height: calc(100vh - var(--hdr-s) - 2 * var(--inset-y)); height: calc(100svh - var(--hdr-s) - 2 * var(--inset-y));
+  /* nunca mais alto que o espaço abaixo do cabeçalho: no celular deitado (390 px de altura) os 420 px empurravam
+     o nome e o "See the project" para fora da tela (13/11/2026) */
+  min-height: min(420px, calc(100vh - var(--hdr-s) - 2 * var(--inset-y))); min-height: min(420px, calc(100svh - var(--hdr-s) - 2 * var(--inset-y)));
   max-height: max(480px, 80vw);   /* num tablet em pé, não vira um painel comprido */
   margin-bottom: clamp(16px, 2vw, 24px); overflow: hidden; border-radius: var(--panel-r);
   background: var(--lilac); color: var(--blush); text-decoration: none;
@@ -529,7 +532,7 @@ em .w { padding: 0.4em 0.25em 0.4em 0.08em; margin: -0.4em -0.25em -0.4em -0.08e
   .mosaic__grid { grid-template-columns: 1fr 1.7fr 1fr; grid-template-rows: 1fr 1.3fr 1fr; }
   .mosaic__tile--center { grid-column: 2; }
   .mosaic__tile:nth-child(n + 10) { display: none; }
-  .panel { height: 78svh; min-height: 0; max-height: none; }
+  .panel { height: min(78svh, calc(100svh - var(--hdr-s) - 2 * var(--inset-y))); min-height: 0; max-height: none; }
   .panel__bottom { flex-direction: column; align-items: flex-start; gap: 18px; }
   .panel__name { font-size: clamp(2.1rem, 9.5vw, 2.8rem); }
   .panel__note { font-size: 0.94rem; }

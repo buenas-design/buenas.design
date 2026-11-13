@@ -687,7 +687,12 @@
     e.preventDefault();
     choice.checked = true;
     choice.dispatchEvent(new Event('input', { bubbles: true }));
-    form.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+    // aims at where the form lands, not where it is: before it appears (data-reveal) it sits 40px lower, and
+    // scrolling there left its top under the header, which now stays on screen (13/11/2026)
+    form.classList.add('is-in');
+    const shift = new DOMMatrixReadOnly(getComputedStyle(form).transform).m42 || 0;
+    const pad = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+    window.scrollTo({ top: form.getBoundingClientRect().top + window.scrollY - shift - pad, behavior: reduceMotion ? 'auto' : 'smooth' });
   });
 
   const year = $('#year');
